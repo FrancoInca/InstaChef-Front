@@ -6,6 +6,9 @@ export default {
     './src/views/**/*.{vue,js,ts,jsx,tsx}',
   ],
   darkMode: 'media', // or 'media' or 'class'
+
+  purge: ['./index.html', "./src/Componentes", './src/views/*.{vue,js,ts,jsx,tsx}'],
+ 
   theme: {
     extend: {
       colors: {

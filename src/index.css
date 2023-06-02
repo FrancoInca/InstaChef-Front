@@ -109,4 +109,10 @@ body {
   font-smooth: always;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+<<<<<<< HEAD
 }
+=======
+  -webkit-text-size-adjust: 100%;
+}
+
+>>>>>>> Home
