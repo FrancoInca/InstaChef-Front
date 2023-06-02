@@ -1,18 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    './index.html',
-    './src/components/**/*.{vue,js,ts,jsx,tsx}',
-    './src/views/**/*.{vue,js,ts,jsx,tsx}',
-  ],
-  darkMode: 'media', // or 'media' or 'class'
-
-  purge: [ './index.html',
-  './src/Componentes//*.{vue,js,ts,jsx,tsx}',
-  './src/views/**/*.{vue,js,ts,jsx,tsx}',
-   "./src/components/**/*.{vue,js,ts,jsx,tsx}",
-   './src/**/*.{vue,js,ts,jsx,tsx}'  ],
  
+  purge: ['./index.html', "./src/Componentes", ".src/views/*",'./src/**/*.{vue,js,ts,jsx,tsx}'],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
