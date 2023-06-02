@@ -7,18 +7,20 @@ export default {
   ],
   darkMode: 'media', // or 'media' or 'class'
 
-  purge: [ './index.html',
-  './src/Componentes//*.{vue,js,ts,jsx,tsx}',
-  './src/views/**/*.{vue,js,ts,jsx,tsx}',
-   "./src/components/**/*.{vue,js,ts,jsx,tsx}",
-   './src/**/*.{vue,js,ts,jsx,tsx}'  ],
- 
+  purge: [
+    './index.html',
+    './src/Componentes//*.{vue,js,ts,jsx,tsx}',
+    './src/views/**/*.{vue,js,ts,jsx,tsx}',
+    './src/components/**/*.{vue,js,ts,jsx,tsx}',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+  ],
+
   theme: {
     extend: {
       colors: {
         primary: {
-          400: '#26A4FF',
-          500: '#2563C0',
+          400: '#DC2626',
+          500: '#B61F1F',
         },
       },
     },
