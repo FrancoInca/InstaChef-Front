@@ -7,7 +7,11 @@ export default {
   ],
   darkMode: 'media', // or 'media' or 'class'
 
-  purge: ['./index.html', "./src/Componentes", './src/views/*.{vue,js,ts,jsx,tsx}'],
+  purge: [ './index.html',
+  './src/Componentes//*.{vue,js,ts,jsx,tsx}',
+  './src/views/**/*.{vue,js,ts,jsx,tsx}',
+   "./src/components/**/*.{vue,js,ts,jsx,tsx}",
+   './src/**/*.{vue,js,ts,jsx,tsx}'  ],
  
   theme: {
     extend: {
