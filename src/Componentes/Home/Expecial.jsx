@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ima from "../../assets/amburguesa.png"
 function Expecial() {
   return (
