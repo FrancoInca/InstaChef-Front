@@ -7,7 +7,14 @@ export default {
   ],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: {
+          400: '#26A4FF',
+          500: '#2563C0',
+        },
+      },
+    },
   },
   variants: {
     extend: {
