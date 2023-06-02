@@ -1,12 +1,17 @@
-
 import './App.css'
+import { Route, Routes } from 'react-router-dom';
+
+/* Componentes */
+import LandingPage from './views/LandingPage';
+import NavBar from './components/NavBar';
 
 function App() {
-
-
   return (
     <div className="">
-     Hola Mundo
+      <NavBar />
+      <Routes>
+        <Route exact path="/" element={<LandingPage />} />
+      </Routes>
     </div>
   )
 }
