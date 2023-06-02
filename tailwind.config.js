@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    './index.html',
+    './src/components/**/*.{vue,js,ts,jsx,tsx}',
+    './src/views/**/*.{vue,js,ts,jsx,tsx}',
+  ],
+  darkMode: 'media', // or 'media' or 'class'
   theme: {
     extend: {},
   },
@@ -10,7 +14,7 @@ export default {
       fontSize: {
         sm: ['14px', '23px'],
         base: ['11px', '21px'],
-        mini: ["7", "12"],
+        mini: ['7', '12'],
         lg: ['20px', '28px'],
         xl: ['35px', '52px'],
         xlg: ['55px', '62px'],
@@ -19,5 +23,5 @@ export default {
     },
   },
   plugins: [],
-}
+};
 
