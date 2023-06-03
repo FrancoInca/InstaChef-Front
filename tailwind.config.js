@@ -11,8 +11,8 @@ export default {
     extend: {
       colors: {
         primary: {
-          400: '#26A4FF',
-          500: '#2563C0',
+          400: '#DC2626',
+          500: '#B61F1F',
         },
       },
     },
@@ -32,4 +32,3 @@ export default {
   },
   plugins: [],
 };
-
