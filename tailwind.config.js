@@ -1,8 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 export default {
- 
-  purge: ['./index.html', "./src/Componentes", ".src/views/*",'./src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    './index.html',
+    './src/Componentes',
+    '.src/views/*',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+  ], //Franco: Segun nueva documentación, el nombre apropiado es content
+  darkMode: 'media', // or 'media' or 'class' Franco: Segun nueva documentación, es recomendable dejarlo en media
   theme: {
     extend: {
       colors: {

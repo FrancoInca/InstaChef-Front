@@ -11,10 +11,8 @@ import Menus from "./Componentes/Menus/Menus"
 function App() {
   return (
     <div className="">
-
-     
+      <NavBar /> {/* NavBar va afuera para renderizarlo en todas partes de la página */}
       <Routes>
-        <Route exact path='/' element={<NavBar />}/>
         <Route exact path="/" element={<LandingPage />} />
         <Route exact path="/Home" element={<Home/>} />
         <Route exact path="/Menus" element={<Menus/>} />
