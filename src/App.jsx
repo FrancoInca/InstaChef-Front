@@ -4,9 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 /* Componentes */
 import LandingPage from './views/LandingPage/LandingPage';
 import NavBar from './components/NavBar';
-
 import Home from "./views/Home/Home"
-import Menus from "./Componentes/Menus/Menus"
 
 function App() {
   return (
@@ -15,7 +13,6 @@ function App() {
       <Routes>
         <Route exact path="/" element={<LandingPage />} />
         <Route exact path="/Home" element={<Home />} />
-        <Route exact path="/Menus" element={<Menus />} />
       </Routes>
     </div>
   )
