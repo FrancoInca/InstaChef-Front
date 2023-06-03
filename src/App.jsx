@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import LandingPage from './views/LandingPage/LandingPage';
 import NavBar from './components/NavBar';
 
-import Home from "./Componentes/Home/Home"
+import Home from "./views/Home/Home"
 import Menus from "./Componentes/Menus/Menus"
 
 function App() {
