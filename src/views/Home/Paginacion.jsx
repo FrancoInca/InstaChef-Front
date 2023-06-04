@@ -1,85 +1,21 @@
+import PropTypes from "prop-types"
 
-
-export default function Paginacion() {
+export default function Paginacion({ prev, next, page, total }) {
   return (
-    <div className="flex  w-2/3 justify-end  ">
-
-<ol className="flex justify-end gap-2 text-xs font-medium">
-  <li>
-    <a
-      href="#"
-      className="inline-flex h-8 w-8 items-center justify-center rounded   text-gray-200 rtl:rotate-180"
-    >
-      <span className="sr-only">Prev Page</span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-3 w-3"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fillRule="evenodd"
-          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-          clipRule="evenodd"
-        />
-      </svg>
-    </a>
-  </li>
-
-  <li>
-    <a
-      href="#"
-      className="block h-8 w-8 rounded   text-center leading-8 text-gray-200"
-    >
-      1
-    </a>
-  </li>
-
-  <li
-    className="block h-8 w-8 rounded   text-center leading-8 text-white"
-  >
-    2
-  </li>
-
-  <li>
-    <a
-      href="#"
-      className="block h-8 w-8 rounded  text-center leading-8 text-gray-200"
-    >
-      3
-    </a>
-  </li>
-
-  <li>
-    <a
-      href="#"
-      className="block h-8 w-8 rounded text-center leading-8 text-gray-200"
-    >
-      4
-    </a>
-  </li>
-
-  <li>
-    <a
-      href="#"
-      className="inline-flex h-8 w-8 items-center justify-center rounded  text-gray-200 rtl:rotate-180"
-    >
-      <span className="sr-only">Next Page</span>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-3 w-3"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fillRule="evenodd"
-          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-          clipRule="evenodd"
-        />
-      </svg>
-    </a>
-  </li>
-</ol>
+    <div className="flex justify-center ">
+      <button onClick={prev}>
+        {"<"}
+      </button>
+      <p className="mx-3 w-[60px] text-center">{page} / {total}</p>
+      <button onClick={next}>
+        {">"}
+      </button>
     </div>
   )
+}
+Paginacion.propTypes = {
+  prev: PropTypes.func,
+  next: PropTypes.func,
+  page: PropTypes.number,
+  total: PropTypes.number
 }
