@@ -115,12 +115,18 @@ label {
   background-color: transparent;
   color: inherit;
   display: block;
-  /* opcional */
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  margin: 0;
 }
 
+/* Works for Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
 /* Reseteamos las tablas */
 table,
 tr,
