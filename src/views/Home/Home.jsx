@@ -34,7 +34,7 @@ function Home() {
 
   useEffect(() => {
     let filteredFood = [...Comidas];
-    filters.length ? filteredFood = Comidas.filter((e) => filters.includes(e.serving_size)) :
+    filters.length ? filteredFood = Comidas.filter((e) => filters.includes(e.serving_size) || filters.includes(e.food_type)) :
       filteredFood = [...Comidas]
     filteredFood = filteredFood.filter((e) => e.price >= priceRange.min && e.price <= priceRange.max)
     sort === "plus" ? filteredFood = filteredFood.sort((prev, next) => prev.price - next.price) :
@@ -48,7 +48,7 @@ function Home() {
     <div className="flex w-[100%] justify-center">
       <div className="grid sm:grid-rows-[fit_auto_auto_fit] sm:grid-cols-[100%] lg:grid-rows-[auto_auto_auto] lg:grid-cols-[100%] w-full max-w-[1280px] justify-center">
         <div className="flex justify-center col-span-full">
-          <Categorias />
+          <Categorias filters={filters} filterHandler={filterSize} />
         </div>
         <div className="h-fit col-span-full mx-8 my-3">
           <Paginacion prev={PrevPage} next={NextPage} page={page + 1} total={Math.floor(filtered.length / 9 + 1)} />
