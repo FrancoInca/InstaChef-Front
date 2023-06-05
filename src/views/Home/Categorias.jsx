@@ -1,40 +1,46 @@
-import { useState } from "react";
-
+import { func, arrayOf, string } from "prop-types";
 
 let arrayCate = [
-    {
-       name: "Hamburguesas",
-       imagen: "https://i.pinimg.com/564x/89/6c/b7/896cb7994f825c07ccdefab31ca94e49.jpg"
-   },
-   {
-       name: "Pizza",
-       imagen: "https://i.pinimg.com/564x/dd/81/91/dd81916bbdfab756da5ad51117bd986a.jpg"
-   }
-
+  {
+    name: "Hamburgesa",
+    imagen: "https://cdn-icons-png.flaticon.com/512/3075/3075977.png"
+  },
+  {
+    name: "Pizza",
+    imagen: "https://cdn-icons-png.flaticon.com/512/3595/3595458.png"
+  },
+  {
+    name: "Fritura",
+    imagen: "https://cdn-icons-png.flaticon.com/512/2836/2836558.png"
+  },
+  {
+    name: "Empanada",
+    imagen: "https://cdn-icons-png.flaticon.com/512/5100/5100421.png"
+  }
 ];
 
-function Categorias() {
-
-    let [valor, setValor] = useState("")
-    const hanledFilter  = (value) => {
-        setValor(value)
-    }
+function Categorias({ filterHandler, filters }) {
+  const styleDiv = {
+    "background-color": "#DC2626",
+    "color": "white"
+  }
   return (
-    <section className='flex  flex-wrap  rounded bg-white mt-10 w-2/3 '>
+    <section className='flex justify-center rounded-md bg-white my-5 w-[80%]'>
       {
-        arrayCate && arrayCate.length ? arrayCate.map( (c, i) => (
-            <div key={i} onClick={() => hanledFilter(c.name)}  className={ valor === c.name ? "w-20 pb-3  m-2 h-14 rounded flex flex-col items-center justify-center cursor-pointer transition hover:pb-2" :
-             "w-20  m-2 h-14 rounded flex flex-col items-center justify-center cursor-pointer transition hover:pb-2" }>
-              <img src={c.imagen} alt={c.name} className="w-7 rounded" />
-              <p className="text-black text-[12px]">
-                {c.name}
-              </p>
-            </div>
+        arrayCate.map((c, i) => (
+          <div key={i} onClick={() => filterHandler(c.name)} className="flex flex-col items-center justify-center  m-1 rounded-lg p-2 hover:bg-primary-400 text-black hover:text-white hover:cursor-pointer border border-primary-400 w-[70px]" style={filters.includes(c.name) ? styleDiv : {}}>
+            <img src={c.imagen} alt={c.name} className="w-7" />
+            <p className="text-[12px]">
+              {c.name}
+            </p>
+          </div>
         ))
-     : null  }
-    
-    </section>
+      }
+    </section >
   )
 }
-
+Categorias.propTypes = {
+  filterHandler: func,
+  filters: arrayOf(string)
+}
 export default Categorias
