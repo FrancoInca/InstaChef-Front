@@ -8,7 +8,7 @@ import NavBar from './components/NavBar';
 
 
 import Home from "./views/Home/Home"
-import Detail from './Componentes/Detail/Detail';
+import Detail from './components/Detail';
 
 
 function App() {
