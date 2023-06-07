@@ -3,13 +3,14 @@ import Paginacion from "./Paginacion"
 import Card from "../../components/Card"
 import Filters from "./Filters"
 
-import Comidas from "./Comidas.json"
 import { useEffect, useState } from "react"
+import axios from "axios"
 
 function Home() {
   const [page, setPage] = useState(0)
-  const [listFood, setlistFood] = useState(Comidas.slice(page * 9, (page + 1) * 9))
-  const [filtered, setFiltered] = useState(Comidas);
+  const [allFood, setAllFood] = useState([])
+  const [listFood, setlistFood] = useState([])
+  const [filtered, setFiltered] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: Infinity })
 
   const [filters, setFilters] = useState([])
@@ -31,16 +32,29 @@ function Home() {
     setSort(value);
     setPage(0);
   }
-
-  useEffect(() => {
-    let filteredFood = [...Comidas];
-    filters.length ? filteredFood = Comidas.filter((e) => filters.includes(e.serving_size) || filters.includes(e.food_type)) :
-      filteredFood = [...Comidas]
+  const getProductsFromDB = async() => {
+    const response = await axios.get("/products/");
+    return response.data
+  }
+  const filterFood = (array) => {
+    let filteredFood = [...array];
+    filters.length ? filteredFood = array.filter((e) => filters.some((filter)=> e.serving_size.includes(filter) ) || filters.includes(e.category)) :
+      filteredFood = [...array]
     filteredFood = filteredFood.filter((e) => e.price >= priceRange.min && e.price <= priceRange.max)
     sort === "plus" ? filteredFood = filteredFood.sort((prev, next) => prev.price - next.price) :
       filteredFood = filteredFood.sort((prev, next) => next.price - prev.price)
     setFiltered(filteredFood)
     setlistFood(filteredFood.slice(page * 9, (page + 1) * 9))
+    return filteredFood
+  }
+
+  useEffect(() => {
+    const getAllFood = async () => {
+      const comidas = await getProductsFromDB()
+      setAllFood(comidas)
+      filterFood(comidas)
+    }
+    !allFood.length ? getAllFood() : filterFood(allFood)
     //eslint-disable-next-line
   }, [page, filters, sort, priceRange])
 
@@ -60,7 +74,7 @@ function Home() {
           <div className="flex flex-wrap justify-center w-[100%]">
             {listFood.length ? listFood.map((e) => (
               <div key={e.id} className="">
-                <Card name={e.food_name} price={e.price} type={e.food_type} size={e.serving_size} id={e.id}/>
+                <Card name={e.name} price={e.price} type={e.food_type} size={e.serving_size} id={e.id}/>
               </div>
             )) :
               (<div className="h-full flex items-center">
