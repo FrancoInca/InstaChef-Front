@@ -1,28 +1,38 @@
 
 import './App.css'
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 /* Componentes */
 import LandingPage from './views/LandingPage/LandingPage';
 import NavBar from './components/NavBar';
 
 
-import Home from "./Componentes/Home/Home"
-import Menus from "./Componentes/Menus/Menus"
+
+import Home from "./views/Home/Home"
 import Detail from './Componentes/Detail/Detail';
+import SignUp from './Componentes/autenticacion/SignUp';
+import LogIn from './Componentes/autenticacion/Log-In';
+import { AuthProvider } from './Componentes/Auth-contex/AuthContex';
+
 
 
 function App() {
+
+ let location =  useLocation()
+
   return (
     <div className="">
-      
-      <NavBar />
+      <AuthProvider>
+      { location.pathname === "/LogIn" || location.pathname ===
+      "/SignUp" ?  null : <NavBar /> }
       <Routes>
         <Route exact path="/" element={<LandingPage />} />
-        <Route exact path="/Home" element={<Home/>} />
-        <Route exact path="/Menus" element={<Menus/>} />
         <Route exact path="/Detail" element={<Detail/>} />
+        <Route exact path='/LogIn' element={<LogIn/>} />
+        <Route exact path='/SignUp' element={<SignUp/>} />
+        <Route exact path="/Home" element={<Home />} />
       </Routes>
+      </AuthProvider>
     </div>
   )
 }
