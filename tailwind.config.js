@@ -1,16 +1,32 @@
+/* eslint-disable no-dupe-keys */
 /** @type {import('tailwindcss').Config} */
 export default {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  //Franco: Segun nueva documentación, el nombre apropiado es content
+  content: [
+    './index.html',
+    './src/Componentes',
+    '.src/components',
+    '.src/views/*',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+  ],
+  darkMode: 'media', // or 'media' or 'class' Franco: Segun nueva documentación, es recomendable dejarlo en media
+
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: {
+          400: '#DC2626',
+          500: '#B61F1F',
+        },
+      },
+    },
   },
   variants: {
     extend: {
       fontSize: {
         sm: ['14px', '23px'],
         base: ['11px', '21px'],
-        mini: ["7", "12"],
+        mini: ['7', '12'],
         lg: ['20px', '28px'],
         xl: ['35px', '52px'],
         xlg: ['55px', '62px'],
@@ -19,5 +35,4 @@ export default {
     },
   },
   plugins: [],
-}
-
+};
