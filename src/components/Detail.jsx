@@ -1,4 +1,4 @@
-import image from "../../assets/amburguesa.png"
+import image from "../assets/amburguesa.png"
 import {AiOutlineStar, AiFillStar} from "react-icons/ai"
 function Detail() {
   return (
