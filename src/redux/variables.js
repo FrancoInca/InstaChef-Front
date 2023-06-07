@@ -1,7 +1,3 @@
 export const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
 export const GET_DETAIL = 'GET_DETAIL';
-export const CLEAN_DETAIL = 'CLEAN_DETAIL';
 export const SEARCH_BY_NAME = 'SEARCH_BY_NAME';
-export const ORDER_BY = 'ORDER_BY';
-export const FILTER_BY_CATEGORY = 'FILTER_BY_CATEGORY';
-export const GET_PRODUCTS_BY_NAME = 'GET_PRODUCTS_BY_NAME';
