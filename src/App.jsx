@@ -20,6 +20,7 @@ import Home from "./views/Home/Home"
 import Detail from './views/Detail/Detail';
 import Cart from './views/Cart/Cart';
 import useLocalStorage from './components/useLocalStorage';
+import Checkout from './views/Pasarela/Checkout';
 
 
 axios.defaults.baseURL = "http://localhost:3001/"
@@ -33,7 +34,7 @@ function App() {
     <div className="">
       <AuthProvider>
       { location.pathname === "/LogIn" || location.pathname ===
-      "/SignUp" ?  null : <NavBar /> }
+      "/SignUp" || location.pathname === "/Checkout"  ?  null : <NavBar /> }
       <Routes>
       <Route exact path="/" element={<LandingPage />} />
         <Route exact path="/detail/:id" element={<Detail cart={cart} setCart={setCart} />} />
@@ -41,6 +42,7 @@ function App() {
         <Route exact path='/LogIn' element={<LogIn/>} />
         <Route exact path='/SignUp' element={<SignUp/>} />
         <Route exact path="/Home" element={<Home />} />
+        <Route exact path="/Checkout" element={<Checkout/>} />
       </Routes>
        
      

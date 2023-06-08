@@ -3,22 +3,25 @@ import { Link, useNavigate } from "react-router-dom"
 import InstaChefLogo from "../../assets/InstaChefLogo.png"
 import { useState } from "react"
 import { UserAuth } from "../Auth-contex/AuthContex"
+import { useDispatch } from "react-redux"
+import { postSignUp } from "../../redux/actions"
 
 
 export default function SignUp ()  {
-    const {signUp, signuGogle} = UserAuth()
+    const {signUp, signuGogle, user} = UserAuth()
     let navigate = useNavigate()
-    
-    let [user, setUser] = useState({
+    let dispacth = useDispatch()
+    let [users, setUser] = useState({
       correo: "",
-      contraseña: ""
+      contraseña: "",
+      nombre: ""
     })
 
     let [error, setError] = useState("")
     
     const hanledChange = ({target: {name, value}}) => {
       setUser({
-        ...user,
+        ...users,
         [name]: value})
     }
     
@@ -26,8 +29,22 @@ export default function SignUp ()  {
       e.preventDefault()
       setError("")
      try {
-    await  signUp(user.correo, user.contraseña)
+    await  signUp(users.correo, users.contraseña)
       navigate("/")
+      if(user) {
+        dispacth(postSignUp({
+          name: users.nombre,
+          email:  users.correo,
+          password: users.contraseña
+          
+        }))
+      }
+
+      setUser({
+        correo: "",
+        contraseña: "",
+        nombre: ""
+      })
      } catch (error) {
       if(error.code === "auth/weak-password") {
         setError("Contraseña debil")        
@@ -46,6 +63,12 @@ const hanledSigUpGoogle = async () => {
      try {
         await signuGogle()
     navigate("/")
+    if(user) {
+      dispacth(postSignUp({
+        name: user.displayName,
+        email:  user.email
+      }))
+    }
      } catch (error) {
        setError(error.message)
      }
@@ -67,7 +90,19 @@ const hanledSigUpGoogle = async () => {
                     onSubmit={(e) => hanledSubmit(e)}
                     className="mt-8 space-y-5"
                 >
-                    {error && <p>{error}</p>}
+                    {error && <p className=" text-sm text-red-800">{error}</p>}
+                    <div>
+                        <label className="font-medium">
+                          Tu nombre
+                        </label>
+                        <input
+                           onChange={(e) => hanledChange(e)}
+                           name="nombre"
+                            type="text"
+                            required
+                            className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
+                        />
+                    </div>
                     <div>
                         <label className="font-medium">
                            Correo electronico

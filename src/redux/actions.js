@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     GET_ALL_PRODUCTS,
     GET_DETAIL,
-    SEARCH_BY_NAME,
+    SEARCH_BY_NAME, LOGIN, SIGNUP, AGREGAR_PAGO
 } from './variables';
 
 
@@ -42,6 +42,39 @@ export function getDetail(id) {
         return dispatch({
             type: GET_DETAIL,
             payload: productId,
+        });
+    };
+}
+
+export function postSignUp(obj) {
+    return async function (dispatch) {
+        const response = await axios.post("/login/signUp", obj );
+        const userData = response.data;
+        return dispatch({
+            type: SIGNUP,
+            payload: userData,
+        });
+    };
+}
+
+export function postLogin(obj) {
+    return async function (dispatch) {
+        const response = await axios.post("/login/login", obj );
+        const userData = response.data;
+        return dispatch({
+            type: LOGIN,
+            payload: userData,
+        });
+    };
+}
+
+export function agregarPago(obj) {
+    return async function (dispatch) {
+        const response = await axios.post("/checkaut", obj );
+        const pagoData = response.data;
+        return dispatch({
+            type: AGREGAR_PAGO,
+            payload: pagoData,
         });
     };
 }
