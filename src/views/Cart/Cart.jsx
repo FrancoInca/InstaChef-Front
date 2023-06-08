@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import axios from 'axios';
 import image from "../../assets/amburguesa.png";
 
 function Cart({ cart, setCart }) {
