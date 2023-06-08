@@ -74,7 +74,7 @@ function Home() {
           <div className="flex flex-wrap justify-center w-[100%]">
             {listFood.length ? listFood.map((e) => (
               <div key={e.id} className="">
-                <Card name={e.name} price={e.price} type={e.food_type} size={e.serving_size} id={e.id}/>
+                <Card name={e.name} price={e.price} type={e.food_type} size={e.serving_size} id={e.id} image={e.image}/>
               </div>
             )) :
               (<div className="h-full flex items-center">
