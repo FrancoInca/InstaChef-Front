@@ -7,7 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik"
 import { useDispatch } from "react-redux"
 import Nav from "./Nav"
 import { agregarPago } from "../../redux/actions"
-import ConfirPago from "./confirPago"
+import ConfirPago from "./ConfirPago"
 import { useState } from "react"
 let stipePromise = loadStripe("pk_test_51N3WCTG4n6v6zt1DCpKO742a1RORPW5iGwRMf3A1UgkNXuKHXPhTnIJeP9iEnlqlXKUAJ028VgOM9rpPMho3Aplk00FLkHnUtO")
 
