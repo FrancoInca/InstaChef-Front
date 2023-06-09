@@ -29,7 +29,7 @@ let arrayCate = [
 
 function Categorias({ filterHandler, filters }) {
   const styleDiv = {
-    "backgroundColor": "#DC2626",
+    "backgroundColor": "#fbbf24",
     "color": "white"
   }
   return (
