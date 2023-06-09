@@ -7,11 +7,12 @@ import ConfirPago from "./ConfirPago"
 import { useState } from "react"
 let stipePromise = loadStripe("pk_test_51N3WCTG4n6v6zt1DCpKO742a1RORPW5iGwRMf3A1UgkNXuKHXPhTnIJeP9iEnlqlXKUAJ028VgOM9rpPMho3Aplk00FLkHnUtO")
 
-let ChechautForm = () => {
+let ChechautForm = ({ cart, setCart }) => {
   let stripe = useStripe()
   let element = useElements()
   const [confirmar, setConfirmar] = useState(null)
   const [error, setError] = useState("")
+  const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
 
   return (
     <div onClick={() => setConfirmar()} className="text-white flex justify-center items-center gap-20 ml-5 ">
@@ -59,6 +60,7 @@ let ChechautForm = () => {
               setConfirmar(true)
               setError("")
               resetForm()
+              setCart([])
               element.getElement(CardElement).clear()
             } else {
               console.log(error);
@@ -114,6 +116,17 @@ let ChechautForm = () => {
       </div>
       <div className="w-1/2">
 
+        {
+          cart?.map((product) => {
+            return (
+              <>
+                <div>x{product.quantity} {product.name}</div>
+                <div>PRICE: {product.price}</div>
+              </>
+            )
+          })
+        }
+        {totalPrice > 1 ? <div>PRECIO TOTAL: ${totalPrice}</div> : ""}
       </div>
     </div>
   )
@@ -122,7 +135,7 @@ let ChechautForm = () => {
 
 
 // cke
-export default function Checkout() {
+export default function Checkout({ cart, setCart }) {
   const [confir, setConfir] = useState(false)
   return (
     <main onClick={() => setConfir(null)} className=" w-full   ">
@@ -133,9 +146,8 @@ export default function Checkout() {
       <div className="w-full mx-auto px-4 md:px-0  flex justify-center mt-14 ">
 
         <Elements stripe={stipePromise}>
-          <ChechautForm confir={confir} />
+          <ChechautForm cart={cart} setCart={setCart} />
         </Elements>
-
       </div>
     </main>
   )

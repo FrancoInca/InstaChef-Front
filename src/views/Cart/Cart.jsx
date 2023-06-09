@@ -49,13 +49,14 @@ function Cart({ cart, setCart }) {
         });
     };
 
-    // const buyFunction = async () => {
-    //     try {
-    //         const response = await axios.post('/payment', cart);
-    //         await setCart([])
-    //         window.location.href = response.data.response.body.init_point;
-    //     } catch (error) { console.log(error) }
-    // }
+    const buyFunction = async () => {
+        try {
+            navigate("/checkout")
+            // const response = await axios.post('/Checkout', cart);
+            // await setCart([])
+            // window.location.href = response.data.response.body.init_point;
+        } catch (error) { console.log(error) }
+    }
 
     return cart.length < 1 ? (
         <div className="flex flex-col items-center mt-4">
@@ -137,7 +138,7 @@ function Cart({ cart, setCart }) {
                     </div> */}
                     <button
                         className="mb-5 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
-                    // onClick={user ? () => buyFunction() : () => setTriggerPopUp(true)}
+                        onClick={() => buyFunction()}
                     >
                         {/* {user ? "COMPRAR" : "REGISTRATE!"} */} COMPRAR
                     </button>
