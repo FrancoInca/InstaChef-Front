@@ -93,15 +93,6 @@ q:after {
   content: none;
 }
 
-/* Configuramos el texto que seleccionamos */
-::-moz-selection {
-  background-color: var(--negro);
-  color: var(--blanco);
-}
-::selection {
-  background-color: var(--negro);
-  color: var(--blanco);
-}
 
 /* Nivelamos problemas de tipografías y colocación de formularios */
 form,
