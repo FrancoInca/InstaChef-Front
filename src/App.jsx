@@ -21,6 +21,7 @@ import Detail from './views/Detail/Detail';
 import Cart from './views/Cart/Cart';
 import useLocalStorage from './components/useLocalStorage';
 import Checkout from './views/Pasarela/Checkout';
+import ProductForm from './components/ProductForm';
 
 
 axios.defaults.baseURL = "http://localhost:3096"
@@ -43,6 +44,7 @@ function App() {
         <Route exact path='/SignUp' element={<SignUp/>} />
         <Route exact path="/Home" element={<Home />} />
         <Route exact path="/Checkout" element={<Checkout/>} />
+        <Route path='/create' element={<ProductForm />}/>
       </Routes>
        
      

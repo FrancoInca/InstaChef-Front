@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom"
 function Card({ name, price, id, image }) {
   const navigate = useNavigate()
   return (
-    <div className="flex flex-col max-h-[120px] aspect-video m-4 hover:cursor-pointer" onClick={() => { navigate(`/detail/${id}`) }}>
+    <div className="flex flex-col w-full max-h-[270px] aspect-video px-[10px] hover:cursor-pointer" onClick={() => { navigate(`/detail/${id}`) }}>
       <div>
-        <img src={image} alt={name} className="w-[100%] aspect-video rounded-[10px]" />
+        <img src={image} alt={name} className="max-w-full aspect-video rounded-[10px]" />
       </div>
       <div className="grid grid-cols-2">
           <p className="break-words text-left">{name}</p>

@@ -71,7 +71,7 @@ function Home() {
           <div className="flex my-8 mx-3 justify-center">
             <Filters filters={filters} sort={sort} filterSize={filterSize} sortPrice={sortPrice} filterPrice={filterPrice} />
           </div>
-          <div className="flex flex-wrap justify-center w-[100%]">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] lg:grid-cols-3 gap-1">
             {listFood.length ? listFood.map((e) => (
               <div key={e.id} className="">
                 <Card name={e.name} price={e.price} type={e.food_type} size={e.serving_size} id={e.id} image={e.image}/>

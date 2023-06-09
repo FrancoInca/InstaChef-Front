@@ -114,10 +114,8 @@ let validarContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
             </h3>
             <p className="text-gray-400">
               No tienes una cuenta?{" "}
-              <Link to="/SignUp">
-                <a className="font-medium text-amber-400 hover:text-gray-100">
-                  Sign up
-                </a>
+              <Link to="/SignUp" className="font-medium text-amber-400 hover:text-gray-100">
+                Sign up
               </Link>{" "}
             </p>
           </div>

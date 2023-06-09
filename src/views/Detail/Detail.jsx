@@ -1,5 +1,4 @@
 import { Link, useParams } from "react-router-dom";
-import image from "../../assets/amburguesa.png";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
@@ -22,14 +21,8 @@ function Detail({ cart, setCart }) {
 
   const handleAddToCart = () => {
     let product = {
-      id: detailProduct.id,
-      name: detailProduct.name,
-      image: detailProduct.image,
-      price: detailProduct.price,
-      category: detailProduct.category,
-      ingredients: detailProduct.ingredients,
-      serving_size: detailProduct.serving_size,
-      quantity: quantity,
+      ...detailProduct,
+      quantity
     };
 
     const newArray = [];
@@ -94,7 +87,7 @@ function Detail({ cart, setCart }) {
           <div className=" m-5 flex justify-between">
             <div className="" >
               <label className="font-bold" >Tiempo de Prearacion</label>
-              <p className="text-gray-400">26 M</p>
+              <p className="text-gray-400">26 min</p>
             </div>
             <div>
               <label className=" font-bold">Tamaño de la porcion</label>
@@ -107,7 +100,7 @@ function Detail({ cart, setCart }) {
 
 
         <div className="max-w-md col-start-2 row-start-1">
-          <img src={image} alt="ima" />
+          <img src={detailProduct.image} alt="ima" />
         </div>
 
         <div className="col-start-2 row-start-2 flex items-center ml-20">
