@@ -48,7 +48,7 @@ export function getDetail(id) {
 
 export function postSignUp(obj) {
     return async function (dispatch) {
-        const response = await axios.post("/login/signUp", obj );
+        const response = await axios.post("/login/signup", obj );
         const userData = response.data;
         return dispatch({
             type: SIGNUP,
@@ -70,7 +70,7 @@ export function postLogin(obj) {
 
 export function agregarPago(obj) {
     return async function (dispatch) {
-        const response = await axios.post("/checkaut", obj );
+        const response = await axios.post("/checkout", obj );
         const pagoData = response.data;
         return dispatch({
             type: AGREGAR_PAGO,

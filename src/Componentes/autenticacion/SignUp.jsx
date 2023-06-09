@@ -1,10 +1,12 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import { Link, useNavigate } from "react-router-dom"
 import InstaChefLogo from "../../assets/InstaChefLogo.png"
 import { useState } from "react"
 import { UserAuth } from "../Auth-contex/AuthContex"
 import { useDispatch } from "react-redux"
-import { postSignUp } from "../../redux/actions"
+import { postLogin, postSignUp } from "../../redux/actions"
 
 
 export default function SignUp ()  {
@@ -14,15 +16,91 @@ export default function SignUp ()  {
     let [users, setUser] = useState({
       correo: "",
       contraseña: "",
-      nombre: ""
+      nombre: "",
+      apellido: ""
     })
 
     let [error, setError] = useState("")
-    
+    let [errorInput, setErrorInput] = useState({
+      correo: "",
+      contraseña: "",
+      nombre: "",
+      apellido: ""
+    })
+
+let validarCorreo = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+let validarContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+let validarNombreyApellido = /^[a-zA-Z\s]*$/
+
     const hanledChange = ({target: {name, value}}) => {
+     if(name === "correo") {
+        if(!validarCorreo.test(value)) {
+          return  setErrorInput({
+              ...errorInput,
+              correo: "escribe el coreo corectamente por favor"
+            })
+        } else {
+          setUser({
+            ...users,
+            correo: value})
+            setErrorInput({
+              ...errorInput,
+              correo: ""
+            })
+        }
+     }
+
+     if(name === "contraseña") {
+      if(!validarContraseña.test(value)) {
+        return  setErrorInput({
+            ...errorInput,
+            contraseña: "Una mayuscula o mas, una miniscula o mas, un numero, 8 caracteres o mas,"
+          })
+      } else {
+        setUser({
+          ...users,
+          contraseña: value})
+          setErrorInput({
+            ...errorInput,
+            contraseña: ""
+          })
+      }
+   }
+
+   if(name === "nombre") {
+    if(!validarNombreyApellido.test(value)) {
+      return  setErrorInput({
+          ...errorInput,
+          nombre: "solo letras y espcaios"
+        })
+    } else {
       setUser({
         ...users,
-        [name]: value})
+        nombre: value})
+        setErrorInput({
+          ...errorInput,
+          nombre: ""
+        })
+    }
+ }
+
+ if(name === "apellido") {
+  if(!validarNombreyApellido.test(value)) {
+    return  setErrorInput({
+        ...errorInput,
+        apellido: "solo letras y espacios"
+      })
+  } else {
+    setUser({
+      ...users,
+      apellido: value})
+      setErrorInput({
+        ...errorInput,
+        apellido: ""
+      })
+  }
+}
+
     }
     
     const hanledSubmit = async (e) => {
@@ -31,14 +109,15 @@ export default function SignUp ()  {
      try {
     await  signUp(users.correo, users.contraseña)
       navigate("/")
-      if(user) {
+    
         dispacth(postSignUp({
           name: users.nombre,
           email:  users.correo,
-          password: users.contraseña
+          password: users.contraseña,
+          lastName: users.apellido
           
         }))
-      }
+      
 
       setUser({
         correo: "",
@@ -63,12 +142,12 @@ const hanledSigUpGoogle = async () => {
      try {
         await signuGogle()
     navigate("/")
-    if(user) {
-      dispacth(postSignUp({
-        name: user.displayName,
-        email:  user.email
+    
+      dispacth(postLogin({
+        email:  user.email,
+        password: ""
       }))
-    }
+    
      } catch (error) {
        setError(error.message)
      }
@@ -78,17 +157,17 @@ const hanledSigUpGoogle = async () => {
         <main className="w-full h-screen flex flex-col items-center justify-center px-4">
             <div className="max-w-sm w-full text-gray-200">
                 <div className="text-center flex flex-col justify-center items-center">
-                    <img src={InstaChefLogo}  className="w-32" />
-                    <div className="mt-5 space-y-2">
+                    <img src={InstaChefLogo}  className="w-20" />
+                    <div className="">
                         <h3 className=" text-2xl font-bold sm:text-3xl">Registrate</h3>
-                        <p className="">¿Ya tienes una cuenta?  <Link to="/LogIn">
+                        <p className="m-0">¿Ya tienes una cuenta?  <Link to="/LogIn">
                         <a  className="font-medium text-amber-400 hover:text-amber-500">Acceso</a>
                         </Link> </p>
                     </div>
                 </div>
                 <form
                     onSubmit={(e) => hanledSubmit(e)}
-                    className="mt-8 space-y-5"
+                    className="mt-4 space-y-5"
                 >
                     {error && <p className=" text-sm text-red-800">{error}</p>}
                     <div>
@@ -102,6 +181,29 @@ const hanledSigUpGoogle = async () => {
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
                         />
+
+                        {
+                          errorInput.nombre.length ? <p className="text-[12px] text-red-600 fixed">
+                            {errorInput.nombre}
+                          </p> : ""
+                        }
+                    </div>
+                    <div>
+                        <label className="font-medium">
+                          Tu apellido
+                        </label>
+                        <input
+                           onChange={(e) => hanledChange(e)}
+                           name="apellido"
+                            type="text"
+                            required
+                            className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
+                        />
+                        {
+                          errorInput.apellido.length ? <p className="text-[12px] text-red-600 fixed">
+                            {errorInput.apellido}
+                          </p> : ""
+                        }
                     </div>
                     <div>
                         <label className="font-medium">
@@ -114,6 +216,11 @@ const hanledSigUpGoogle = async () => {
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
                         />
+                        {
+                          errorInput.correo.length ? <p className="text-[12px] text-red-600 fixed">
+                            {errorInput.correo}
+                          </p> : ""
+                        }
                     </div>
                     <div>
                         <label className="font-medium">
@@ -126,6 +233,11 @@ const hanledSigUpGoogle = async () => {
                             required
                             className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
                         />
+                        {
+                          errorInput.contraseña.length ? <p className="text-[12px] text-red-600 fixed">
+                            {errorInput.contraseña}
+                          </p> : ""
+                        }
                     </div>
                     <button
                         className="w-full px-4 py-2 text-white font-medium bg-amber-400 hover:bg-amber-500 active:bg-amber-600 rounded-lg duration-150"

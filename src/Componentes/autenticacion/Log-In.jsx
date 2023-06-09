@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import { Link, useNavigate } from "react-router-dom";
 import InstaChefLogo from "../../assets/InstaChefLogo.png";
@@ -9,7 +11,8 @@ import { postLogin } from "../../redux/actions";
 
 export default function LogIn() {
   let [error, setError] = useState("");
-  const { logIn, user,  signuGogle  } = UserAuth();
+  const { logIn, user,  signuGogle, loading  } = UserAuth();
+  console.log(user);
   let navigate = useNavigate();
   let dispacth = useDispatch()
   let [users, setUser] = useState({
@@ -17,11 +20,48 @@ export default function LogIn() {
     contraseña: "",
   });
 
+  let [errorInput, setErrorInput] = useState({
+    correo: "",
+    contraseña: "",
+  })
+
+  let validarCorreo = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+let validarContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+
   const hanledChange = ({ target: { name, value } }) => {
-    setUser({
-      ...users,
-      [name]: value,
-    });
+    if(name === "correo") {
+      if(!validarCorreo.test(value)) {
+        return  setErrorInput({
+            ...errorInput,
+            correo: "Escribe el coreo corectamente por favor"
+          })
+      } else {
+        setUser({
+          ...users,
+          correo: value})
+          setErrorInput({
+            ...errorInput,
+            correo: ""
+          })
+      }
+   }
+
+   if(name === "contraseña") {
+    if(!validarContraseña.test(value)) {
+      return  setErrorInput({
+          ...errorInput,
+          contraseña: "Una mayuscula o mas, una miniscula o mas, un numero, 8 caracteres o mas,"
+        })
+    } else {
+      setUser({
+        ...users,
+        contraseña: value})
+        setErrorInput({
+          ...errorInput,
+          contraseña: ""
+        })
+    }
+ }
   };
 
   const hanledSubmit = async (e) => {
@@ -29,13 +69,13 @@ export default function LogIn() {
     try {
       await logIn(users.correo, users.contraseña);
       navigate("/");
-      if(user) {
+      
         dispacth(postLogin({
           email:  users.correo,
           password: users.contraseña
-          
         }))
-      }
+        console.log("enviado");
+      
       setUser({
         correo: "",
         contraseña: "",
@@ -53,16 +93,14 @@ export default function LogIn() {
     try {
        await signuGogle()
    navigate("/")
-   if(user) {
-    dispacth(postLogin({
-      email:  user.email,
-      password: ""
-      
-    }))
-  }
+   console.log(user);
     } catch (error) {
+      if(error.message === "auth/missing-password") {
+        setError("falta la contraseña")
+      }
       setError(error.message)
     }
+   
    }
 
   return (
@@ -85,6 +123,11 @@ export default function LogIn() {
           </div>
         </div>
         <div className="bg-white shadow p-4 py-6 space-y-8 sm:p-6 sm:rounded-lg">
+          {
+            error && <p className="text-sm text-red-800">
+              {error}
+            </p>
+          }
           <div className="grid grid-cols-1">
             <button onClick={() => hanledSigUpGoogle()} className="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
               <svg
@@ -126,7 +169,7 @@ export default function LogIn() {
               O continuar con
             </p>
           </div>
-          {error && <p className=" text-sm text-red-800" >{error}</p>}
+          
           <form onSubmit={(e) => hanledSubmit(e)} className="space-y-5">
             <div>
               <label className="font-medium">Correo electronico</label>
@@ -137,6 +180,11 @@ export default function LogIn() {
                 name="correo"
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
               />
+              {
+                          errorInput.correo.length ? <p className="text-[12px] text-red-600 fixed">
+                            {errorInput.correo}
+                          </p> : ""
+                        }
             </div>
             <div>
               <label className="font-medium">Contraseña</label>
@@ -147,6 +195,11 @@ export default function LogIn() {
                 name="contraseña"
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
               />
+              {
+                          errorInput.contraseña.length ? <p className="text-[12px] text-red-600 fixed">
+                            {errorInput.contraseña}
+                          </p> : ""
+                        }
             </div>
             <button className="w-full px-4 py-2 text-white font-medium bg-amber-400 hover:bg-amber-200 active:bg-amber-600 rounded-lg duration-150">
               Iniciar sesion

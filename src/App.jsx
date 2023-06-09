@@ -23,7 +23,7 @@ import useLocalStorage from './components/useLocalStorage';
 import Checkout from './views/Pasarela/Checkout';
 
 
-axios.defaults.baseURL = "http://localhost:3001/"
+axios.defaults.baseURL = "http://localhost:3096"
 
 function App() {
 

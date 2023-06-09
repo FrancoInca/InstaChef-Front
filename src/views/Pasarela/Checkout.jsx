@@ -61,6 +61,10 @@ let ChechautForm = () => {
                       if(!error) {
                         
                        let {id} = paymentMethod
+                       dispach(agregarPago({
+                        id,
+                        amount: 4334
+                       }))
                         console.log(paymentMethod);
                         console.log(valores);
                         setConfirmar(true)
