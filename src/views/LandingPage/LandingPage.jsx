@@ -1,5 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DailyMenu from "./DailyMenu"
+import Card from "../../components/Card"
+import { useDispatch, useSelector } from "react-redux"
+import { getAllProducts } from "../../redux/actions"
+import useLocalStorage from "../../components/useLocalStorage"
 
 const Breakfast = {
   name: "Hamburguesa del Chef",
@@ -25,15 +29,32 @@ const Options = [
 ]
 function LandingPage() {
 
+  const products = useSelector(store => store.products)
+
   const [dailyFood, setDailyFood] = useState(Breakfast)
+  const [allProducts, setAllProducts] = useState([])
+  const [newFood, setNewFood] = useState(products)
+  const [page, setPage] = useLocalStorage("page", 0)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const getProducts = async () => {
+      const response = await dispatch(getAllProducts())
+      setNewFood([...response.payload.slice(page * 3, (page + 1) * 3)])
+      setAllProducts([...response.payload])
+    }
+    !allProducts.length ? getProducts() : setNewFood([...allProducts.slice(page * 3, (page + 1) * 3)])
+    //eslint-disable-next-line
+  }, [page])
 
   return (
     <div className="text-white flex justify-center max-w-[100vw] py-8 ">
       <div className="w-[90%] max-w-[1280px] ">
         <p className="pb-2 text-xl">Tu Insta menú:</p>
-        <div className="grid grid-cols-[3fr_1fr] gap-5">
+        <div className="grid grid-rows-[3fr-1fr] grid-cols-1 sm:gap-5 sm:grid-cols-[3fr_1fr] gap-5">
           <DailyMenu background={dailyFood.background} name={dailyFood.name} description={dailyFood.description} />
-          <div className="grid grid-rows-3 gap-2 text-center">
+          <div className="grid grid-cols-3 sm:grid-cols-1 sm:grid-rows-3 gap-2 text-center">
             {Options.map((e) =>
             (
               <div
@@ -51,37 +72,17 @@ function LandingPage() {
         <div className="flex flex-col w-[100%]">
           <p className="text-left pt-8">Nuevas comidas</p>
           <div className="flex justify-center text-center items-center">
-            <button className="bg-primary-500 block h-[80px] p-1 rounded-md">{"<"}</button>
-            <div className="grid grid-cols-3 w-[100%] gap-8 m-6">
-              <div className="w-[100%] bg-slate-400 aspect-video rounded-lg flex flex-col justify-center">
-                <p className="block">Comida x</p>
-              </div>
-              <div className=" w-[100%] bg-slate-400 aspect-video rounded-lg flex flex-col justify-center">
-                <p className="block">Comida x</p>
-              </div>
-              <div className=" w-[100%] bg-slate-400 aspect-video rounded-lg flex flex-col justify-center">
-                <p className="block">Comida x</p>
-              </div>
+            <button
+              className="bg-primary-500 block h-[80px] p-1 rounded-md"
+              onClick={() => { Boolean(page) && setPage(page - 1) }}>{"<"}</button>
+            <div className="flex">
+            {newFood.map((e) =>
+              (<Card name={e.name} key={e.name} id={e.id} image={e.image} price={e.price} />)
+            )}
             </div>
-            <button className="bg-primary-500 block h-[80px] p-1 rounded-md">{">"}</button>
-          </div>
-        </div>
-        <div className="flex flex-col w-[100%]">
-          <p className="text-left pt-8">Nuevas comidas</p>
-          <div className="flex justify-center text-center items-center">
-            <button className="bg-primary-500 block h-[80px] p-1 rounded-md">{"<"}</button>
-            <div className="grid grid-cols-3 w-[100%] gap-8 m-6">
-              <div className="w-[100%] bg-slate-400 aspect-video rounded-lg flex flex-col justify-center">
-                <p className="block">Comida x</p>
-              </div>
-              <div className=" w-[100%] bg-slate-400 aspect-video rounded-lg flex flex-col justify-center">
-                <p className="block">Comida x</p>
-              </div>
-              <div className=" w-[100%] bg-slate-400 aspect-video rounded-lg flex flex-col justify-center">
-                <p className="block">Comida x</p>
-              </div>
-            </div>
-            <button className="bg-primary-500 block h-[80px] p-1 rounded-md">{">"}</button>
+            <button
+              className="bg-primary-500 block h-[80px] p-1 rounded-md"
+              onClick={()=>{page < products.length / 3 - 1 && setPage(page + 1)}}>{">"}</button>
           </div>
         </div>
       </div>
