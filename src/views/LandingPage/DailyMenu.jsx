@@ -1,10 +1,6 @@
 import PropTypes from "prop-types"
-import { useEffect } from "react"
 
 function DailyMenu({ background, name, description }) {
-  useEffect(() => {
-    console.log(`${background}`)
-  })
   return (
     <div className="flex">
       <div className={`relative w-[100%] bg-slate-500 aspect-video align-middle rounded-xl flex flex-col justify-end text-left`}>
