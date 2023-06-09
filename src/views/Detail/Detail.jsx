@@ -71,7 +71,7 @@ function Detail({ cart, setCart }) {
 
           <div className="m-5">
             <label className="font-bold" >Ingredientes</label>
-            <p className=" w-44 text-gray-400 text-[12px]">{detailProduct.ingredients}</p>
+            {detailProduct.ingredients.map((e)=>(<p className=" w-44 text-gray-400 text-[12px]" key={e}>{e}</p>))}
           </div>
 
           <div className="m-5 flex justify-between">
