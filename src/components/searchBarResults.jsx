@@ -15,13 +15,14 @@ export default function SearchResults({ results, setResults, setInput, input, se
               setResults([]);
               setInput('');
             }}>
-            <div key={e.id} className="flex justify-between items-center max-w-xs p-4 border-blue-150">
+            <div key={e.id} className={`${"flex justify-between items-center max-w-xs p-4 border-blue-150"} ${index === select ? "bg-primary-500" : ''} `}>
               <p>{e.name}</p>
               <img className='max-w-[32%] max-h-[7%]' src={e.image} alt={e.name} />
             </div>
           </Link>
-        ))}
-      </div>
+        ))
+        }
+      </div >
     );
   if (input)
     return (
@@ -37,4 +38,10 @@ SearchResults.propTypes = {
   setResults: PropTypes.func,
   setInput: PropTypes.func,
   input: PropTypes.string,
+  select: PropTypes.func
 };
+
+
+
+
+"flex justify-between items-center max-w-xs p-4 border-blue-150"
