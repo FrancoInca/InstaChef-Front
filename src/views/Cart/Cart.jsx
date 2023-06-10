@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import image from "../../assets/amburguesa.png";
+import { UserAuth } from "../../Componentes/Auth-contex/AuthContex";
+
 
 function Cart({ cart, setCart }) {
     // const user = JSON.parse(localStorage.getItem('user'));
     const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
     const navigate = useNavigate();
+    const {user} = UserAuth();
 
     const cartQuantity = cart.reduce((acc, el) => {
         return acc + el.quantity;
@@ -140,7 +143,7 @@ function Cart({ cart, setCart }) {
                         className="mb-5 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
                         onClick={() => buyFunction()}
                     >
-                        {/* {user ? "COMPRAR" : "REGISTRATE!"} */} COMPRAR
+                        {user ? "COMPRAR" : "REGISTRATE!"}
                     </button>
                 </div>
             </div>
