@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { postLogin } from "../../redux/actions";
 
 
-export default function LogIn() {
+export default function LogIn(props) {
   let [error, setError] = useState("");
   const { logIn, user, signUpGoogle } = UserAuth();
   console.log(user);
@@ -75,6 +75,10 @@ export default function LogIn() {
       }))
       console.log("enviado");
 
+      //PROPS POP UP
+      props.sethasLogged(!props.hasLogged);
+      trigger()
+
       setUser({
         correo: "",
         contraseña: "",
@@ -85,6 +89,10 @@ export default function LogIn() {
       console.log(error.code);
       if (error.code === "auth/wrong-password") setError("Contraseña incorrecta")
     }
+  };
+
+  const trigger = () => {
+    props.setTrigger(false);
   };
 
 
@@ -102,20 +110,36 @@ export default function LogIn() {
 
   }
 
-  return (
-    <main className="w-full h-screen flex flex-col items-center justify-center sm:px-4">
-      <div className="w-full space-y-2 text-gray-600 sm:max-w-md">
+  return props.trigger ? (
+    <main className="fixed flex justify-center items-center top-0 left-0 w-full h-screen bg-black bg-opacity-30 backdrop-blur-sm cursor-default z-20">
+
+      <div className="relative px-8 py-8 w-2/5 bg-[#24252B] text-slate-800 rounded-10 shadow-md">
+        <button className="absolute right-4 w-8 h-5 text-white" onClick={trigger}>
+          X
+        </button>
         <div className="text-center flex flex-col justify-center items-center">
-          <img src={InstaChefLogo} className=" w-32" />
+          <img src={InstaChefLogo} className=" w-32 h-32 -mb-8 -mt-8" />
+
+
           <div className="mt-1 space-y-2">
             <h3 className="text-gray-300 text-2xl font-bold sm:text-3xl">
               Ingrese a su cuenta
             </h3>
             <p className="text-gray-400">
               No tienes una cuenta?{" "}
-              <Link to="/SignUp" className="font-medium text-amber-400 hover:text-gray-100">
-                Sign up
-              </Link>{" "}
+
+              <span className="ml-1 mb-2 inline-flex items-center">
+                <button
+                  className="font-medium text-amber-400 hover:text-gray-100"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    trigger();
+                    props.setTriggerSignUp(true);
+                    props.setTrigger(false);
+                  }}>
+                  ¡Registrate!
+                </button>
+              </span>
             </p>
           </div>
         </div>
@@ -210,5 +234,5 @@ export default function LogIn() {
         </div>
       </div>
     </main>
-  );
+  ) : "";
 }

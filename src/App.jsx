@@ -20,6 +20,7 @@ import useLocalStorage from './components/useLocalStorage';
 import Checkout from './views/Pasarela/Checkout';
 import ProductForm from './components/ProductForm';
 import { ProtectedRoute } from './components/authentication/ProtectedRoute.jsx';
+import { useState } from 'react';
 
 
 axios.defaults.baseURL = "http://localhost:3001"
@@ -29,16 +30,23 @@ function App() {
   let location = useLocation()
   const [cart, setCart] = useLocalStorage('cart', []);
 
+  const [hasLogged, sethasLogged] = useState(false);
+
 
   return (
     <div className="">
       <AuthProvider>
         {location.pathname === "/LogIn" || location.pathname ===
-          "/SignUp" || location.pathname === "/Checkout" ? null : <NavBar />}
+          "/SignUp" || location.pathname === "/Checkout" ? null
+          :
+          <NavBar
+          hasLogged={hasLogged}
+          />}
+          
         <Routes>
           <Route exact path="/" element={<LandingPage />} />
           <Route exact path="/detail/:id" element={<Detail cart={cart} setCart={setCart} />} />
-          <Route exact path="/Cart" element={<Cart cart={cart} setCart={setCart} />} />
+          <Route exact path="/Cart" element={<Cart cart={cart} setCart={setCart} sethasLogged={sethasLogged} />} />
           <Route exact path='/LogIn' element={<LogIn />} />
           <Route exact path='/SignUp' element={<SignUp />} />
           <Route exact path="/Home" element={<Home />} />
