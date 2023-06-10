@@ -1,14 +1,13 @@
 import { useState } from "react"
-import { AiOutlineUser } from "react-icons/ai"
-import { UserAuth } from "../Componentes/Auth-contex/AuthContex"
+import { UserAuth } from "./Auth-context/AuthContext"
 import { useNavigate } from "react-router-dom"
 
 function ListaDesplegable() {
    let navigate = useNavigate()
-  let [desplege, setDesplegue] = useState(false)
-  const {lognout} = UserAuth()
+  let [despliegue, setDespliegue] = useState(false)
+  const { logout } = UserAuth()
   const signOut = async() => {
-     await lognout()
+    await logout()
      navigate("/")
   }
   return (
@@ -22,8 +21,7 @@ function ListaDesplegable() {
     >
       Yo
     </a>
-
-    <button onClick={() => setDesplegue(!desplege)}
+        <button onClick={() => setDespliegue(!despliegue)}
       className="h-full p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
     >
       <span className="sr-only">Menu</span>
@@ -42,14 +40,14 @@ function ListaDesplegable() {
     </button>
   </div>
   
-      {desplege &&
+      {despliegue &&
         <div
           className="absolute end-0 mt-2 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg z-20"
           role="menu">
           <div className="p-2">
             <a className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" role="menuitem">Mi cuenta</a>
             <a  onClick={() => signOut()} role="menuitem"
-              className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" >Cerrar sesion</a>
+              className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" >Cerrar sesión</a>
           </div>
         </div>
       }
