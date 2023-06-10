@@ -9,9 +9,9 @@ import axios from 'axios';
 import LandingPage from './views/LandingPage/LandingPage';
 import NavBar from './components/NavBar';
 
-import SignUp from './Componentes/autenticacion/SignUp';
-import LogIn from './Componentes/autenticacion/Log-In';
-import { AuthProvider } from './Componentes/Auth-contex/AuthContex';
+import SignUp from './components/authentication/SignUp';
+import LogIn from './components/authentication/Log-In';
+import { AuthProvider } from './components/Auth-context/AuthContext';
 
 import Home from "./views/Home/Home"
 import Detail from './views/Detail/Detail';
@@ -19,7 +19,7 @@ import Cart from './views/Cart/Cart';
 import useLocalStorage from './components/useLocalStorage';
 import Checkout from './views/Pasarela/Checkout';
 import ProductForm from './components/ProductForm';
-import { ProtectedRoute } from './Componentes/autenticacion/ProtectedRoute.jsx';
+import { ProtectedRoute } from './components/authentication/ProtectedRoute.jsx';
 
 
 axios.defaults.baseURL = "http://localhost:3001"
