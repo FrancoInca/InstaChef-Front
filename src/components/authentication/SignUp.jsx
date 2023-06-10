@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux"
 import { postLogin, postSignUp } from "../../redux/actions"
 
 
-export default function SignUp() {
+export default function SignUp(props) {
   const { signUp, signUpGoogle, user } = UserAuth()
   let navigate = useNavigate()
   let dispatch = useDispatch()
@@ -118,7 +118,8 @@ export default function SignUp() {
         lastName: users.apellido
 
       }))
-
+      props.sethasLogged(!props.hasLogged);
+      props.setTrigger(false);
 
       setUser({
         correo: "",
@@ -154,16 +155,36 @@ export default function SignUp() {
     }
   }
 
-  return (
-    <main className="w-full h-screen flex flex-col items-center justify-center px-4">
-      <div className="max-w-sm w-full text-gray-200">
+  const trigger = () => {
+    props.setTrigger(false);
+  };
+
+
+  return props.trigger ? (
+    <main className="fixed flex justify-center items-center top-0 left-0 w-full h-screen bg-black bg-opacity-30 backdrop-blur-sm cursor-default z-20">
+      <div className="relative px-8 py-8 w-2/5 bg-[#24252B] text-gray-200 rounded-10 shadow-md">
+        <button className="absolute right-4 w-8 h-5 text-white" onClick={trigger}>
+          X
+        </button>
         <div className="text-center flex flex-col justify-center items-center">
-          <img src={InstaChefLogo} className="w-20" />
+          <img src={InstaChefLogo} className="w-32 h-32 -mb-8 -mt-8" />
           <div className="">
             <h3 className=" text-2xl font-bold sm:text-3xl">Regístrate</h3>
-            <p className="m-0">¿Ya tienes una cuenta?  <Link to="/LogIn">
-              <a className="font-medium text-amber-400 hover:text-amber-500">Acceso</a>
-            </Link> </p>
+            <p className="m-0">¿Ya tienes una cuenta?
+
+              <span className="ml-1 mt-1 inline-flex items-center">
+                <button className="font-medium text-amber-400 hover:text-gray-100"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    trigger();
+                    props.setLoginTrigger(true);
+                    props.setTriggerSignUp(false);
+                  }}>
+                  ¡Inicia sesion!
+                </button>
+              </span>
+
+            </p>
           </div>
         </div>
         <form
@@ -180,7 +201,7 @@ export default function SignUp() {
               name="nombre"
               type="text"
               required
-              className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-200 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
             />
 
             {
@@ -198,7 +219,7 @@ export default function SignUp() {
               name="apellido"
               type="text"
               required
-              className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-200 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
             />
             {
               errorInput.apellido.length ? <p className="text-[12px] text-red-600 fixed">
@@ -215,7 +236,7 @@ export default function SignUp() {
               name="correo"
               type="email"
               required
-              className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-200 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
             />
             {
               errorInput.correo.length ? <p className="text-[12px] text-red-600 fixed">
@@ -232,7 +253,7 @@ export default function SignUp() {
               name="contraseña"
               type="password"
               required
-              className="w-full mt-2 px-3 py-2 text-gray-400 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 text-gray-200 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
             />
             {
               errorInput.contraseña.length ? <p className="text-[12px] text-red-600 fixed">
@@ -241,12 +262,12 @@ export default function SignUp() {
             }
           </div>
           <button
-            className="w-full px-4 py-2 text-white font-medium bg-amber-400 hover:bg-amber-500 active:bg-amber-600 rounded-lg duration-150"
+            className="w-full px-4 py-2 text-white font-medium hover:text-[#24252B] bg-amber-400 hover:bg-amber-500 active:bg-amber-600 rounded-lg duration-150"
           >
             Crear cuenta
           </button>
         </form>
-        <button onClick={() => handleSigUpGoogle()} className="w-full flex items-center justify-center gap-x-3 py-2.5 mt-5 border rounded-lg text-sm font-medium hover:bg-gray-50 hover:text-amber-400 duration-150 active:bg-gray-100">
+        <button onClick={() => handleSigUpGoogle()} className="w-full flex items-center justify-center gap-x-3 py-2.5 mt-5 border rounded-lg text-sm font-medium hover:bg-gray-50 hover:text-[#24252B] duration-150 active:bg-gray-100">
           <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_17_40)">
               <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />
@@ -264,5 +285,5 @@ export default function SignUp() {
         </button>
       </div>
     </main>
-  )
+  ) : ""
 }
