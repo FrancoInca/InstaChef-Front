@@ -21,7 +21,7 @@ function SearchBar({ setResults, results, setSelect, input, setInput }) {
     } else if (e.key === 'ArrowDown') {
       setActiveIndex(activeIndex === resultsLength - 1 ? 0 : activeIndex + 1);
     } else if (e.key === 'Enter' && e.target.value !== '') {
-      navigate(`/products/${results[activeIndex].id}`);
+      navigate(`/detail/${results[activeIndex].id}`);
       setResults([])
       setInput("")
       setActiveIndex(-1)

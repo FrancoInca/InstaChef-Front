@@ -1,4 +1,5 @@
 /* eslint-disable no-dupe-keys */
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
   //Franco: Segun nueva documentación, el nombre apropiado es content

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import image from "../../assets/amburguesa.png";
-import { UserAuth } from "../../Componentes/Auth-contex/AuthContex";
+import { UserAuth } from "../../components/Auth-context/AuthContext";
 
 
 function Cart({ cart, setCart }) {
