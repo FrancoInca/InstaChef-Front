@@ -3,7 +3,7 @@ import { AiFillHeart, AiOutlineShoppingCart } from "react-icons/ai"
 import InstaChefLogo from "../assets/InstaChefLogo.png"
 import { Link, useNavigate } from "react-router-dom"
 import ListaDesplegable from "./ListaDesplegable"
-import { UserAuth } from "../Componentes/Auth-contex/AuthContex"
+import { UserAuth } from "./Auth-context/AuthContext"
 
 function NavBar() {
   let navigate = useNavigate()
