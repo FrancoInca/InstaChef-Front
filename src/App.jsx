@@ -22,7 +22,7 @@ import ProductForm from './components/ProductForm';
 import { ProtectedRoute } from './Componentes/autenticacion/ProtectedRoute.jsx';
 
 
-axios.defaults.baseURL = "http://localhost:3001"
+axios.defaults.baseURL = "http://localhost:3096"
 
 function App() {
 

@@ -1,19 +1,25 @@
+/* eslint-disable react/prop-types */
 
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
+import {useDispatch} from "react-redux"
 import Nav from "./Nav"
 import ConfirPago from "./ConfirPago"
 import { useState } from "react"
+import { agregarPago } from "../../redux/actions"
 let stipePromise = loadStripe("pk_test_51N3WCTG4n6v6zt1DCpKO742a1RORPW5iGwRMf3A1UgkNXuKHXPhTnIJeP9iEnlqlXKUAJ028VgOM9rpPMho3Aplk00FLkHnUtO")
 
 let ChechautForm = ({ cart, setCart }) => {
+  let dispacth = useDispatch()
   let stripe = useStripe()
   let element = useElements()
   const [confirmar, setConfirmar] = useState(null)
   const [error, setError] = useState("")
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
-
+ let ides = cart.map(i => i.id)
+console.log(ides);
+console.log(totalPrice);
   return (
     <div onClick={() => setConfirmar()} className="text-white flex justify-center items-center gap-20 ml-5 ">
       {
@@ -57,6 +63,13 @@ let ChechautForm = ({ cart, setCart }) => {
             if (!error) {
               console.log(paymentMethod);
               console.log(valores);
+              dispacth(agregarPago({
+                id: paymentMethod.id,
+                amount: totalPrice + 10,
+                email: valores.correo,
+                nombre: valores.nombre,
+                idCurso: ides
+              }))
               setConfirmar(true)
               setError("")
               resetForm()
@@ -136,9 +149,9 @@ let ChechautForm = ({ cart, setCart }) => {
 
 // cke
 export default function Checkout({ cart, setCart }) {
-  const [confir, setConfir] = useState(false)
+
   return (
-    <main onClick={() => setConfir(null)} className=" w-full   ">
+    <main  className=" w-full   ">
 
       <div className="w-full">
         <Nav />

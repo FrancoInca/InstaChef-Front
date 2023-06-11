@@ -45,6 +45,7 @@ export function AuthProvider({ children }) {
          setUser(currentUser)
          setLoading(false)
          if(currentUser) {
+          console.log(currentUser);
           dispacth(postLogin({
             email:  currentUser.email,
             password: ""

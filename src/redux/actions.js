@@ -50,6 +50,7 @@ export function postSignUp(obj) {
     return async function (dispatch) {
         const response = await axios.post("/login/signup", obj );
         const userData = response.data;
+        localStorage.setItem("token", userData.token)
         return dispatch({
             type: SIGNUP,
             payload: userData,
@@ -61,6 +62,8 @@ export function postLogin(obj) {
     return async function (dispatch) {
         const response = await axios.post("/login/login", obj );
         const userData = response.data;
+        localStorage.setItem("token", userData.token)
+        console.log(userData);
         return dispatch({
             type: LOGIN,
             payload: userData,
@@ -68,7 +71,11 @@ export function postLogin(obj) {
     };
 }
 
-export function agregarPago(obj) {
+export function agregarPago({amount, id, email, nombre, idCurso}) {
+    let token = localStorage.getItem("token")
+    let obj {
+        amount, id, email, nombre, idCurso, token
+    }
     return async function (dispatch) {
         const response = await axios.post("/checkout", obj );
         const pagoData = response.data;
