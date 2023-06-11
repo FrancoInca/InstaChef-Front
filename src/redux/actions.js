@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     GET_ALL_PRODUCTS,
     GET_DETAIL,
-    SEARCH_BY_NAME, LOGIN, SIGNUP, AGREGAR_PAGO
+    SEARCH_BY_NAME, LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA 
 } from './variables';
 
 
@@ -10,6 +10,7 @@ export function getAllProducts() {
     return async function (dispatch) {
         const response = await axios.get('/products/');
         const allProducts = response.data;
+        console.log(allProducts);
         return dispatch({
             type: GET_ALL_PRODUCTS,
             payload: allProducts,
@@ -84,4 +85,29 @@ export function agregarPago({amount, id, email, nombre, idCurso}) {
             payload: pagoData,
         });
     };
+}
+
+
+export function getProductosPagos() {
+    let token = localStorage.getItem("token")
+    let obj = {
+         token
+    }
+    return async function (dispatch) {
+        const response = await axios.post("/productosPagos", obj );
+        const pagoData = response.data;
+        console.log(pagoData);
+        return dispatch({
+            type: TRAER_PRODUCT_PAGOS,
+            payload: pagoData,
+        });
+    };
+}
+
+
+export const cuenta = (obj) => {
+  return ({
+    type: CUENTA,
+    payload: obj
+  })
 }

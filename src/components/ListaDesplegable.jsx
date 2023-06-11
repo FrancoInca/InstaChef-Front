@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { UserAuth } from "./Auth-context/AuthContext"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function ListaDesplegable() {
    let navigate = useNavigate()
@@ -45,7 +45,9 @@ function ListaDesplegable() {
           className="absolute end-0 mt-2 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg z-20"
           role="menu">
           <div className="p-2">
-            <a className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" role="menuitem">Mi cuenta</a>
+           <Link to="/cuenta">
+           <a className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" role="menuitem">Mi cuenta</a>
+           </Link>
             <a  onClick={() => signOut()} role="menuitem"
               className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" >Cerrar sesión</a>
           </div>

@@ -1,7 +1,7 @@
 import {
     GET_ALL_PRODUCTS,
     GET_DETAIL,
-    SEARCH_BY_NAME,LOGIN, SIGNUP, AGREGAR_PAGO
+    SEARCH_BY_NAME,LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA
 
 } from './variables';
 
@@ -11,7 +11,13 @@ const initialState = {
     detail: [],
     filters: [],
     userData: null,
-    pagoData: null
+    pagoData: null,
+    productPagos: null,
+    cuenta: {
+        General: true,
+        MisDatos: false,
+        MisPedidos: false
+    }
 };
 
 
@@ -53,6 +59,20 @@ const rootReducer = (state = initialState, action) => {
               ...state,
               pagoData: action.payload
             }
+         }
+
+         case TRAER_PRODUCT_PAGOS: {
+            return {
+                ...state,
+                productPagos: action.payload
+              }
+         }
+
+         case CUENTA: {
+            return {
+                ...state,
+                cuenta: action.payload
+              }
          }
 
         default:
