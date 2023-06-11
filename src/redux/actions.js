@@ -73,7 +73,7 @@ export function postLogin(obj) {
 
 export function agregarPago({amount, id, email, nombre, idCurso}) {
     let token = localStorage.getItem("token")
-    let obj {
+    let obj = {
         amount, id, email, nombre, idCurso, token
     }
     return async function (dispatch) {
