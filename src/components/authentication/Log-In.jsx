@@ -1,20 +1,17 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/no-unescaped-entities */
 import { Link, useNavigate } from "react-router-dom";
 import InstaChefLogo from "../../assets/InstaChefLogo.png";
 import { useState } from "react";
-import { UserAuth } from "../Auth-contex/AuthContex";
+import { UserAuth } from "../../components/Auth-context/AuthContext";
 import { useDispatch } from "react-redux";
 import { postLogin } from "../../redux/actions";
 
 
-export default function LogIn() {
+export default function LogIn(props) {
   let [error, setError] = useState("");
-  const { logIn, user,  signuGogle, loading  } = UserAuth();
+  const { logIn, user, signUpGoogle } = UserAuth();
   console.log(user);
   let navigate = useNavigate();
-  let dispacth = useDispatch()
+  let dispatch = useDispatch()
   let [users, setUser] = useState({
     correo: "",
     contraseña: "",
@@ -25,98 +22,124 @@ export default function LogIn() {
     contraseña: "",
   })
 
-  let validarCorreo = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-let validarContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+  let validarCorreo = /^(([^<>().,;:\s@"]+(\.[^<>().,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  let validarContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 
-  const hanledChange = ({ target: { name, value } }) => {
-    if(name === "correo") {
-      if(!validarCorreo.test(value)) {
-        return  setErrorInput({
-            ...errorInput,
-            correo: "Escribe el coreo corectamente por favor"
-          })
+  const handleChange = ({ target: { name, value } }) => {
+    if (name === "correo") {
+      if (!validarCorreo.test(value)) {
+        return setErrorInput({
+          ...errorInput,
+          correo: "Escribe el coreo correctamente por favor"
+        })
       } else {
         setUser({
           ...users,
-          correo: value})
-          setErrorInput({
-            ...errorInput,
-            correo: ""
-          })
-      }
-   }
-
-   if(name === "contraseña") {
-    if(!validarContraseña.test(value)) {
-      return  setErrorInput({
-          ...errorInput,
-          contraseña: "Una mayuscula o mas, una miniscula o mas, un numero, 8 caracteres o mas,"
+          correo: value
         })
-    } else {
-      setUser({
-        ...users,
-        contraseña: value})
+        setErrorInput({
+          ...errorInput,
+          correo: ""
+        })
+      }
+    }
+
+    if (name === "contraseña") {
+      if (!validarContraseña.test(value)) {
+        return setErrorInput({
+          ...errorInput,
+          contraseña: "Una mayúscula o mas, una minúscula o más, un número, 8 caracteres o más."
+        })
+      } else {
+        setUser({
+          ...users,
+          contraseña: value
+        })
         setErrorInput({
           ...errorInput,
           contraseña: ""
         })
+      }
     }
- }
   };
 
-  const hanledSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await logIn(users.correo, users.contraseña);
       navigate("/");
-      
-        dispacth(postLogin({
-          email:  users.correo,
-          password: users.contraseña
-        }))
-        console.log("enviado");
-      
+
+      dispatch(postLogin({
+        email: users.correo,
+        password: users.contraseña
+      }))
+      console.log("enviado");
+
+      //PROPS POP UP
+      props.sethasLogged(!props.hasLogged);
+      trigger()
+
       setUser({
         correo: "",
         contraseña: "",
-        
+
       })
     } catch (error) {
-      if(error.code === "auth/user-not-found") setError("Usuario no encotrado")
+      if (error.code === "auth/user-not-found") setError("Usuario no encontrado")
       console.log(error.code);
-      if(error.code === "auth/wrong-password") setError("Contraseña incorecta")
+      if (error.code === "auth/wrong-password") setError("Contraseña incorrecta")
     }
   };
-  
 
-  const hanledSigUpGoogle = async () => {
+  const trigger = () => {
+    props.setTrigger(false);
+  };
+
+
+  const handleSigUpGoogle = async () => {
     try {
-       await signuGogle()
-   navigate("/")
-   console.log(user);
+      await signUpGoogle()
+      navigate("/")
+      console.log(user);
     } catch (error) {
-      if(error.message === "auth/missing-password") {
+      if (error.message === "auth/missing-password") {
         setError("falta la contraseña")
       }
       setError(error.message)
     }
-   
-   }
 
-  return (
-    <main className="w-full h-screen flex flex-col items-center justify-cente sm:px-4">
-      <div className="w-full space-y-2 text-gray-600 sm:max-w-md">
+  }
+
+  return props.trigger ? (
+    <main className="fixed flex justify-center items-center top-0 left-0 w-full h-screen bg-black bg-opacity-30 backdrop-blur-sm cursor-default z-20">
+
+      <div className="relative px-8 py-8 w-2/5 bg-[#24252B] text-slate-800 rounded-10 shadow-md">
+        <button className="absolute right-4 w-8 h-5 text-white" onClick={trigger}>
+          X
+        </button>
         <div className="text-center flex flex-col justify-center items-center">
-          <img src={InstaChefLogo} className=" w-32" />
+          <img src={InstaChefLogo} className=" w-32 h-32 -mb-8 -mt-8" />
+
+
           <div className="mt-1 space-y-2">
             <h3 className="text-gray-300 text-2xl font-bold sm:text-3xl">
               Ingrese a su cuenta
             </h3>
             <p className="text-gray-400">
               No tienes una cuenta?{" "}
-              <Link to="/SignUp" className="font-medium text-amber-400 hover:text-gray-100">
-                Sign up
-              </Link>{" "}
+
+              <span className="ml-1 mb-2 inline-flex items-center">
+                <button
+                  className="font-medium text-amber-400 hover:text-gray-100"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    trigger();
+                    props.setTriggerSignUp(true);
+                    props.setTrigger(false);
+                  }}>
+                  ¡Registrate!
+                </button>
+              </span>
             </p>
           </div>
         </div>
@@ -127,7 +150,7 @@ let validarContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
             </p>
           }
           <div className="grid grid-cols-1">
-            <button onClick={() => hanledSigUpGoogle()} className="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
+            <button onClick={() => handleSigUpGoogle()} className="flex items-center justify-center py-2.5 border rounded-lg hover:bg-gray-50 duration-150 active:bg-gray-100">
               <svg
                 className="w-5 h-5"
                 viewBox="0 0 48 48"
@@ -159,7 +182,7 @@ let validarContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
                 </defs>
               </svg>
             </button>
-            
+
           </div>
           <div className="relative">
             <span className="block w-full h-px bg-gray-300"></span>
@@ -167,49 +190,49 @@ let validarContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
               O continuar con
             </p>
           </div>
-          
-          <form onSubmit={(e) => hanledSubmit(e)} className="space-y-5">
+
+          <form onSubmit={(e) => handleSubmit(e)} className="space-y-5">
             <div>
-              <label className="font-medium">Correo electronico</label>
+              <label className="font-medium">Correo electrónico</label>
               <input
-                onChange={(e) => hanledChange(e)}
+                onChange={(e) => handleChange(e)}
                 type="email"
                 required
                 name="correo"
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
               />
               {
-                          errorInput.correo.length ? <p className="text-[12px] text-red-600 fixed">
-                            {errorInput.correo}
-                          </p> : ""
-                        }
+                errorInput.correo.length ? <p className="text-[12px] text-red-600 fixed">
+                  {errorInput.correo}
+                </p> : ""
+              }
             </div>
             <div>
               <label className="font-medium">Contraseña</label>
               <input
-                onChange={(e) => hanledChange(e)}
+                onChange={(e) => handleChange(e)}
                 type="password"
                 required
                 name="contraseña"
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
               />
               {
-                          errorInput.contraseña.length ? <p className="text-[12px] text-red-600 fixed">
-                            {errorInput.contraseña}
-                          </p> : ""
-                        }
+                errorInput.contraseña.length ? <p className="text-[12px] text-red-600 fixed">
+                  {errorInput.contraseña}
+                </p> : ""
+              }
             </div>
             <button className="w-full px-4 py-2 text-white font-medium bg-amber-400 hover:bg-amber-200 active:bg-amber-600 rounded-lg duration-150">
-              Iniciar sesion
+              Iniciar sesión
             </button>
           </form>
         </div>
         <div className="text-center">
           <a className=" text-gray-400 hover:text-amber-400">
-            ¿has olvidado tu contraseña?
+            ¿Has olvidado tu contraseña?
           </a>
         </div>
       </div>
     </main>
-  );
+  ) : "";
 }
