@@ -107,7 +107,7 @@ function Detail({ cart, setCart }) {
                 <span className="flex items-center justify-center h-full">+</span>
               </button>
             </div>
-            <div className="">
+            <div className="w-full sm:w-fit flex justify-center my-3">
               <button onClick={handleAddToCart} className="h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded">
                 Añadir al carrito
               </button>
