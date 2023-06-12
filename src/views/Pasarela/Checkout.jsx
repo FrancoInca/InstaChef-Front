@@ -3,27 +3,25 @@
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
-import {useDispatch} from "react-redux"
 import Nav from "./Nav"
 import ConfirPago from "./ConfirPago"
 import { useState } from "react"
-import { agregarPago } from "../../redux/actions"
-let stipePromise = loadStripe("pk_test_51N3WCTG4n6v6zt1DCpKO742a1RORPW5iGwRMf3A1UgkNXuKHXPhTnIJeP9iEnlqlXKUAJ028VgOM9rpPMho3Aplk00FLkHnUtO")
+import axios from "axios"
 
-let ChechautForm = ({ cart, setCart }) => {
-  let dispacth = useDispatch()
+let CheckOutForm = ({ cart, setCart }) => {
   let stripe = useStripe()
   let element = useElements()
-  const [confirmar, setConfirmar] = useState(null)
+  const [confirmar, setConfirmar] = useState(false)
   const [error, setError] = useState("")
+  const [message, setMessage] =  useState("")
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
- let ides = cart.map(i => i.id)
-console.log(ides);
-console.log(totalPrice);
+  let ides = cart.map(e => { return { id: e.id, quantity: e.quantity, name: e.name } })
+  console.log(ides);
+  console.log(totalPrice);
   return (
     <div onClick={() => setConfirmar()} className="text-white flex justify-center items-center gap-20 ml-5 ">
       {
-        confirmar === true ? <ConfirPago /> : null
+        confirmar === true ? <ConfirPago message={message} /> : null
       }
       <div className={confirmar === true ? " opacity-20" : ""}>
         <Formik
@@ -32,22 +30,22 @@ console.log(totalPrice);
             correo: ""
           }}
 
-          validate={(valors) => {
+          validate={(valores) => {
             let errors = {}
-            let { nombre, correo } = valors
+            let { nombre, correo } = valores
             if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(nombre)) {
-              errors.nombre = "El nombre solo puede tener letas y espacions"
+              errors.nombre = "El nombre solo puede tener letras y espacios"
             }
             if (nombre.length === 0) {
-              errors.nombre = "ingrasa tu nombre por favor"
+              errors.nombre = "Ingresa tu nombre por favor"
             }
 
             if (!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(correo)) {
-              errors.correo = "El correo solamente puede contener letras, numeros, puntos, giones y gion bajo"
+              errors.correo = "El correo solamente puede contener letras, números, puntos, guiones y guion bajo"
             }
 
             if (correo.length === 0) {
-              errors.correo = "ingrasa tu correo por favor"
+              errors.correo = "Ingresa tu correo por favor"
             }
             return errors
 
@@ -55,7 +53,7 @@ console.log(totalPrice);
 
           onSubmit={async (valores, { resetForm }) => {
 
-
+            console.log(ides)
             let { error, paymentMethod } = await stripe.createPaymentMethod({
               type: "card",
               card: element.getElement(CardElement)
@@ -63,18 +61,27 @@ console.log(totalPrice);
             if (!error) {
               console.log(paymentMethod);
               console.log(valores);
-              dispacth(agregarPago({
-                id: paymentMethod.id,
-                amount: totalPrice + 10,
+              let token = localStorage.getItem("token");
+              let obj = {
+                amount: totalPrice * 100,
                 email: valores.correo,
                 nombre: valores.nombre,
-                idCurso: ides
-              }))
-              setConfirmar(true)
-              setError("")
-              resetForm()
-              setCart([])
+                id: paymentMethod.id,
+                idFood: ides,
+                token
+              }
+              const response = await axios.post("/checkout", obj)
+              const pagoData = response.data;
+              console.log(pagoData)
+              if (response.status === 200) {
+                setConfirmar(true)
+                setMessage(pagoData.message)
+                resetForm()
+                setError("")
+                setCart([])
+              }
               element.getElement(CardElement).clear()
+
             } else {
               console.log(error);
               setError(error.message)
@@ -95,14 +102,14 @@ console.log(totalPrice);
               </div>
               <div className="flex flex-col">
                 <label htmlFor="">Nombre</label>
-                <Field type="text" name="nombre" placeholder="Toni" className="h-7 mt-1 rounded-lg placeholder-slate-400 text-sm px-3 py-2 focus:outline-none focus:border-verde bg-transparent
+                <Field type="text" name="nombre" placeholder="John Doe" className="h-7 mt-1 rounded-lg placeholder-slate-400 text-sm px-3 py-2 focus:outline-none focus:border-verde bg-transparent
                      shadow-lg  focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 " />
                 {<ErrorMessage name="nombre" component={() => (
                   <span className=" text-red-700 text-base ml-3">{errors.nombre}</span>
                 )} />}
               </div>
               <div className="flex flex-col">
-                <label htmlFor="">Numero de la targeta</label>
+                <label htmlFor="">Numero de la tarjeta</label>
                 <CardElement className="h-7 text-white mt-1 rounded-lg placeholder-slate-400 text-sm px-3 py-2 focus:outline-none focus:border-amber-400 bg-transparent
                      shadow-lg  focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50 "/>
               </div>
@@ -172,16 +179,18 @@ console.log(totalPrice);
 // cke
 export default function Checkout({ cart, setCart }) {
 
+  const [stripePromise] = useState(() => loadStripe("pk_test_51NH9ifL0oVvgXqTd0Xquw1eYSphWzmlYMT1PeWNe60tzfX12OVmLati1iroYU4O0WHnw2WuwOxf0kmHYEY3WsPiR00BbsfJlTv"))
+
   return (
-    <main  className=" w-full   ">
+    <main className=" w-full   ">
 
       <div className="w-full">
         <Nav />
       </div>
       <div className="w-full mx-auto px-4 md:px-0  flex justify-center mt-14 ">
 
-        <Elements stripe={stipePromise}>
-          <ChechautForm cart={cart} setCart={setCart} />
+        <Elements stripe={stripePromise}>
+          <CheckOutForm cart={cart} setCart={setCart} />
         </Elements>
       </div>
     </main>

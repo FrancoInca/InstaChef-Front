@@ -9,11 +9,11 @@ function SearchBar({ setResults, results, setSelect, input, setInput }) {
 
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  let [placeholderText, setplaceholderText] = useState('Buscar producto')
+  let [placeholderText, setPlaceholderText] = useState('Buscar producto')
 
   const handleKeyDown = (e) => {
 
-    setplaceholderText(input === '' && e.key === 'Enter' ? "Escribe algo" : "Buscar producto")
+    setPlaceholderText(input === '' && e.key === 'Enter' ? "Escribe algo" : "Buscar producto")
 
     const resultsLength = results.length;
     if (e.key === 'ArrowUp') {
@@ -30,7 +30,7 @@ function SearchBar({ setResults, results, setSelect, input, setInput }) {
 
   useEffect(() => {
     setSelect(activeIndex)
-  }, [activeIndex])
+  }, [setSelect, activeIndex])
 
 
   const getData = async (value) => {
@@ -53,9 +53,9 @@ function SearchBar({ setResults, results, setSelect, input, setInput }) {
   };
 
   return (
-    <div className='flex items-center w-80  rounded-r-none'>
+    <div className='relative flex items-center w-[80%] max-w-[640px] border rounded-[10px]'>
       <input type="search" placeholder={placeholderText}
-        className="block text-white p-3 rounded-lg w-[100%] "
+        className="block text-white p-3 rounded-lg w-[100%] outline-none"
         value={input}
         onChange={(e) => handleChange(e.target.value)}
         onKeyDown={handleKeyDown}
