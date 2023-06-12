@@ -7,7 +7,7 @@ import useLocalStorage from "../../components/useLocalStorage"
 
 const Breakfast = {
   name: "Hamburguesa del Chef",
-  description: "Deliciosa hamburgesa con los ingredientes necesarios para empezar el día",
+  description: "Deliciosa hamburguesa con los ingredientes necesarios para empezar el día",
   background: "https://cdn.sanity.io/images/jsdrzfkj/production-esmx/5e2316cc629ede9cd6646163efeafc5486161751-6240x4160.jpg?w=800&h=533&fit=crop"
 }
 const Lunch = {
@@ -73,15 +73,15 @@ function LandingPage() {
           <p className="text-left pt-8">Nuevas comidas</p>
           <div className="flex justify-center text-center items-center">
             <button
-              className="bg-primary-500 block h-[80px] p-1 rounded-md"
+              className="hidden sm:block bg-primary-500 h-[80px] p-1 rounded-md"
               onClick={() => { Boolean(page) && setPage(page - 1) }}>{"<"}</button>
-            <div className="flex">
+            <div className="flex flex-col mt-5 sm:m-0 sm:flex-row">
             {newFood.map((e) =>
-              (<Card name={e.name} key={e.name} id={e.id} image={e.image} price={e.price} />)
+              (<div key={e.name} ><Card name={e.name} id={e.id} image={e.image} price={e.price} /></div>)
             )}
             </div>
             <button
-              className="bg-primary-500 block h-[80px] p-1 rounded-md"
+              className="bg-primary-500 hidden sm:block h-[80px] p-1 rounded-md"
               onClick={()=>{page < products.length / 3 - 1 && setPage(page + 1)}}>{">"}</button>
           </div>
         </div>
