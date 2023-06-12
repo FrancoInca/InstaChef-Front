@@ -97,8 +97,8 @@ function Detail({ cart, setCart }) {
             <img src={detailProduct.image} alt={detailProduct.name} className="rounded-[20px]" />
           </div>
           <h1 className="p-5 text-[24px] font-bold text-center">Precio: ${detailProduct.price}</h1>
-          <div className="flex justify-around ">
-            <div className="flex items-center">
+          <div className="grid grid-rows-2 justify-center sm:grid-cols-2 sm:grid-rows-1 ">
+            <div className="flex items-center justify-center">
               <button onClick={handleDecrement} className="bg-transparent hover:bg-amber-400 text-amber-500 text-lg text-center font-semibold hover:text-stone-950 py-2 px-4 border border-amber-400 hover:border-transparent rounded">
                 <span className="flex items-center justify-center h-full">-</span>
               </button>
@@ -107,7 +107,7 @@ function Detail({ cart, setCart }) {
                 <span className="flex items-center justify-center h-full">+</span>
               </button>
             </div>
-            <div className="">
+            <div className="w-full flex justify-center my-3">
               <button onClick={handleAddToCart} className="h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded">
                 Añadir al carrito
               </button>
