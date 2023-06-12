@@ -23,8 +23,7 @@ import { ProtectedRoute } from './components/authentication/ProtectedRoute.jsx';
 import { useState } from 'react';
 import Cuenta from './views/Cuenta/Cuenta';
 
-
-axios.defaults.baseURL = "http://localhost:3096"
+axios.defaults.baseURL = "https://instachef-back-production.up.railway.app/"
 
 function App() {
 
