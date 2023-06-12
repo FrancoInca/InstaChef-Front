@@ -2,18 +2,19 @@ import Categorias from "./Categorias"
 import Paginacion from "./Paginacion"
 import Card from "../../components/Card"
 import Filters from "./Filters"
+import useLocalStorage from "../../components/useLocalStorage"
 
 import { useEffect, useState } from "react"
 import axios from "axios"
 
 function Home() {
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useLocalStorage("page-home", 0)
   const [allFood, setAllFood] = useState([])
-  const [listFood, setlistFood] = useState([])
+  const [listFood, setListFood] = useState([])
   const [filtered, setFiltered] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: Infinity })
 
-  const [filters, setFilters] = useState([])
+  const [filters, setFilters] = useLocalStorage("filters",[])
   const [sort, setSort] = useState("plus")
 
   const PrevPage = () => Boolean(page) && setPage(page - 1)
@@ -44,7 +45,7 @@ function Home() {
     sort === "plus" ? filteredFood = filteredFood.sort((prev, next) => prev.price - next.price) :
       filteredFood = filteredFood.sort((prev, next) => next.price - prev.price)
     setFiltered(filteredFood)
-    setlistFood(filteredFood.slice(page * 9, (page + 1) * 9))
+    setListFood(filteredFood.slice(page * 9, (page + 1) * 9))
     return filteredFood
   }
 
@@ -60,7 +61,7 @@ function Home() {
 
   return (
     <div className="flex w-[100%] justify-center">
-      <div className="grid sm:grid-rows-[fit_auto_auto_fit] sm:grid-cols-[100%] lg:grid-rows-[auto_auto_auto] lg:grid-cols-[100%] w-full max-w-[1280px] justify-center">
+      <div className="grid grid-rows-[fit_auto_auto_fit] sm:grid-cols-[100%] lg:grid-rows-[auto_auto] lg:grid-cols-[100%] w-full max-w-[1280px] justify-center">
         <div className="flex justify-center col-span-full">
           <Categorias filters={filters} filterHandler={filterSize} />
         </div>
@@ -71,17 +72,17 @@ function Home() {
           <div className="flex my-8 mx-3 justify-center">
             <Filters filters={filters} sort={sort} filterSize={filterSize} sortPrice={sortPrice} filterPrice={filterPrice} />
           </div>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] lg:grid-cols-3 gap-1">
-            {listFood.length ? listFood.map((e) => (
+          {listFood.length ? (<div className="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] lg:grid-cols-3 gap-1">
+            {listFood.map((e) => (
               <div key={e.id} className="">
                 <Card name={e.name} price={e.price} type={e.food_type} size={e.serving_size} id={e.id} image={e.image}/>
               </div>
-            )) :
-              (<div className="h-full flex items-center">
-                <h1 className="text-2xl text-center">No se encontró ningun platillo que compla con los requisitos</h1>
-              </div>)
-            }
-          </div>
+            ))}
+          </div>) :
+            (<div className="h-full w-[100%] flex items-center justify-center">
+              <h1 className="text-2xl text-center">No se encontró ningún platillo que cumpla con los requisitos</h1>
+            </div>)
+          }
         </div>
       </div>
     </div>
