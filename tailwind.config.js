@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 export default {
-  //Franco: Segun nueva documentación, el nombre apropiado es content
+  //Franco: Según nueva documentación, el nombre apropiado es content
   content: [
     './index.html',
     './src/Componentes',
@@ -10,7 +10,7 @@ export default {
     '.src/views/*',
     './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
-  darkMode: 'media', // or 'media' or 'class' Franco: Segun nueva documentación, es recomendable dejarlo en media
+  darkMode: 'media', // or 'media' or 'class' Franco: Según nueva documentación, es recomendable dejarlo en media
 
   theme: {
     extend: {
@@ -18,6 +18,10 @@ export default {
         primary: {
           400: '#fbbf24',
           500: '#c7981c',
+        },
+        backColor: {
+          400: '#24252B',
+          500: '#1E1F22',
         },
       },
     },
@@ -35,8 +39,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require('tailwind-scrollbar'),
-
-  ],
+  plugins: [require('tailwind-scrollbar')],
 };
