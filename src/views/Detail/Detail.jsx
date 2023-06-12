@@ -50,7 +50,7 @@ function Detail({ cart, setCart }) {
   };
 
   const handleIncrement = () => {
-    if (quantity != 0) setQuantity(quantity + 1);
+    if (quantity < detailProduct.stock) setQuantity(quantity + 1);
   };
 
   return (
