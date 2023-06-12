@@ -2,13 +2,18 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import image from "../../assets/amburguesa.png";
 import { UserAuth } from "../../components/Auth-context/AuthContext";
+import LogIn from "../../components/authentication/Log-In";
+import { useState } from "react";
+import SignUp from "../../components/authentication/SignUp";
 
 
 function Cart({ cart, setCart }) {
     // const user = JSON.parse(localStorage.getItem('user'));
     const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
     const navigate = useNavigate();
-    const {user} = UserAuth();
+    const { user } = UserAuth();
+    const [triggerPopUpSignUp, setTriggerPopUpSignUp] = useState(false);
+    const [triggerPopUp, setTriggerPopUp] = useState(false);
 
     const cartQuantity = cart.reduce((acc, el) => {
         return acc + el.quantity;
@@ -105,9 +110,9 @@ function Cart({ cart, setCart }) {
 
                 <h2 className="text-2xl m-3 font-bold">USER NAME</h2>
 
-                    <p className="text-center m-2"> Artículos: {cartQuantity}</p>
+                <p className="text-center m-2"> Artículos: {cartQuantity}</p>
                 <p className="text-center m-2">
-                        Envió: <span>Gratis!</span>
+                    Envió: <span>Gratis!</span>
                 </p>
 
 
@@ -116,17 +121,17 @@ function Cart({ cart, setCart }) {
                 </div>
 
                 <div className="mt-auto">
-                    {/* <div>
+                    <div>
                         <SignUp trigger={triggerPopUpSignUp} setTrigger={setTriggerPopUpSignUp} setLoginTrigger={setTriggerPopUp} />
                     </div>
                     <div>
-                        <Login trigger={triggerPopUp} setTrigger={setTriggerPopUp} setTriggerSignUp={setTriggerPopUpSignUp} setHasLogged={setHasLogged} hasLogged={hasLogged} />
-                    </div> */}
+                        <LogIn trigger={triggerPopUp} setTrigger={setTriggerPopUp} setTriggerSignUp={setTriggerPopUpSignUp} />
+                    </div>
                     <button
                         className="mb-5 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
-                        onClick={() => buyFunction()}
+                        onClick={user ? () => buyFunction() : () => setTriggerPopUp(true)}
                     >
-                        {user ? "COMPRAR" : "REGISTRATE!"}
+                        {user ? "COMPRAR" : "LOGEATE!"}
                     </button>
                 </div>
             </div>
