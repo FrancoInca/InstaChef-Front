@@ -21,6 +21,7 @@ import Checkout from './views/Pasarela/Checkout';
 import ProductForm from './components/ProductForm';
 import { ProtectedRoute } from './components/authentication/ProtectedRoute.jsx';
 import { useState } from 'react';
+import Cuenta from './views/Cuenta/Cuenta';
 
 
 axios.defaults.baseURL = "http://localhost:3096"
@@ -52,6 +53,7 @@ function App() {
           <Route exact path="/Home" element={<Home />} />
           <Route exact path="/Checkout" element={<ProtectedRoute><Checkout cart={cart} setCart={setCart} /></ProtectedRoute>} />
           <Route path='/create' element={<ProductForm />} />
+          <Route exact path='/cuenta' element={<Cuenta/>}/>
         </Routes>
 
 

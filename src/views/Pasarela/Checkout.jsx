@@ -23,7 +23,7 @@ let CheckOutForm = ({ cart, setCart }) => {
       {
         confirmar === true ? <ConfirPago message={message} /> : null
       }
-      <div className={confirmar === true ? "w-full opacity-20" : "w-full"}>
+      <div className={confirmar === true ? " opacity-20" : ""}>
         <Formik
           initialValues={{
             nombre: "",
@@ -134,19 +134,41 @@ let CheckOutForm = ({ cart, setCart }) => {
         </Formik>
 
       </div>
-      <div className="w-1/2">
+      <div className="w-1/2 ">
 
         {
           cart?.map((product) => {
             return (
-              <div key={product.name}>
-                <div>x{product.quantity} {product.name}</div>
-                <div>PRICE: {product.price}</div>
+              <div key={product.id} className="flex gap-2" >
+                 <div>
+                   <img src={product.image} alt="image" className="w-10 rounded-sm" />
+                 </div>
+                 <div>
+                 <div className="">
+                 <div>
+                  <label className="text-[13px]">Nombre</label>
+                 <p className=" text-[10px] -mt-1 text-gray-400 "> {product.name}</p>
+                 </div>
+                  <div>
+                  <label className="text-[13px]">Cantidad</label>
+                  <p className="text-[10px] -mt-1  text-gray-400 ">x{product.quantity}</p>
+                  </div>
+                   <div>
+                   <label className="text-[13px]">Precio</label>
+                   <p className="text-[10px] -mt-1  text-gray-400 ">${product.price}</p>
+                   </div>
+                   </div>
+                
+                 </div>
               </div>
             )
           })
         }
-        {totalPrice > 1 ? <div>PRECIO TOTAL: ${totalPrice}</div> : ""}
+        {totalPrice > 1 ? <div className="flex justify-center">
+          <h1 className="text-amber-400 ">
+          Precio total: ${totalPrice}
+          </h1>
+        </div> : ""}
       </div>
     </div>
   )

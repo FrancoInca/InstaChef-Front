@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import DailyMenu from "./DailyMenu"
 import Card from "../../components/Card"
 import { useDispatch, useSelector } from "react-redux"
-import { getAllProducts } from "../../redux/actions"
+import { getAllProducts, getProductosPagos } from "../../redux/actions"
 import useLocalStorage from "../../components/useLocalStorage"
 
 const Breakfast = {
@@ -41,6 +41,7 @@ function LandingPage() {
   useEffect(() => {
     const getProducts = async () => {
       const response = await dispatch(getAllProducts())
+      dispatch(getProductosPagos())
       setNewFood([...response.payload.slice(page * 3, (page + 1) * 3)])
       setAllProducts([...response.payload])
     }
