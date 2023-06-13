@@ -65,74 +65,74 @@ function Cart({ cart, setCart }) {
             <div className="col-span-2">
                 {cart?.map((product) => {
                     return (
-                        <div className="m-3 bg-red-800 rounded-md grid grid-cols-5 items-center p-10 h-120px shadow-md" key={product.id}>
-                            <img src={product.image} alt={product.name}></img>
+                        <div className="m-2 mt-3 bg-red-800 rounded-md items-center p-1 h-120px" key={product.id}>
+                            <div className="m-0.5 bg-red-800 rounded-sm grid grid-cols-5 items-center p-4 h-120px border-white border">
+                                <img src={product.image} alt={product.name}></img>
 
-                            <div className="{productName}">{product.name}</div>
+                                <div className="text-xl ml-6 font-normal text-#202020 font-playfair ">{product.name}</div>
 
-                            <div className="text-22px font-normal text-#202020">${product.price}</div>
+                                <div className="text-lg ml-12 font-normal text-#202020">$ {product.price}</div>
 
 
-                            <div className="w-10 flex justify-between font-heading items-center">
-                                <button
-                                    className="flex justify-center items-center bg-transparent font-bold hover:bg-amber-400 text-amber-500 text-2xl text-center hover:text-stone-950 py-1 px-4 border border-amber-400 hover:border-transparent rounded"
-                                    onClick={() => handleDecrement(product.id)}
-                                >
-                                    <span className="flex items-center justify-center h-full pb-1">-</span>
-                                </button>
-                                <div className="mx-4 text-center">{product.quantity}</div>
-                                <button
-                                    className="flex justify-center items-center bg-transparent font-bold hover:bg-amber-400 text-amber-500 text-2xl text-center hover:text-stone-950 py-1 px-4 border border-amber-400 hover:border-transparent rounded"
-                                    onClick={() => handleIncrement(product.id)}
-                                >
-                                    <span className="flex items-center justify-center h-full pb-1">+</span>
-                                </button>
-                            </div>
+                                <div className="w-10 flex justify-between font-heading items-center">
+                                    <button
+                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-amber-400 text-amber-500 text-2xl text-center hover:text-stone-950 py-1 px-4 border border-amber-400 hover:border-transparent rounded"
+                                        onClick={() => handleDecrement(product.id)}
+                                    >
+                                        <span className="flex items-center justify-center h-full pb-1">-</span>
+                                    </button>
+                                    <div className="mx-4 text-center">{product.quantity}</div>
+                                    <button
+                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-amber-400 text-amber-500 text-2xl text-center hover:text-stone-950 py-1 px-4 border border-amber-400 hover:border-transparent rounded"
+                                        onClick={() => handleIncrement(product.id)}
+                                    >
+                                        <span className="flex items-center justify-center h-full pb-1">+</span>
+                                    </button>
+                                </div>
 
-                            <div>
-                                <button
-                                    className="ml-10 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
-                                    onClick={() => handleRemove(product.id)}
-                                >
-                                    Quitar
-                                </button>
+                                <div>
+                                    <button
+                                        className="ml-10 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
+                                        onClick={() => handleRemove(product.id)}
+                                    >
+                                        Quitar
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     );
                 })}
             </div>
 
-            <div className="w-96 h-72 bg-red-800 rounded-md flex flex-col justify-center items-center m-3 p-15 shadow-md">
+            <div className="w-96 h-72 bg-red-800 rounded-md justify-center items-center m-3 shadow-md">
+                <div className=" bg-red-800 rounded-sm flex flex-col justify-center items-center border-white border p-4 px-8">
 
-                <span className="text-center">
-                    NRO DE ORDEN: PONER ORDER NUMBER
-                </span>
+                    <h2 className="text-4xl mt-2 font-playfair italic">{user ? user.displayName ? "Tu carrito" : "Tu carrito" : "Tu carrito"}</h2>
 
-                <h2 className="text-2xl m-3 font-bold">USER NAME</h2>
-
-                <p className="text-center m-2"> Artículos: {cartQuantity}</p>
-                <p className="text-center m-2">
-                    Envió: <span>Gratis!</span>
-                </p>
+                    <p className="text-center m-1 font-playfair text-lg"> Artículos: {cartQuantity}</p>
+                    <p className="text-center m-1 font-playfair text-lg">
+                        Envío: <span>gratis!</span>
+                    </p>
 
 
-                <div className="text-center m-3 font-bold text-3xl">
-                    <span>PRECIO TOTAL: ${totalPrice}</span>
-                </div>
-
-                <div className="mt-auto">
-                    <div>
-                        <SignUp trigger={triggerPopUpSignUp} setTrigger={setTriggerPopUpSignUp} setLoginTrigger={setTriggerPopUp} />
+                    <div className="text-center m-2 font-bold font-playfair text-3xl">
+                        <span>PRECIO TOTAL <span className="text-xl mr-1">$</span>{totalPrice}</span>
                     </div>
-                    <div>
-                        <LogIn trigger={triggerPopUp} setTrigger={setTriggerPopUp} setTriggerSignUp={setTriggerPopUpSignUp} />
+
+                    <div className="mt-auto">
+                        <div>
+                            <SignUp trigger={triggerPopUpSignUp} setTrigger={setTriggerPopUpSignUp} setLoginTrigger={setTriggerPopUp} />
+                        </div>
+                        <div>
+                            <LogIn trigger={triggerPopUp} setTrigger={setTriggerPopUp} setTriggerSignUp={setTriggerPopUpSignUp} />
+                        </div>
+                        <button
+                            className="mb-5 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
+                            onClick={user ? () => buyFunction() : () => setTriggerPopUp(true)}
+                        >
+                            {user ? "COMPRAR" : "LOGEATE!"}
+                        </button>
                     </div>
-                    <button
-                        className="mb-5 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
-                        onClick={user ? () => buyFunction() : () => setTriggerPopUp(true)}
-                    >
-                        {user ? "COMPRAR" : "LOGEATE!"}
-                    </button>
                 </div>
             </div>
         </div >
