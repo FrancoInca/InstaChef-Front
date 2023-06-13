@@ -26,6 +26,12 @@ export default function ProductForm() {
   })
   const [responseMessage, setResponseMessage] = useState("")
 
+  //codigo para cloudinary.
+
+  const [images, setImages] = useState({});
+  const [imageToRemove, setImageToRemove] = useState('');
+
+
   const handleChangeInput = (value, type) => {
     if (type !== "price" && type !== "stock") return setFoodInfo({ ...foodInfo, [type]: value })
     if (value < 0 || value > 99999) return setFoodInfo({ ...foodInfo, [type]: value < 0 ? 0 : 99999 })
@@ -113,6 +119,35 @@ export default function ProductForm() {
     setFoodInfo({...foodInfo, serving_size:[...filterSize]})
   }
 
+  function handleRemoveImg(imgObj, e) {
+    e.preventDefault();
+    setImageToRemove(imgObj);
+    axios.delete(`/${imageToRemove}`).then(() => {
+      setImages({});
+      setImageToRemove('');
+    });
+  }
+
+  function handleOpenWidget(e) {
+    e.preventDefault();
+    setImages([]);
+    let myWidget = window.cloudinary.createUploadWidget(
+      {
+        cloudName: 'dbkwplcjs',
+        uploadPreset: 'vntmhieb',
+      },
+      (error, result) => {
+        if (!error && result && result.event === 'success') {
+          setImages(() => {
+            return { url: result.info.url, public_id: result.info.public_id };
+          });
+        }
+      }
+    );
+
+    myWidget.open();
+  }
+
   return (
     <div className="flex items-center justify-center">
       <div className="flex bg-white flex-col text-black m-5 rounded-lg justify-center items-center">
@@ -133,7 +168,12 @@ export default function ProductForm() {
             </div>
             <p className="text-red-600 text-sm">{errorList.price}</p>
             <label className="mb-5">Imagen:</label>
-            <input type="text" value={foodInfo.image} onChange={(e) => handleChangeInput(e.target.value, "image")} className="border border-black p-2 w-full" placeholder="URL de la imagen" />
+            <button onClick={(e) => handleRemoveImg(images.public_id, e)}>
+                Eliminar
+              </button>
+            <button id="upload-widget" onClick={(e) => handleOpenWidget(e)} className="border border-black p-2 w-full" >
+            Añadir imagen
+            </button>
             <p className="text-red-600 text-sm">{errorList.image}</p>
             <div className="flex justify-between items-center my-2">
               <label>Stock</label>
