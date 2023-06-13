@@ -1,6 +1,7 @@
 /* eslint-disable no-dupe-keys */
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
+
 export default {
   //Franco: Según nueva documentación, el nombre apropiado es content
   content: [
@@ -24,6 +25,9 @@ export default {
           500: '#1E1F22',
         },
       },
+      fontFamily: {
+        playfair: 'Playfair Display'
+      }
     },
   },
   variants: {
