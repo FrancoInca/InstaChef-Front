@@ -13,7 +13,7 @@ let CheckOutForm = ({ cart, setCart }) => {
   let element = useElements()
   const [confirmar, setConfirmar] = useState(false)
   const [error, setError] = useState("")
-  const [message, setMessage] =  useState("")
+  const [message, setMessage] = useState("")
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
   let ides = cart.map(e => { return { id: e.id, quantity: e.quantity, name: e.name } })
   console.log(ides);
@@ -119,7 +119,7 @@ let CheckOutForm = ({ cart, setCart }) => {
                 </p> : null
               }
               <div className="flex flex-col">
-                <button type="submit" disabled={!stripe} className="block w-full rounded border border-amber-600 bg-amber-400 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto">
+                <button type="submit" disabled={!stripe} className="block w-full rounded border border-amber-600 bg-amber-400 px-12 py-3 text-sm font-medium text-backColor-500 hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto">
                   {
                     confirmar ? <p className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                       role="status">
@@ -139,34 +139,24 @@ let CheckOutForm = ({ cart, setCart }) => {
         {
           cart?.map((product) => {
             return (
-              <div key={product.id} className="flex gap-2" >
-                 <div>
-                   <img src={product.image} alt="image" className="w-10 rounded-sm" />
-                 </div>
-                 <div>
-                 <div className="">
-                 <div>
-                  <label className="text-[13px]">Nombre</label>
-                 <p className=" text-[10px] -mt-1 text-gray-400 "> {product.name}</p>
-                 </div>
-                  <div>
-                  <label className="text-[13px]">Cantidad</label>
-                  <p className="text-[10px] -mt-1  text-gray-400 ">x{product.quantity}</p>
-                  </div>
-                   <div>
-                   <label className="text-[13px]">Precio</label>
-                   <p className="text-[10px] -mt-1  text-gray-400 ">${product.price}</p>
-                   </div>
-                   </div>
-                
-                 </div>
+              <div key={product.id} className="grid grid-cols-4 m-2" >
+
+                <img src={product.image} alt="image" className="w-14 rounded-sm" />
+
+                <div className="col-span-2 -ml-3">
+                  <p className=" text-[15px] text-[#FEFEFE]"><span className="text-gray-400 ">x{product.quantity}</span>  {product.name} </p>
+                </div>
+
+                <div className="ml-3">
+                  <p className=" text-[15px] text-[#FEFEFE] ">${product.price}</p>
+                </div>
               </div>
             )
           })
         }
         {totalPrice > 1 ? <div className="flex justify-center">
           <h1 className="text-amber-400 ">
-          Precio total: ${totalPrice}
+            Precio total: ${totalPrice}
           </h1>
         </div> : ""}
       </div>

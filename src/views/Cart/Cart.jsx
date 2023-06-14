@@ -76,14 +76,14 @@ function Cart({ cart, setCart }) {
 
                                 <div className="w-10 flex justify-between font-heading items-center">
                                     <button
-                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-amber-400 text-amber-500 text-2xl text-center hover:text-stone-950 py-1 px-4 border border-amber-400 hover:border-transparent rounded"
+                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-[#fefefe] text-[#fefefe] text-2xl text-center hover:text-stone-950 py-1 px-4 border border-white hover:border-transparent rounded-sm"
                                         onClick={() => handleDecrement(product.id)}
                                     >
                                         <span className="flex items-center justify-center h-full pb-1">-</span>
                                     </button>
                                     <div className="mx-4 text-center">{product.quantity}</div>
                                     <button
-                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-amber-400 text-amber-500 text-2xl text-center hover:text-stone-950 py-1 px-4 border border-amber-400 hover:border-transparent rounded"
+                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-[#fefefe] text-[#fefefe] text-2xl text-center hover:text-stone-950 py-1 px-4 border border-white hover:border-transparent rounded-sm"
                                         onClick={() => handleIncrement(product.id)}
                                     >
                                         <span className="flex items-center justify-center h-full pb-1">+</span>
@@ -92,7 +92,7 @@ function Cart({ cart, setCart }) {
 
                                 <div>
                                     <button
-                                        className="ml-10 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
+                                        className="ml-10 h-12 bg-transparent hover:bg-[#fefefe] text-[#fefefe] font-playfair font-black hover:text-red-800 py-2 px-3.5 border border-white hover:border-transparent rounded-sm"
                                         onClick={() => handleRemove(product.id)}
                                     >
                                         Quitar
@@ -104,8 +104,8 @@ function Cart({ cart, setCart }) {
                 })}
             </div>
 
-            <div className="w-96 h-72 bg-red-800 rounded-md justify-center items-center m-3 shadow-md">
-                <div className=" bg-red-800 rounded-sm flex flex-col justify-center items-center border-white border p-4 px-8">
+            <div className="w-96 h-72 bg-red-800 rounded-md flex justify-center items-center m-3 shadow-md">
+                <div className=" bg-red-800 rounded-sm flex flex-col justify-center items-center border-white border p-6 px-8">
 
                     <h2 className="text-4xl mt-2 font-playfair italic">{user ? user.displayName ? "Tu carrito" : "Tu carrito" : "Tu carrito"}</h2>
 
@@ -115,11 +115,11 @@ function Cart({ cart, setCart }) {
                     </p>
 
 
-                    <div className="text-center m-2 font-bold font-playfair text-3xl">
-                        <span>PRECIO TOTAL <span className="text-xl mr-1">$</span>{totalPrice}</span>
+                    <div className="text-center m-2 mb-3 font-bold font-playfair text-3xl">
+                        <span>PRECIO TOTAL <span className="text-2xl mr-1">$</span>{totalPrice}</span>
                     </div>
 
-                    <div className="mt-auto">
+                    <div className="">
                         <div>
                             <SignUp trigger={triggerPopUpSignUp} setTrigger={setTriggerPopUpSignUp} setLoginTrigger={setTriggerPopUp} />
                         </div>
@@ -127,7 +127,7 @@ function Cart({ cart, setCart }) {
                             <LogIn trigger={triggerPopUp} setTrigger={setTriggerPopUp} setTriggerSignUp={setTriggerPopUpSignUp} />
                         </div>
                         <button
-                            className="mb-5 h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
+                            className=" h-12 bg-transparent text-[#fefefe] font-playfair font-black tracking-wider py-2 px-3.5 border border-white rounded-sm hover:bg-[#fefefe] hover:text-red-800 hover:font-black"
                             onClick={user ? () => buyFunction() : () => setTriggerPopUp(true)}
                         >
                             {user ? "COMPRAR" : "LOGEATE!"}
