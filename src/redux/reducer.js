@@ -1,7 +1,14 @@
 import {
     GET_ALL_PRODUCTS,
     GET_DETAIL,
-    SEARCH_BY_NAME,LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA
+    SEARCH_BY_NAME,
+    LOGIN,
+    SIGNUP,
+    AGREGAR_PAGO,
+    TRAER_PRODUCT_PAGOS,
+    CUENTA,
+    GET_USER_BY_ID,
+    UPDATE_PROFILE
 
 } from './variables';
 
@@ -43,37 +50,47 @@ const rootReducer = (state = initialState, action) => {
             };
         }
         case SIGNUP: {
-           return {
-             ...state,
-             userData: action.payload
-           }
+            return {
+                ...state,
+                userData: action.payload
+            }
         }
         case LOGIN: {
             return {
-              ...state,
-              userData: action.payload
+                ...state,
+                userData: action.payload
             }
-         }
-         case AGREGAR_PAGO: {
+        }
+        case GET_USER_BY_ID:
             return {
-              ...state,
-              pagoData: action.payload
+                ...state,
+                userData: action.payload,
+            };
+        case UPDATE_PROFILE:
+            return {
+                ...state,
+                userData: action.payload,
             }
-         }
+        case AGREGAR_PAGO: {
+            return {
+                ...state,
+                pagoData: action.payload
+            }
+        }
 
-         case TRAER_PRODUCT_PAGOS: {
+        case TRAER_PRODUCT_PAGOS: {
             return {
                 ...state,
                 productPagos: action.payload
-              }
-         }
+            }
+        }
 
-         case CUENTA: {
+        case CUENTA: {
             return {
                 ...state,
                 cuenta: action.payload
-              }
-         }
+            }
+        }
 
         default:
             return state;
