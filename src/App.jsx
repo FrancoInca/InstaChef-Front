@@ -22,14 +22,17 @@ import ProductForm from './components/ProductForm';
 import { ProtectedRoute } from './components/authentication/ProtectedRoute.jsx';
 import { useState } from 'react';
 import Cuenta from './views/Cuenta/Cuenta';
+import Favorites from './views/Favorites/Favorites';
 
-axios.defaults.baseURL = "https://instachef-back-production.up.railway.app/"
-// axios.defaults.baseURL = "http://localhost:3001/"
+// axios.defaults.baseURL = "https://instachef-back-production.up.railway.app/"
+axios.defaults.baseURL = "http://localhost:3001/"
 
 function App() {
 
   let location = useLocation()
   const [cart, setCart] = useLocalStorage('cart', []);
+
+  const [favorites, setFavorites] = useLocalStorage('favorites', []);
 
   const [hasLogged, sethasLogged] = useState(false);
 
@@ -41,19 +44,18 @@ function App() {
           "/SignUp" || location.pathname === "/Checkout" ? null
           :
           <NavBar
-          hasLogged={hasLogged}
+            hasLogged={hasLogged}
           />}
-          
+
         <Routes>
           <Route exact path="/" element={<LandingPage />} />
-          <Route exact path="/detail/:id" element={<Detail cart={cart} setCart={setCart} />} />
+          <Route exact path="/detail/:id" element={<Detail cart={cart} setCart={setCart} favorites={favorites} setFavorites={setFavorites} />} />
           <Route exact path="/Cart" element={<Cart cart={cart} setCart={setCart} sethasLogged={sethasLogged} />} />
-          <Route exact path='/LogIn' element={<LogIn />} />
-          <Route exact path='/SignUp' element={<SignUp />} />
           <Route exact path="/Home" element={<Home />} />
-          <Route exact path="/Checkout" element={<ProtectedRoute><Checkout cart={cart} setCart={setCart} /></ProtectedRoute>} />
+          <Route exact path="/checkout" element={<ProtectedRoute><Checkout cart={cart} setCart={setCart} /></ProtectedRoute>} />
           <Route path='/create' element={<ProductForm />} />
-          <Route exact path='/cuenta' element={<Cuenta/>}/>
+          <Route exact path='/cuenta' element={<Cuenta />} />
+          <Route exact path='/favorites' element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
         </Routes>
 
 
