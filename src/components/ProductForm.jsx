@@ -134,7 +134,7 @@ export default function ProductForm() {
     let myWidget = window.cloudinary.createUploadWidget(
       {
         cloudName: 'dbkwplcjs',
-        uploadPreset: 'vntmhieb',
+        upload_preset: 'vntmhieb',
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
@@ -153,6 +153,10 @@ export default function ProductForm() {
       <div className="flex bg-white flex-col text-black m-5 rounded-lg justify-center items-center">
         <form className="p-10 grid grid-cols-2 gap-5">
           <div className="grid">
+            {/* <button id="upload-widget" onClick={(e) => handleOpenWidget(e)} className="border border-black p-2 w-full" >
+            Añadir imagen
+            </button> */}
+            <p className="text-red-600 text-sm">{errorList.image}</p>
             <label className="mb-5">Nombre del plato:</label>
             <input type="text" value={foodInfo.name} onChange={(e) => handleChangeInput(e.target.value, "name")} className="border border-black p-2 w-full" placeholder="Nombre" />
             <p className="text-red-600 text-sm">{errorList.name}</p>
@@ -167,14 +171,19 @@ export default function ProductForm() {
               <input type="number" value={foodInfo.price} onChange={(e) => handleChangeInput(e.target.value, "price")} className="border border-black p-2 w-[80px] h-[40px] text-center" />
             </div>
             <p className="text-red-600 text-sm">{errorList.price}</p>
-            <label className="mb-5">Imagen:</label>
-            <button onClick={(e) => handleRemoveImg(images.public_id, e)}>
-                Eliminar
+                        <label className="mb-5">Imagen:</label>
+            <button className="" onClick={(e) => handleRemoveImg(images.public_id, e)}>
+                X
               </button>
-            <button id="upload-widget" onClick={(e) => handleOpenWidget(e)} className="border border-black p-2 w-full" >
+              {images.url ? <img
+              src={images.url}
+              alt="image not found"
+              className="border border-black p-2 w-full"
+              type="url"
+              value={foodInfo.image}
+            /> : <div><button id="upload-widget" onClick={(e) => handleOpenWidget(e)} className="border border-black p-2 w-full" >
             Añadir imagen
-            </button>
-            <p className="text-red-600 text-sm">{errorList.image}</p>
+            </button></div>}
             <div className="flex justify-between items-center my-2">
               <label>Stock</label>
               <input type="number" value={foodInfo.stock} onChange={(e) => handleChangeInput(e.target.value, "stock")} className="border border-black p-2 w-[80px] h-[40px] text-center" />

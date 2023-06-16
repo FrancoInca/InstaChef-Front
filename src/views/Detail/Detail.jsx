@@ -1,20 +1,56 @@
 import { useParams } from "react-router-dom";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import AddFav from '../../assets/AddFav.svg';
+import DelFav from '../../assets/DelFav.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
-import { getDetail } from "../../redux/actions";
+import { getDetail, updateProfile } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
+import { UserAuth } from "../../components/Auth-context/AuthContext";
 
-function Detail({ cart, setCart }) {
+function Detail({ cart, setCart, favorites, setFavorites }) {
   const navigate = useNavigate()
   const { id } = useParams();
   const detailProduct = useSelector((state) => state.detail);
   const dispatch = useDispatch();
+  const { user } = UserAuth();
 
   useEffect(() => {
     dispatch(getDetail(id))
   }, [dispatch, id])
+
+  //FAVORITES
+
+  const isProductInFavorites = favorites.some((favorite) => favorite.id === detailProduct.id);
+
+  const handleAddToFav = () => {
+
+    if (!user) {
+
+      let product = {
+        ...detailProduct
+      };
+
+      let newArray = [];
+      let faved = false;
+      favorites.forEach((e) => {
+        if (e.id === product.id) {
+          newArray.push(product);
+          faved = true;
+        } else {
+          newArray.push(e);
+        }
+      });
+      if (faved === true) {
+        newArray = favorites.filter((e) => e.id !== id);
+        setFavorites(newArray);
+      }
+      else setFavorites([...favorites, product])
+    }
+
+  };
+
 
   // CART
 
@@ -59,6 +95,10 @@ function Detail({ cart, setCart }) {
         <div className="mr-28 flex flex-col justify-center row-start-2 lg:row-start-1">
           <div className="m-5" >
             <label className="font-bold text-[27px]" >{detailProduct.name}</label>
+          </div>
+
+          <div>
+            <button onClick={handleAddToFav}>{isProductInFavorites ? <img src={DelFav} /> : <img src={AddFav} />}</button>
           </div>
           <div className="mt-5 ml-5">
             <label className="font-bold text-[21px]">Tipo de comida</label>
@@ -122,6 +162,10 @@ function Detail({ cart, setCart }) {
 Detail.propTypes = {
   cart: PropTypes.array,
   setCart: PropTypes.func,
+  favorites: PropTypes.array,
+  setFavorites: PropTypes.func,
+  favoriteChanged: PropTypes.bool,
+  setFavoriteChanged: PropTypes.func
 };
 
 export default Detail
