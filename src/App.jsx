@@ -23,8 +23,8 @@ import { ProtectedRoute } from './components/authentication/ProtectedRoute.jsx';
 import { useState } from 'react';
 import Cuenta from './views/Cuenta/Cuenta';
 
-axios.defaults.baseURL = "https://instachef-back-production.up.railway.app/"
-// axios.defaults.baseURL = "http://localhost:3001/"
+axios.defaults.baseURL = "https://instachef-back-production.up.railway.app"
+// axios.defaults.baseURL = "http://localhost:3096"
 
 function App() {
 
@@ -53,7 +53,11 @@ function App() {
           <Route exact path="/Home" element={<Home />} />
           <Route exact path="/Checkout" element={<ProtectedRoute><Checkout cart={cart} setCart={setCart} /></ProtectedRoute>} />
           <Route path='/create' element={<ProductForm />} />
-          <Route exact path='/cuenta' element={<Cuenta/>}/>
+          <Route exact path='/cuenta' element={
+            <ProtectedRoute>
+              <Cuenta/>
+            </ProtectedRoute>
+          }/>
         </Routes>
 
 

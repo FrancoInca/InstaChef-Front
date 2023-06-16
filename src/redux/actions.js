@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     GET_ALL_PRODUCTS,
     GET_DETAIL,
-    SEARCH_BY_NAME, LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA 
+    SEARCH_BY_NAME, LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA, EDIT_FOTO, EDIT_NAME, COMENTARIO, REVIEW 
 } from './variables';
 
 
@@ -72,19 +72,13 @@ export function postLogin(obj) {
     };
 }
 
-export function agregarPago({amount, id, email, nombre, idCurso}) {
-    let token = localStorage.getItem("token")
-    let obj = {
-        amount, id, email, nombre, idCurso, token
-    }
-    return async function (dispatch) {
-        const response = await axios.post("/checkout", obj );
-        const pagoData = response.data;
-        return dispatch({
-            type: AGREGAR_PAGO,
-            payload: pagoData,
-        });
-    };
+export function agregarPago(data) {
+ return ({
+    type: AGREGAR_PAGO,
+    payload: data
+    
+ })   
+ 
 }
 
 
@@ -111,3 +105,55 @@ export const cuenta = (obj) => {
     payload: obj
   })
 }
+
+export function editFoto(user) {
+    return async function (dispatch) {
+        const response = await axios.post("/undateFoto", user );
+        const userData = response.data;
+        console.log(userData);
+        return dispatch({
+            type: EDIT_FOTO,
+            payload: userData,
+        });
+    };
+}
+
+export function editNombre(user) {
+    return async function (dispatch) {
+        const response = await axios.post("/undateNombre", user );
+        const userData = response.data;
+        console.log(userData);
+        return dispatch({
+            type: EDIT_NAME,
+            payload: userData,
+        });
+    };
+}
+
+export function setReview(obj) {
+    return async function (dispatch) {
+        const response = await axios.post("/", obj );
+        const data = response.data;
+        console.log(data);
+        return dispatch({
+            type: REVIEW,
+            payload: data,
+        });
+    };
+}
+
+export function setComentario(obj) {
+    return async function (dispatch) {
+        const response = await axios.post("/", obj );
+        const data = response.data;
+        console.log(data);
+        return dispatch({
+            type: COMENTARIO,
+            payload: data,
+        });
+    };
+}
+
+
+
+

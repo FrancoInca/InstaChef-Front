@@ -46,9 +46,12 @@ function ListaDesplegable() {
           role="menu">
           <div className="p-2">
            <Link to="/cuenta">
-           <a className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" role="menuitem">Mi cuenta</a>
+           <a onClick={() => setDespliegue(!despliegue)} className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" role="menuitem">Mi cuenta</a>
            </Link>
-            <a  onClick={() => signOut()} role="menuitem"
+            <a  onClick={() => {
+              signOut()
+              setDespliegue(!despliegue)
+            }} role="menuitem"
               className="block rounded-lg cursor-pointer px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" >Cerrar sesión</a>
           </div>
         </div>

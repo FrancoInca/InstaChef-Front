@@ -3,15 +3,18 @@
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
-import Nav from "./Nav"
+
 import ConfirPago from "./ConfirPago"
 import { useState } from "react"
 import axios from "axios"
+import { useDispatch } from "react-redux"
+import { agregarPago } from "../../redux/actions"
 
 let CheckOutForm = ({ cart, setCart }) => {
   let stripe = useStripe()
   let element = useElements()
-  const [confirmar, setConfirmar] = useState(false)
+  let dispatch = useDispatch()
+  const [confirmar, setConfirmar] = useState(null)
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
@@ -63,24 +66,30 @@ let CheckOutForm = ({ cart, setCart }) => {
               console.log(valores);
               let token = localStorage.getItem("token");
               let obj = {
-                amount: totalPrice * 100,
+                amount: totalPrice * 100 ,
                 email: valores.correo,
                 nombre: valores.nombre,
                 id: paymentMethod.id,
                 idFood: ides,
                 token
               }
+              setConfirmar(false)
               const response = await axios.post("/checkout", obj)
               const pagoData = response.data;
               console.log(pagoData)
+             
               if (response.status === 200) {
+                dispatch(agregarPago(pagoData))
                 setConfirmar(true)
                 setMessage(pagoData.message)
                 resetForm()
                 setError("")
                 setCart([])
+                element.getElement(CardElement).clear()
+              } else {
+                setConfirmar(null)
               }
-              element.getElement(CardElement).clear()
+             
 
             } else {
               console.log(error);
@@ -121,7 +130,7 @@ let CheckOutForm = ({ cart, setCart }) => {
               <div className="flex flex-col">
                 <button type="submit" disabled={!stripe} className="block w-full rounded border border-amber-600 bg-amber-400 px-12 py-3 text-sm font-medium text-backColor-500 hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto">
                   {
-                    confirmar ? <p className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    confirmar === false ? <p className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                       role="status">
                       <span
                         className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
@@ -169,14 +178,12 @@ let CheckOutForm = ({ cart, setCart }) => {
 // cke
 export default function Checkout({ cart, setCart }) {
 
-  const [stripePromise] = useState(() => loadStripe("pk_test_51NH9ifL0oVvgXqTd0Xquw1eYSphWzmlYMT1PeWNe60tzfX12OVmLati1iroYU4O0WHnw2WuwOxf0kmHYEY3WsPiR00BbsfJlTv"))
+  const [stripePromise] = useState(() => loadStripe("pk_test_51N3WCTG4n6v6zt1DCpKO742a1RORPW5iGwRMf3A1UgkNXuKHXPhTnIJeP9iEnlqlXKUAJ028VgOM9rpPMho3Aplk00FLkHnUtO"))
 
   return (
     <main className=" w-full   ">
 
-      <div className="w-full">
-        <Nav />
-      </div>
+      
       <div className="w-full mx-auto px-4 md:px-0  flex justify-center mt-14 ">
 
         <Elements stripe={stripePromise}>

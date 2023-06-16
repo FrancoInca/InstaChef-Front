@@ -1,15 +1,144 @@
 /* eslint-disable react/no-unknown-property */
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {Link} from "react-router-dom"
-
+import  {BiCommentDetail} from "react-icons/bi"
+import { MdOutlineReviews } from "react-icons/md";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { setComentario, setReview } from "../../redux/actions";
 export default function MisPedidos() {
-
+   let dispacth = useDispatch()
     let producpagos = useSelector(state => state.productPagos)
-   
+   const [comentarios, setComentarios] = useState("")
+   const [reviw, setSeviw] = useState(2)
+   const [message, setMessage] = useState(null)
+   const [poUp, setPoUp] = useState(null)
+   const [poUprevew, setPoUprevew] = useState(null)
+   const [idReview, setidReview] = useState(null)
+   const [idComment, setIdcomment] = useState(null)
+
+   let token = localStorage.getItem("token")
+   const reset = () => {
+    
+      if(comentarios.length > 1) {
+        console.log( idComment, comentarios);
+        dispacth(setComentario({
+          id: idComment,
+          comentarios: comentarios,
+          token
+        }))
+      setMessage(true)
+      }
+     
+   }
+
+   const resetReveiw = () => {
+    
+     if(reviw > 0) {
+      console.log(idReview, reviw);
+      dispacth(setReview({
+        id: idReview,
+        reviw: reviw,
+        token
+      }))
+       setMessage(true)
+     }
+   }
  return (
     <div className=" flex justify-center ml-32">
+      {
+       
+       poUp === true ? <form className=" fixed bg-white z-50  rounded-lg border border-gray-200 shadow-lg">
+       <button  onClick={() => {
+        setPoUp(false)
+        setComentarios("")
+        setMessage(null)
+       }}
+         className="absolute -end-1 -top-1 rounded-full  bg-red-600 p-1"
+       >
+         <span className="sr-only">Close</span>
+         <svg
+           xmlns="http://www.w3.org/2000/svg"
+           className="h-3 w-3"
+           viewBox="0 0 20 20"
+           fill="currentColor"
+         >
+           <path
+             fill-rule="evenodd"
+             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+             clip-rule="evenodd"
+           />
+         </svg>
+       </button>
+     
+       <div className="flex flex-col items-center justify-center gap-4 p-4">
+         
+          <div className="h-20 w-4/5  ">
+           {
+            message === true ? <p className="text-[13px] text-center flex items-center h-20 justify-center text-gray-600">Gracias por tu comentario</p> :  <input type="text" onChange={(e) => setComentarios(e.target.value)} placeholder="Escribe tu comentario aqui" className=
+            " text-black w-full h-14 py-5 px-3 bg-transparent border border-amber-400 rounded-[7px] outline-none placeholder:text-gray-500 " />
+           }
+          </div>
+         <div className="flex justify-center">
+        {
+          message === true ? null :  <button onClick={() => reset()} type="button" className="w-56 rounded-md h-8 border-none shadow-md hover:border bg-amber-400 hover:border-amber-400 hover:bg-transparent hover:text-black  ">
+          Comentar
+        </button>
+        }
+         </div>
+       </div>
+     </form>: null
+
+      }
+
+      {
+       poUprevew === true ?  <div className=" fixed bg-white z-50  rounded-lg border border-gray-200 shadow-lg">
+        <button  onClick={() => {
+        setPoUprevew(null)
+        setSeviw()
+        setMessage(null)
+       }}
+         className="absolute -end-1 -top-1 rounded-full  bg-red-600 p-1"
+       >
+         <span className="sr-only">Close</span>
+         <svg
+           xmlns="http://www.w3.org/2000/svg"
+           className="h-3 w-3"
+           viewBox="0 0 20 20"
+           fill="currentColor"
+         >
+           <path
+             fill-rule="evenodd"
+             d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+             clip-rule="evenodd"
+           />
+         </svg>
+       </button>
+        
        {
-        producpagos && producpagos.length ? 
+        message === null  ? <>
+         <div className="flex text-amber-400 m-20 text-[20px] cursor-pointer">
+        <h1 className="text-gray-600 text-[12px] flex justify-center items-center ">Calificacion: </h1>
+         {
+           [... new Array(5)].map((start, index) => {
+             return index < reviw ? <AiFillStar onClick={() => setSeviw(index)} key={index} /> :
+              <AiOutlineStar onClick={() => setSeviw(index + 1)} key={index} />
+           })
+         }
+       </div>
+        
+       <div className="flex justify-center items-center m-10">
+       <button onClick={() => resetReveiw()} className="w-56 rounded-md h-8 border-none shadow-md hover:border bg-amber-400 hover:border-amber-400 hover:bg-transparent hover:text-black">
+          Guardar
+        </button>
+       </div>
+        </> : <p className="text-[13px] text-center flex items-center h-20 justify-center text-gray-600 m-20" >
+        gracias por calificar este plato
+        </p>
+       }
+
+       </div> : null
+      }
       <section>
         <div className="mx-auto  px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
           <div className="mx-auto max-w-3xl">
@@ -45,12 +174,34 @@ export default function MisPedidos() {
                 </div>
     
                 <div className="flex flex-1 items-center justify-end gap-2">
-                  
+                  <div>
+
+                  <button onClick={() => {
+                    setPoUp(true)
+                    setIdcomment(p.id)
+                  } }  className="text-[11px] text-gray-400">
+                    <span>
+                      <BiCommentDetail/>
+                    </span>
+                    Comentar
+                   </button>
+                  </div>
+                  <div>
+                  <button onClick={() => {
+                    setPoUprevew(true)
+                    setidReview(p.id)
+                  } }   className="text-[11px] text-gray-400 ">
+                    <span>
+                      <MdOutlineReviews/>
+                    </span>
+                    Review
+                   </button>
+                  </div>
                 </div>
               </li>
                 )) : <div>
                  <h1 className="font-bold text-[16px]"> No has  hecho ningun pedido.</h1>
-                 <p className="text-[13px]">Cuando compres algun plato de nuestro menu, aperesera aqui en en este apartado</p>
+                 <p className="text-[13px]">Cuando compres algun plato de nuestro menu aparecera aqui en este apartado</p>
               </div>
                }
               </ul>
@@ -77,8 +228,7 @@ export default function MisPedidos() {
             </div>
           </div>
         </div>
-      </section> : null
-        }
+      </section> 
     </div>
   )
 }
