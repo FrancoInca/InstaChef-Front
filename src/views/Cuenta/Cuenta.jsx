@@ -8,6 +8,7 @@ import MisDatos from './MisDatos'
 import MisPedidos from './MisPedidos'
 
 export default function Cuenta() {
+  let userData = useSelector(state => state.userData)
     let token = localStorage.getItem("token")
     let obj = {
          token
@@ -86,9 +87,9 @@ export default function Cuenta() {
   
         <div>
           <p className="text-xs">
-            <strong className="block font-medium">Eric Frusciante</strong>
+            <strong className="block font-medium">{userData && "name" in userData.user  ? userData.user?.name: "usuario" }</strong>
   
-            <span> eric@frusciante.com </span>
+            <span> { userData && "email" in userData.user ? userData.user?.email : null } </span>
           </p>
         </div>
       </a>
