@@ -1,11 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import image from "../../assets/amburguesa.png";
 import { UserAuth } from "../../components/Auth-context/AuthContext";
 import LogIn from "../../components/authentication/Log-In";
 import { useState } from "react";
 import SignUp from "../../components/authentication/SignUp";
-
 
 function Cart({ cart, setCart }) {
     // const user = JSON.parse(localStorage.getItem('user'));
@@ -44,7 +42,7 @@ function Cart({ cart, setCart }) {
         try {
             navigate("/checkout")
             // const response = await axios.post('/Checkout', cart);
-            // await setCart([])
+            // setCart([])
             // window.location.href = response.data.response.body.init_point;
         } catch (error) { console.log(error) }
     }
@@ -130,7 +128,7 @@ function Cart({ cart, setCart }) {
                             className=" h-12 bg-transparent text-[#fefefe] font-playfair font-black tracking-wider py-2 px-3.5 border border-white rounded-sm hover:bg-[#fefefe] hover:text-red-800 hover:font-black"
                             onClick={user ? () => buyFunction() : () => setTriggerPopUp(true)}
                         >
-                            {user ? "COMPRAR" : "LOGEATE!"}
+                            {user ? "COMPRAR" : "Inicia sesión!"}
                         </button>
                     </div>
                 </div>
