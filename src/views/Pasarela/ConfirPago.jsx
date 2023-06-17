@@ -24,7 +24,7 @@ export default function ConfirPago({message}) {
         <p className="font-medium sm:text-lg">¡Tienes un mensaje!</p>
       </div>
 
-      <p className="mt-4 text-gray-500">{message}</p>
+      <p className="mt-4 text-gray-500 ">{message}</p>
 
       <div className="mt-6 sm:flex sm:gap-4">
         {/* <Link
@@ -35,7 +35,7 @@ export default function ConfirPago({message}) {
 
         <Link
           to="/home"
-          className="mt-2 inline-block w-full rounded-lg bg-gray-50 px-5 py-3 text-center text-sm font-semibold text-gray-500 sm:mt-0 sm:w-auto">
+          className="mt-2 inline-block w-full rounded-lg bg-amber-500 px-5 py-3 text-center text-sm font-semibold text-gray-100 sm:mt-0 sm:w-auto">
           Ir a el home
         </Link>
       </div>

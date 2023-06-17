@@ -1,22 +1,24 @@
-/* eslint-disable react/prop-types */
-
+import { array, func } from "prop-types"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
-import Nav from "./Nav"
+
 import ConfirPago from "./ConfirPago"
 import { useState } from "react"
 import axios from "axios"
+// import { useDispatch } from "react-redux"
+// import { agregarPago } from "../../redux/actions"
 import { UserAuth } from "../../components/Auth-context/AuthContext"
 
-let CheckOutForm = ({ cart, setCart }) => {
+const CheckOutForm = ({ cart, setCart }) => {
   let stripe = useStripe()
   let element = useElements()
-  const [confirmar, setConfirmar] = useState(false)
+  // let dispatch = useDispatch()
+  const [confirmar, setConfirmar] = useState(null)
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
   const {user} = UserAuth()
-  
+
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
   let ides = cart.map(e => { return { id: e.id, quantity: e.quantity, name: e.name } })
   return (
@@ -76,8 +78,9 @@ let CheckOutForm = ({ cart, setCart }) => {
                   setMessage(pagoData.message)
                   resetForm()
                   setError("")
+                  setCart([])
+                  element.getElement(CardElement).clear()
                 }
-                element.getElement(CardElement).clear()
               }
             } catch (err) {
               setConfirmar(true)
@@ -118,7 +121,7 @@ let CheckOutForm = ({ cart, setCart }) => {
               <div className="flex flex-col">
                 <button type="submit" disabled={!stripe} className="block w-full rounded border border-amber-600 bg-amber-400 px-12 py-3 text-sm font-medium text-backColor-500 hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto">
                   {
-                    confirmar ? <p className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    confirmar === false ? <p className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                       role="status">
                       <span
                         className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
@@ -161,8 +164,6 @@ let CheckOutForm = ({ cart, setCart }) => {
   )
 }
 
-
-
 // cke
 export default function Checkout({ cart, setCart }) {
 
@@ -171,9 +172,7 @@ export default function Checkout({ cart, setCart }) {
   return (
     <main className=" w-full   ">
 
-      <div className="w-full">
-        <Nav />
-      </div>
+      
       <div className="w-full mx-auto px-4 md:px-0  flex justify-center mt-14 ">
 
         <Elements stripe={stripePromise}>
@@ -182,4 +181,13 @@ export default function Checkout({ cart, setCart }) {
       </div>
     </main>
   )
+}
+
+CheckOutForm.propTypes = {
+  cart: array,
+  setCart: func
+}
+Checkout.propTypes = {
+  cart: array,
+  setCart: func
 }

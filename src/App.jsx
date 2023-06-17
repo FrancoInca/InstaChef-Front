@@ -9,8 +9,8 @@ import axios from 'axios';
 import LandingPage from './views/LandingPage/LandingPage';
 import NavBar from './components/NavBar';
 
-import SignUp from './components/authentication/SignUp';
-import LogIn from './components/authentication/Log-In';
+// import SignUp from './components/authentication/SignUp';
+// import LogIn from './components/authentication/Log-In';
 import { AuthProvider } from './components/Auth-context/AuthContext';
 
 import Home from "./views/Home/Home"
@@ -24,8 +24,11 @@ import { useState } from 'react';
 import Cuenta from './views/Cuenta/Cuenta';
 import Favorites from './views/Favorites/Favorites';
 
+
+
 // axios.defaults.baseURL = "https://instachef-back-production.up.railway.app/"
-axios.defaults.baseURL = "http://localhost:3001/"
+axios.defaults.baseURL = "http://localhost:3001"
+
 
 function App() {
 
@@ -54,8 +57,14 @@ function App() {
           <Route exact path="/Home" element={<Home />} />
           <Route exact path="/checkout" element={<ProtectedRoute><Checkout cart={cart} setCart={setCart} /></ProtectedRoute>} />
           <Route path='/create' element={<ProductForm />} />
-          <Route exact path='/cuenta' element={<Cuenta />} />
+          <Route exact path='/cuenta' element={
+            <ProtectedRoute>
+              <Cuenta/>
+            </ProtectedRoute>
+          }/>
+
           <Route exact path='/favorites' element={<Favorites favorites={favorites} setFavorites={setFavorites} />} />
+
         </Routes>
 
 

@@ -1,14 +1,10 @@
 import {
     GET_ALL_PRODUCTS,
     GET_DETAIL,
-    SEARCH_BY_NAME,
-    LOGIN,
-    SIGNUP,
-    AGREGAR_PAGO,
-    TRAER_PRODUCT_PAGOS,
-    CUENTA,
+    SEARCH_BY_NAME,LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA, REVIEW, COMENTARIO, EDIT_NAME, EDIT_FOTO,
     GET_USER_BY_ID,
     UPDATE_PROFILE
+
 
 } from './variables';
 
@@ -91,6 +87,24 @@ const rootReducer = (state = initialState, action) => {
                 cuenta: action.payload
             }
         }
+
+         case REVIEW: {
+            return console.log(action.payload);
+            
+         }
+
+         case COMENTARIO: {
+            return console.log(action.payload);
+            
+         }
+         case EDIT_NAME: {
+            return console.log(action.payload);
+            
+         }
+         case EDIT_FOTO: {
+            return console.log(action.payload);
+            
+         }
 
         default:
             return state;
