@@ -1,15 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InstaChefLogo from "../../assets/InstaChefLogo.png";
 import { useState } from "react";
 import { UserAuth } from "../../components/Auth-context/AuthContext";
 import { useDispatch } from "react-redux";
 import { postLogin } from "../../redux/actions";
+import { bool, func } from "prop-types";
 
 
 export default function LogIn(props) {
   let [error, setError] = useState("");
   const { logIn, user, signUpGoogle } = UserAuth();
-  console.log(user);
   let navigate = useNavigate();
   let dispatch = useDispatch()
   let [users, setUser] = useState({
@@ -76,7 +76,7 @@ export default function LogIn(props) {
       console.log("enviado");
 
       //PROPS POP UP
-      props.sethasLogged(!props.hasLogged);
+      // props.setHasLogged(!props.hasLogged);
       trigger()
 
       setUser({
@@ -137,7 +137,7 @@ export default function LogIn(props) {
                     props.setTriggerSignUp(true);
                     props.setTrigger(false);
                   }}>
-                  ¡Registrate!
+                  ¡Regístrate!
                 </button>
               </span>
             </p>
@@ -235,4 +235,9 @@ export default function LogIn(props) {
       </div>
     </main>
   ) : "";
+}
+LogIn.propTypes = {
+  setTrigger: func,
+  setTriggerSignUp: func,
+  trigger: bool
 }
