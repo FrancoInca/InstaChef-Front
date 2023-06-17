@@ -42,7 +42,7 @@ function Cart({ cart, setCart }) {
         try {
             navigate("/checkout")
             // const response = await axios.post('/Checkout', cart);
-            setCart([])
+            // setCart([])
             // window.location.href = response.data.response.body.init_point;
         } catch (error) { console.log(error) }
     }
