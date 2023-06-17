@@ -1,6 +1,6 @@
 
 export default function MisDatos() {
   return (
-    <div>En desarrolo</div>
+    <div>En desarrollo</div>
   )
 }

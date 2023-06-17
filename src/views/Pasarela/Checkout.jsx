@@ -7,6 +7,7 @@ import Nav from "./Nav"
 import ConfirPago from "./ConfirPago"
 import { useState } from "react"
 import axios from "axios"
+import { UserAuth } from "../../components/Auth-context/AuthContext"
 
 let CheckOutForm = ({ cart, setCart }) => {
   let stripe = useStripe()
@@ -14,10 +15,10 @@ let CheckOutForm = ({ cart, setCart }) => {
   const [confirmar, setConfirmar] = useState(false)
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
+  const {user} = UserAuth()
+  
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
   let ides = cart.map(e => { return { id: e.id, quantity: e.quantity, name: e.name } })
-  console.log(ides);
-  console.log(totalPrice);
   return (
     <div onClick={() => setConfirmar()} className="text-white flex justify-center items-center gap-20 ml-5 ">
       {
@@ -26,8 +27,8 @@ let CheckOutForm = ({ cart, setCart }) => {
       <div className={confirmar === true ? " opacity-20" : ""}>
         <Formik
           initialValues={{
-            nombre: "",
-            correo: ""
+            nombre: user?.displayName,
+            correo: user?.email
           }}
 
           validate={(valores) => {
@@ -52,50 +53,46 @@ let CheckOutForm = ({ cart, setCart }) => {
           }}
 
           onSubmit={async (valores, { resetForm }) => {
-
-            console.log(ides)
-            let { error, paymentMethod } = await stripe.createPaymentMethod({
-              type: "card",
-              card: element.getElement(CardElement)
-            })
-            if (!error) {
-              console.log(paymentMethod);
-              console.log(valores);
-              let token = localStorage.getItem("token");
-              let obj = {
-                amount: totalPrice * 100,
-                email: valores.correo,
-                nombre: valores.nombre,
-                id: paymentMethod.id,
-                idFood: ides,
-                token
+            try {
+              let { error, paymentMethod } = await stripe.createPaymentMethod({
+                type: "card",
+                card: element.getElement(CardElement)
+              })
+              if (!error) {
+                let token = localStorage.getItem("token");
+                let obj = {
+                  amount: totalPrice * 100,
+                  email: valores.correo,
+                  nombre: valores.nombre,
+                  id: paymentMethod.id,
+                  idFood: ides,
+                  token
+                }
+                const response = await axios.post("/checkout", obj)
+                const pagoData = response.data;
+                console.log(pagoData)
+                if (response.status === 200) {
+                  setConfirmar(true)
+                  setMessage(pagoData.message)
+                  resetForm()
+                  setError("")
+                }
+                element.getElement(CardElement).clear()
               }
-              const response = await axios.post("/checkout", obj)
-              const pagoData = response.data;
-              console.log(pagoData)
-              if (response.status === 200) {
-                setConfirmar(true)
-                setMessage(pagoData.message)
-                resetForm()
-                setError("")
-                setCart([])
-              }
-              element.getElement(CardElement).clear()
-
-            } else {
-              console.log(error);
-              setError(error.message)
+            } catch (err) {
+              setConfirmar(true)
+              setMessage(err.response.data)
+              setCart([])
             }
-
-          }}
-        >
+          }
+        }>
           {({ errors }) => (
             <Form className=" columns-4 gap-5 flex flex-col w-96" >
               <div className="flex flex-col">
                 <label htmlFor="">Correo</label>
                 <Field type="text" name="correo" className="h-7 mt-1 rounded-lg placeholder-slate-400 text-sm px-3 py-2 focus:outline-none focus:border-verde bg-transparent
                      shadow-lg  focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50  "
-                  placeholder="correo@ejemplo.com" />
+                  placeholder="correo@ejemplo.com"/>
                 {<ErrorMessage name="correo" component={() => (
                   <span className=" text-red-700 text-base ml-3">{errors.correo}</span>
                 )} />}
