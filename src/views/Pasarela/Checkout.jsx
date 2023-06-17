@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-
+import { array, func } from "prop-types"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
@@ -11,7 +10,7 @@ import axios from "axios"
 // import { agregarPago } from "../../redux/actions"
 import { UserAuth } from "../../components/Auth-context/AuthContext"
 
-let CheckOutForm = ({ cart, setCart }) => {
+const CheckOutForm = ({ cart, setCart }) => {
   let stripe = useStripe()
   let element = useElements()
   // let dispatch = useDispatch()
@@ -19,7 +18,7 @@ let CheckOutForm = ({ cart, setCart }) => {
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
   const {user} = UserAuth()
-  
+
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
   let ides = cart.map(e => { return { id: e.id, quantity: e.quantity, name: e.name } })
   return (
@@ -165,12 +164,10 @@ let CheckOutForm = ({ cart, setCart }) => {
   )
 }
 
-
-
 // cke
 export default function Checkout({ cart, setCart }) {
 
-  const [stripePromise] = useState(() => loadStripe("pk_test_51N3WCTG4n6v6zt1DCpKO742a1RORPW5iGwRMf3A1UgkNXuKHXPhTnIJeP9iEnlqlXKUAJ028VgOM9rpPMho3Aplk00FLkHnUtO"))
+  const [stripePromise] = useState(() => loadStripe("pk_test_51NH9ifL0oVvgXqTd0Xquw1eYSphWzmlYMT1PeWNe60tzfX12OVmLati1iroYU4O0WHnw2WuwOxf0kmHYEY3WsPiR00BbsfJlTv"))
 
   return (
     <main className=" w-full   ">
@@ -184,4 +181,13 @@ export default function Checkout({ cart, setCart }) {
       </div>
     </main>
   )
+}
+
+CheckOutForm.propTypes = {
+  cart: array,
+  setCart: func
+}
+Checkout.propTypes = {
+  cart: array,
+  setCart: func
 }
