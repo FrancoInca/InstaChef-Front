@@ -15,6 +15,7 @@ const initialState = {
     filters: [],
     userData: null,
     pagoData: null,
+    reviews: [],
     productPagos: null,
     cuenta: {
         General: true,
@@ -89,7 +90,10 @@ const rootReducer = (state = initialState, action) => {
         }
 
          case REVIEW: {
-            return console.log(action.payload);
+            return {
+                ...state,
+                reviews: action.payload
+            }
             
          }
 

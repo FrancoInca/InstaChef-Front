@@ -1,10 +1,11 @@
+/* eslint-disable react/no-unknown-property */
 import { useParams } from "react-router-dom";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import AddFav from '../../assets/AddFav.svg';
 import DelFav from '../../assets/DelFav.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
-import { getDetail, updateProfile } from "../../redux/actions";
+import { getDetail, getReview, updateProfile } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { UserAuth } from "../../components/Auth-context/AuthContext";
@@ -18,8 +19,12 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
 
   useEffect(() => {
     dispatch(getDetail(id))
+    dispatch(getReview(id))
   }, [dispatch, id])
 
+  // trayendo reviews 
+  const reviews = useSelector((state) =>  state.reviews  );
+console.log(reviews);
   //FAVORITES
 
   const isProductInFavorites = favorites.some((favorite) => favorite.id === detailProduct.id);
@@ -104,22 +109,14 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
             <label className="font-bold text-[21px]">Tipo de comida</label>
             <p className="mt-5 text-gray-400">{detailProduct.category}</p>
           </div>
-          <div className="m-5">
+          <div className="m-5 ">
             <label className="font-bold text-[21px]">Ingredientes</label>
             <ul className="mt-5">
               {Boolean(detailProduct.ingredients) && detailProduct.ingredients.map((e) => (<li key={e} className="text-gray-400"> - {e}</li>))}
             </ul>
           </div>
-          <div className="m-5 flex justify-between">
-            <div className="flex text-amber-400 mt-1 mr-20">
-              {
-                [... new Array(5)].map((start, index) => {
-                  return index < 4 ? <AiFillStar key={index} /> : <AiOutlineStar key={index} />
-                })
-              }
-            </div>
-          </div>
-          <div className=" m-5 flex justify-between">
+         
+          <div className=" m-5 mt-0 flex justify-between">
             <div>
               <label className="font-bold">Stock:</label>
               <p>{detailProduct.stock}</p>
@@ -130,6 +127,33 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
               <label className="font-bold">Tamaño de la porción</label>
               {Boolean(detailProduct.serving_size) && (detailProduct.serving_size.map((e) => (<p className="text-gray-400" key={e}> - {e}</p>)))}
             </div>
+          </div>
+          <div className="m-5 flex">
+           
+<article className="">
+  <h1 className=" text-[16px] font-bold my-5">reviews</h1>
+  {
+    reviews && reviews.length ? reviews.map(r => (
+      <div key={r.id}>
+    <aside className=" text-[12px] leading-normal text-gray-300">
+    <p>{r.body}</p>
+    </aside>
+    <aside>
+    <div className="my-5 mt-0 flex justify-between">
+            <div className="flex text-amber-400 mt-1 mr-20">
+              {
+                [... new Array(5)].map((start, index) => {
+                  return index < r.rating ? <AiFillStar key={index} /> : <AiOutlineStar key={index} />
+                })
+              }
+            </div>
+          </div>
+    </aside>
+   </div>
+    ))   : <p className=" text-[13px] text-gray-400">Este plato no tiene comentarios aun</p> }
+    
+</article>
+
           </div>
         </div>
         <div className="flex flex-col p-5 justify-center">

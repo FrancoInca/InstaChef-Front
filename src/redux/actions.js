@@ -172,9 +172,9 @@ export function editNombre(user) {
     };
 }
 
-export function setReview(obj) {
+export function getReview(productId) {
     return async function (dispatch) {
-        const response = await axios.post("/", obj );
+        const response = await axios.get(`/reviews/${productId}`);
         const data = response.data;
         console.log(data);
         return dispatch({
@@ -186,7 +186,7 @@ export function setReview(obj) {
 
 export function setComentario(obj) {
     return async function (dispatch) {
-        const response = await axios.post("/", obj );
+        const response = await axios.post("/reviews", obj );
         const data = response.data;
         console.log(data);
         return dispatch({
