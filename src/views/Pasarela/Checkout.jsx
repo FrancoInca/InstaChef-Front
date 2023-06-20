@@ -70,6 +70,7 @@ const CheckOutForm = ({ cart, setCart }) => {
                   idFood: ides,
                   token
                 }
+                console.log(paymentMethod);
                 const response = await axios.post("/checkout", obj)
                 const pagoData = response.data;
                 console.log(pagoData)
@@ -167,7 +168,7 @@ const CheckOutForm = ({ cart, setCart }) => {
 // cke
 export default function Checkout({ cart, setCart }) {
 
-  const [stripePromise] = useState(() => loadStripe("pk_test_51NH9ifL0oVvgXqTd0Xquw1eYSphWzmlYMT1PeWNe60tzfX12OVmLati1iroYU4O0WHnw2WuwOxf0kmHYEY3WsPiR00BbsfJlTv"))
+  const [stripePromise] = useState(() => loadStripe("pk_test_51N3WCTG4n6v6zt1DCpKO742a1RORPW5iGwRMf3A1UgkNXuKHXPhTnIJeP9iEnlqlXKUAJ028VgOM9rpPMho3Aplk00FLkHnUtO"))
 
   return (
     <main className=" w-full   ">

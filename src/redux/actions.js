@@ -12,7 +12,6 @@ import {
     GET_USER_BY_ID,
     UPDATE_PROFILE,
     BAN_USER,
-
 } from './variables';
 
 
