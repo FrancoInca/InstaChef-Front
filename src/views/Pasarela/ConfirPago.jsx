@@ -24,7 +24,7 @@ export default function ConfirPago({message}) {
         <p className="font-medium sm:text-lg">¡Tienes un mensaje!</p>
       </div>
 
-      <p className="mt-4 text-gray-500 ">el pago se realizo con exito</p>
+      <p className="mt-4 text-gray-500 ">{message}</p>
 
       <div className="mt-6 sm:flex sm:gap-4">
         {/* <Link

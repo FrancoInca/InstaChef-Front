@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import InstaChefLogo from "../../assets/InstaChefLogo.png"
 import { useState } from "react"
 import { UserAuth } from "../Auth-context/AuthContext"
 import { useDispatch } from "react-redux"
 import { postLogin, postSignUp } from "../../redux/actions"
+import { bool, func } from "prop-types"
 
 
 export default function SignUp(props) {
@@ -118,7 +119,7 @@ export default function SignUp(props) {
         lastName: users.apellido
 
       }))
-      props.sethasLogged(!props.hasLogged);
+      props.setHasLogged(!props.hasLogged);
       props.setTrigger(false);
 
       setUser({
@@ -144,7 +145,7 @@ export default function SignUp(props) {
     try {
       await signUpGoogle()
       navigate("/")
-
+      console.log(user)
       dispatch(postLogin({
         email: user.email,
         password: ""
@@ -180,7 +181,7 @@ export default function SignUp(props) {
                     props.setLoginTrigger(true);
                     props.setTriggerSignUp(false);
                   }}>
-                  ¡Inicia sesion!
+                  ¡Inicia sesión!
                 </button>
               </span>
 
@@ -263,11 +264,11 @@ export default function SignUp(props) {
           </div>
           <button
             className="w-full px-4 py-2 text-white font-medium hover:text-[#24252B] bg-amber-400 hover:bg-amber-500 active:bg-amber-600 rounded-lg duration-150"
-          >
+            type="submit">
             Crear cuenta
           </button>
         </form>
-        <button onClick={() => handleSigUpGoogle()} className="w-full flex items-center justify-center gap-x-3 py-2.5 mt-5 border rounded-lg text-sm font-medium hover:bg-gray-50 hover:text-[#24252B] duration-150 active:bg-gray-100">
+        <button onClick={(e) => { e.preventDefault(); handleSigUpGoogle() }} className="w-full flex items-center justify-center gap-x-3 py-2.5 mt-5 border rounded-lg text-sm font-medium hover:bg-gray-50 hover:text-[#24252B] duration-150 active:bg-gray-100">
           <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_17_40)">
               <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />
@@ -286,4 +287,12 @@ export default function SignUp(props) {
       </div>
     </main>
   ) : ""
+}
+SignUp.propTypes = {
+  trigger: bool,
+  hasLogged: bool,
+  setTrigger: func,
+  setLoginTrigger: func,
+  setTriggerSignUp: func,
+  setHasLogged: func,
 }

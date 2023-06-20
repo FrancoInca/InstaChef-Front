@@ -10,7 +10,8 @@ import {
     TRAER_PRODUCT_PAGOS,
     CUENTA,
     GET_USER_BY_ID,
-    UPDATE_PROFILE
+    UPDATE_PROFILE,
+    BAN_USER,
 
 } from './variables';
 
@@ -202,4 +203,13 @@ export function setComentario(obj) {
 
 
 
-
+export function BanUser(id) {
+    return async function (dispatch) {
+      const response = await axios.delete(`/users/${id}`);
+      const data = response.data;
+      return dispatch({
+        type: BAN_USER,
+        payload: data,
+      });
+    };
+  }

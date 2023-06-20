@@ -1,15 +1,15 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InstaChefLogo from "../../assets/InstaChefLogo.png";
 import { useState } from "react";
 import { UserAuth } from "../../components/Auth-context/AuthContext";
 import { useDispatch } from "react-redux";
 import { postLogin } from "../../redux/actions";
+import { bool, func } from "prop-types";
 
 
 export default function LogIn(props) {
   let [error, setError] = useState("");
   const { logIn, user, signUpGoogle } = UserAuth();
-  console.log(user);
   let navigate = useNavigate();
   let dispatch = useDispatch()
   let [users, setUser] = useState({
@@ -76,7 +76,7 @@ export default function LogIn(props) {
       console.log("enviado");
 
       //PROPS POP UP
-      props.sethasLogged(!props.hasLogged);
+      // props.setHasLogged(!props.hasLogged);
       trigger()
 
       setUser({
@@ -113,7 +113,7 @@ export default function LogIn(props) {
   return props.trigger ? (
     <main className="fixed flex justify-center items-center top-0 left-0 w-full h-screen bg-black bg-opacity-30 backdrop-blur-sm cursor-default z-20">
 
-      <div className="relative px-8 py-8 w-2/5 bg-[#24252B] text-slate-800 rounded-10 shadow-md">
+      <div className="relative px-8 py-8 sm:w-2/5 bg-backColor-500 text-slate-800 rounded-10 shadow-md">
         <button className="absolute right-4 w-8 h-5 text-white" onClick={trigger}>
           X
         </button>
@@ -137,7 +137,7 @@ export default function LogIn(props) {
                     props.setTriggerSignUp(true);
                     props.setTrigger(false);
                   }}>
-                  ¡Registrate!
+                  ¡Regístrate!
                 </button>
               </span>
             </p>
@@ -235,4 +235,9 @@ export default function LogIn(props) {
       </div>
     </main>
   ) : "";
+}
+LogIn.propTypes = {
+  setTrigger: func,
+  setTriggerSignUp: func,
+  trigger: bool
 }
