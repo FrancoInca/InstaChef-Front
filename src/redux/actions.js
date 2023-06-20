@@ -124,20 +124,24 @@ export function agregarPago(data) {
 
 
 export function getProductosPagos() {
-    let token = localStorage.getItem("token")
-    let obj = {
-        token
-    }
+    let token = localStorage.getItem('token');
     return async function (dispatch) {
-        const response = await axios.post("/productosPagos", obj);
+      try {
+        const response = await axios.get(`/productHistory/${token}`);
         const pagoData = response.data;
-        console.log(pagoData);
         return dispatch({
-            type: TRAER_PRODUCT_PAGOS,
-            payload: pagoData,
+          type: TRAER_PRODUCT_PAGOS,
+          payload: pagoData,
         });
+      } catch (error) {
+        console.log(error.message);
+        return dispatch({
+          type: TRAER_PRODUCT_PAGOS,
+          payload: [],
+        });
+      }
     };
-}
+  }
 
 
 export const cuenta = (obj) => {
