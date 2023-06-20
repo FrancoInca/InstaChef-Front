@@ -11,6 +11,7 @@ export const EDIT_FOTO = "EDIT_FOTO";
 export const EDIT_NAME = "EDIT_NAME";
 export const REVIEW = "REVIEW";
 export const COMENTARIO = "COMENTARIO";
+export const BAN_USER = 'BAN_USER';
 
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 
