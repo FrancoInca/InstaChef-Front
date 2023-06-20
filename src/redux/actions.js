@@ -1,17 +1,20 @@
 import axios from 'axios';
 import {
-    GET_ALL_PRODUCTS,
-    GET_DETAIL,
-    EDIT_FOTO, EDIT_NAME, COMENTARIO, REVIEW,
-    SEARCH_BY_NAME,
-    LOGIN,
-    SIGNUP,
-    AGREGAR_PAGO,
-    TRAER_PRODUCT_PAGOS,
-    CUENTA,
-    GET_USER_BY_ID,
-    UPDATE_PROFILE
-
+  GET_ALL_PRODUCTS,
+  GET_DETAIL,
+  EDIT_FOTO,
+  EDIT_NAME,
+  COMENTARIO,
+  REVIEW,
+  SEARCH_BY_NAME,
+  LOGIN,
+  SIGNUP,
+  AGREGAR_PAGO,
+  TRAER_PRODUCT_PAGOS,
+  CUENTA,
+  GET_USER_BY_ID,
+  UPDATE_PROFILE,
+  BAN_USER,
 } from './variables';
 
 export function getAllProducts() {
@@ -155,61 +158,69 @@ export function getProductosPagos() {
 }
 
 export const cuenta = (obj) => {
-
-  return ({
+  return {
     type: CUENTA,
-    payload: obj
-  })
-}
+    payload: obj,
+  };
+};
 
 export function editFoto(user) {
-    return async function (dispatch) {
-        const response = await axios.post("/undateFoto", user );
-        const userData = response.data;
-        console.log(userData);
-        return dispatch({
-            type: EDIT_FOTO,
-            payload: userData,
-        });
-    };
+  return async function (dispatch) {
+    const response = await axios.post('/undateFoto', user);
+    const userData = response.data;
+    console.log(userData);
+    return dispatch({
+      type: EDIT_FOTO,
+      payload: userData,
+    });
+  };
 }
 
 export function editNombre(user) {
-    return async function (dispatch) {
-        const response = await axios.post("/undateNombre", user );
-        const userData = response.data;
-        console.log(userData);
-        return dispatch({
-            type: EDIT_NAME,
-            payload: userData,
-        });
-    };
+  return async function (dispatch) {
+    const response = await axios.post('/undateNombre', user);
+    const userData = response.data;
+    console.log(userData);
+    return dispatch({
+      type: EDIT_NAME,
+      payload: userData,
+    });
+  };
 }
 
 export function setReview(obj) {
-    return async function (dispatch) {
-        const response = await axios.post("/", obj );
-        const data = response.data;
-        console.log(data);
-        return dispatch({
-            type: REVIEW,
-            payload: data,
-        });
-    };
+  return async function (dispatch) {
+    const response = await axios.post('/', obj);
+    const data = response.data;
+    console.log(data);
+    return dispatch({
+      type: REVIEW,
+      payload: data,
+    });
+  };
 }
 
 export function setComentario(obj) {
-    return async function (dispatch) {
-        const response = await axios.post("/", obj );
-        const data = response.data;
-        console.log(data);
-        return dispatch({
-            type: COMENTARIO,
-            payload: data,
-        });
-    };
+  return async function (dispatch) {
+    const response = await axios.post('/', obj);
+    const data = response.data;
+    console.log(data);
+    return dispatch({
+      type: COMENTARIO,
+      payload: data,
+    });
+  };
 }
 
-
+export function BanUser(id) {
+  return async function (dispatch) {
+    const response = await axios.delete(`/users/${id}`);
+    const data = response.data;
+    return dispatch({
+      type: BAN_USER,
+      payload: data,
+    });
+  };
+}
 
 

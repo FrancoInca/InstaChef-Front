@@ -113,7 +113,7 @@ export default function LogIn(props) {
   return props.trigger ? (
     <main className="fixed flex justify-center items-center top-0 left-0 w-full h-screen bg-black bg-opacity-30 backdrop-blur-sm cursor-default z-20">
 
-      <div className="relative px-8 py-8 w-2/5 bg-[#24252B] text-slate-800 rounded-10 shadow-md">
+      <div className="relative px-8 py-8 sm:w-2/5 bg-backColor-500 text-slate-800 rounded-10 shadow-md">
         <button className="absolute right-4 w-8 h-5 text-white" onClick={trigger}>
           X
         </button>

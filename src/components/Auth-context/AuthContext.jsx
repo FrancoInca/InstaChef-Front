@@ -53,8 +53,9 @@ export function AuthProvider({ children }) {
       if (currentUser) {
         dispatch(postLogin({
           email: currentUser.email,
-          password: ""
-
+          password: "",
+          name: currentUser.displayName,
+          profilePhoto: currentUser.photoURL,
         }))
       }
     })
