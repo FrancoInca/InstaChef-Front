@@ -1,7 +1,9 @@
-import { useParams } from "react-router-dom";
-import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+/* eslint-disable react/no-unknown-property */
+import {useParams} from 'react-router-dom';
+import {AiOutlineStar, AiFillStar} from 'react-icons/ai';
 import AddFav from '../../assets/AddFav.svg';
 import DelFav from '../../assets/DelFav.svg';
+<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
 import { favoritesHandler, getDetail } from "../../redux/actions";
@@ -18,6 +20,21 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({})
   const { user } = UserAuth();
+=======
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect, useState} from 'react';
+import {getDetail, getReview} from '../../redux/actions';
+import {useNavigate} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {UserAuth} from '../../components/Auth-context/AuthContext';
+
+function Detail({cart, setCart, favorites, setFavorites}) {
+  const navigate = useNavigate();
+  const {id} = useParams();
+  const detailProduct = useSelector((state) => state.detail);
+  const dispatch = useDispatch();
+  const {user} = UserAuth();
+>>>>>>> 4f6e181d1ed2ae67ae2327295f184f0da93c594b
 
   const getUserDetails = async () => {
 
@@ -27,11 +44,16 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
   }
 
   useEffect(() => {
-    dispatch(getDetail(id))
-  }, [dispatch, id])
+    dispatch(getDetail(id));
+    dispatch(getReview(id));
+  }, [dispatch, id]);
 
+  // trayendo reviews
+  const reviews = useSelector((state) => state.reviews);
+  console.log(reviews);
   //FAVORITES
 
+<<<<<<< HEAD
   const [mounted, setMounted] = useState(false)
   const [isFavorite, setIsFavorite] = useState(false)
   // const [isFavorite, setIsFavorite] = useState(userData?.user?.favorite?.some((fav) => fav === id))
@@ -46,9 +68,16 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
 
   const handleAddToFav = async () => {
 
+=======
+  const isProductInFavorites = favorites.some(
+    (favorite) => favorite.id === detailProduct.id
+  );
+
+  const handleAddToFav = () => {
+>>>>>>> 4f6e181d1ed2ae67ae2327295f184f0da93c594b
     if (!user) {
       let product = {
-        ...detailProduct
+        ...detailProduct,
       };
       let newArray = [];
       let faved = false;
@@ -63,6 +92,7 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
       if (faved === true) {
         newArray = favorites.filter((e) => e !== id);
         setFavorites(newArray);
+<<<<<<< HEAD
       }
       else setFavorites([...favorites, product.id])
     }
@@ -74,6 +104,11 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
       setIsFavorite(response?.data?.favorite.some((favorite) => favorite === id))
     }
   }
+=======
+      } else setFavorites([...favorites, product]);
+    }
+  };
+>>>>>>> 4f6e181d1ed2ae67ae2327295f184f0da93c594b
 
   // CART
 
@@ -83,7 +118,7 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
     if (quantity != 0) {
       let product = {
         ...detailProduct,
-        quantity
+        quantity,
       };
 
       const newArray = [];
@@ -98,7 +133,7 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
       });
       if (duplicated === true) newArray;
       else setCart([...cart, product]);
-      navigate("/cart")
+      navigate('/cart');
     }
   };
 
@@ -116,33 +151,43 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
     <div className="flex justify-center w-full">
       <div className=" justify-center w-full max-w-[1280px] bg-backColor-500 m-5 p-5 rounded-[20px] grid lg:grid-cols-2">
         <div className="mr-28 flex flex-col justify-center row-start-2 lg:row-start-1">
-          <div className="m-5" >
-            <label className="font-bold text-[27px]" >{detailProduct.name}</label>
+          <div className="m-5">
+            <label className="font-bold text-[27px]">
+              {detailProduct.name}
+            </label>
           </div>
 
           <div>
+<<<<<<< HEAD
             <button onClick={handleAddToFav}>{isProductInFavorites || isFavorite ? <img src={DelFav} /> : <img src={AddFav} />}</button>
+=======
+            <button onClick={handleAddToFav}>
+              {isProductInFavorites ? (
+                <img src={DelFav} />
+              ) : (
+                <img src={AddFav} />
+              )}
+            </button>
+>>>>>>> 4f6e181d1ed2ae67ae2327295f184f0da93c594b
           </div>
           <div className="mt-5 ml-5">
             <label className="font-bold text-[21px]">Tipo de comida</label>
             <p className="mt-5 text-gray-400">{detailProduct.category}</p>
           </div>
-          <div className="m-5">
+          <div className="m-5 ">
             <label className="font-bold text-[21px]">Ingredientes</label>
             <ul className="mt-5">
-              {Boolean(detailProduct.ingredients) && detailProduct.ingredients.map((e) => (<li key={e} className="text-gray-400"> - {e}</li>))}
+              {Boolean(detailProduct.ingredients) &&
+                detailProduct.ingredients.map((e) => (
+                  <li key={e} className="text-gray-400">
+                    {' '}
+                    - {e}
+                  </li>
+                ))}
             </ul>
           </div>
-          <div className="m-5 flex justify-between">
-            <div className="flex text-amber-400 mt-1 mr-20">
-              {
-                [... new Array(5)].map((start, index) => {
-                  return index < 4 ? <AiFillStar key={index} /> : <AiOutlineStar key={index} />
-                })
-              }
-            </div>
-          </div>
-          <div className=" m-5 flex justify-between">
+
+          <div className=" m-5 mt-0 flex justify-between">
             <div>
               <label className="font-bold">Stock:</label>
               <p>{detailProduct.stock}</p>
@@ -151,35 +196,91 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
           <div className=" m-5 flex justify-between">
             <div>
               <label className="font-bold">Tamaño de la porción</label>
-              {Boolean(detailProduct.serving_size) && (detailProduct.serving_size.map((e) => (<p className="text-gray-400" key={e}> - {e}</p>)))}
+              {Boolean(detailProduct.serving_size) &&
+                detailProduct.serving_size.map((e) => (
+                  <p className="text-gray-400" key={e}>
+                    {' '}
+                    - {e}
+                  </p>
+                ))}
             </div>
+          </div>
+          <div className="m-5 flex">
+            <article className="">
+              <h1 className=" text-[16px] font-bold my-5">reviews</h1>
+              {reviews && reviews.length ? (
+                reviews.map((r) => (
+                  <div key={r.id}>
+                    <aside className=" text-[12px] leading-normal text-gray-300">
+                      <p>{r.body}</p>
+                    </aside>
+                    <aside>
+                      <div className="my-5 mt-0 flex justify-between">
+                        <div className="flex text-amber-400 mt-1 mr-20">
+                          {[...new Array(5)].map((start, index) => {
+                            return index < r.rating ? (
+                              <AiFillStar key={index} />
+                            ) : (
+                              <AiOutlineStar key={index} />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </aside>
+                  </div>
+                ))
+              ) : (
+                <p className=" text-[13px] text-gray-400">
+                  Este plato no tiene comentarios aun
+                </p>
+              )}
+            </article>
           </div>
         </div>
         <div className="flex flex-col p-5 justify-center">
           <div className="">
-            <img src={detailProduct.image} alt={detailProduct.name} className="rounded-[20px]" />
+            <img
+              src={detailProduct.image}
+              alt={detailProduct.name}
+              className="rounded-[20px]"
+            />
           </div>
-          <h1 className="p-5 text-[24px] font-bold text-center">Precio: ${detailProduct.price}</h1>
+          <h1 className="p-5 text-[24px] font-bold text-center">
+            Precio: ${detailProduct.price}
+          </h1>
           <div className="grid grid-rows-2 justify-center sm:grid-cols-2 sm:grid-rows-1 ">
             <div className="flex items-center justify-center">
-              <button onClick={handleDecrement} className="bg-transparent hover:bg-amber-400 text-amber-500 text-lg text-center font-semibold hover:text-stone-950 py-2 px-4 border border-amber-400 hover:border-transparent rounded">
-                <span className="flex items-center justify-center h-full">-</span>
+              <button
+                onClick={handleDecrement}
+                className="bg-transparent hover:bg-amber-400 text-amber-500 text-lg text-center font-semibold hover:text-stone-950 py-2 px-4 border border-amber-400 hover:border-transparent rounded"
+              >
+                <span className="flex items-center justify-center h-full">
+                  -
+                </span>
               </button>
               <span className="mx-4 text-center w-[20px]">{quantity}</span>
-              <button onClick={handleIncrement} className="bg-transparent hover:bg-amber-400 text-amber-500 text-lg text-center font-semibold hover:text-stone-950 py-2 px-4 border border-amber-400 hover:border-transparent rounded">
-                <span className="flex items-center justify-center h-full">+</span>
+              <button
+                onClick={handleIncrement}
+                className="bg-transparent hover:bg-amber-400 text-amber-500 text-lg text-center font-semibold hover:text-stone-950 py-2 px-4 border border-amber-400 hover:border-transparent rounded"
+              >
+                <span className="flex items-center justify-center h-full">
+                  +
+                </span>
               </button>
             </div>
             <div className="w-full flex justify-center my-3">
-              <button onClick={handleAddToCart} className="h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded">
+              <button
+                onClick={handleAddToCart}
+                className="h-12 bg-transparent hover:bg-amber-400 text-amber-500 font-semibold hover:text-stone-950 py-2 px-3.5 border border-amber-400 hover:border-transparent rounded"
+              >
                 Añadir al carrito
               </button>
             </div>
           </div>
         </div>
       </div>
-    </div>)
-
+    </div>
+  );
 }
 
 Detail.propTypes = {
@@ -188,7 +289,7 @@ Detail.propTypes = {
   favorites: PropTypes.array,
   setFavorites: PropTypes.func,
   favoriteChanged: PropTypes.bool,
-  setFavoriteChanged: PropTypes.func
+  setFavoriteChanged: PropTypes.func,
 };
 
-export default Detail
+export default Detail;

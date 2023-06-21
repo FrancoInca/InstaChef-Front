@@ -1,12 +1,20 @@
 import {
-    GET_ALL_PRODUCTS,
-    GET_DETAIL,
-    SEARCH_BY_NAME, LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA, REVIEW, COMENTARIO, EDIT_NAME, EDIT_FOTO,
-    GET_USER_BY_ID,
-    UPDATE_PROFILE,
-    FAVORITES_UPDATE,
-
-
+  GET_ALL_PRODUCTS,
+  GET_DETAIL,
+  SEARCH_BY_NAME,
+  LOGIN,
+  SIGNUP,
+  AGREGAR_PAGO,
+  TRAER_PRODUCT_PAGOS,
+  CUENTA,
+  REVIEW,
+  COMENTARIO,
+  EDIT_NAME,
+  EDIT_FOTO,
+  GET_USER_BY_ID,
+  UPDATE_PROFILE,
+  BAN_USER,
+  FAVORITES_UPDATE,
 } from './variables';
 
 const initialState = {
@@ -17,6 +25,7 @@ const initialState = {
     favorites: [],
     userData: null,
     pagoData: null,
+    reviews: [],
     productPagos: null,
     cuenta: {
         General: true,
@@ -25,21 +34,20 @@ const initialState = {
     }
 };
 
-
 const rootReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case GET_ALL_PRODUCTS:
-            return {
-                ...state,
-                products: action.payload,
-                filtered: action.payload,
-            };
+  switch (action.type) {
+    case GET_ALL_PRODUCTS:
+      return {
+        ...state,
+        products: action.payload,
+        filtered: action.payload,
+      };
 
-        case SEARCH_BY_NAME:
-            return {
-                ...state,
-                filtered: action.payload,
-            };
+    case SEARCH_BY_NAME:
+      return {
+        ...state,
+        filtered: action.payload,
+      };
 
         case GET_DETAIL: {
             return {
@@ -96,11 +104,12 @@ const rootReducer = (state = initialState, action) => {
             }
         }
 
-        case REVIEW: {
-            return console.log(action.payload);
-
-        }
-
+         case REVIEW: {
+            return {
+                ...state,
+                reviews: action.payload
+            }
+         }
         case COMENTARIO: {
             return console.log(action.payload);
 
@@ -111,12 +120,17 @@ const rootReducer = (state = initialState, action) => {
         }
         case EDIT_FOTO: {
             return console.log(action.payload);
-
+            
+         }
+         case BAN_USER: {
+          return console.log(action.payload);
         }
 
         default:
             return state;
     }
-}
+
+
+  }
 
 export default rootReducer;

@@ -10,6 +10,7 @@ import SearchResults from "./searchBarResults"
 import LogIn from "./authentication/Log-In"
 import SignUp from "./authentication/SignUp"
 
+
 function NavBar() {
   const { user } = UserAuth()
 
@@ -17,12 +18,12 @@ function NavBar() {
   const [input, setInput] = useState('');
   const [select, setSelect] = useState(-1);
   const [results, setResults] = useState([]);
-
+  
   //POP UP LOGIN/ REGISTER
-
+  
   const [triggerPopUp, setTriggerPopUp] = useState(false);
   const [triggerPopUpSignUp, setTriggerPopUpSignUp] = useState(false);
-
+  
   return (
     <div className="grid bg-[#1E1F22] grid-cols-[1fr_1fr] sm:grid-cols-[1fr_3fr_1fr] h-[80px]">
       <div className="flex items-center justify-center h-[80px]">
@@ -73,7 +74,7 @@ function NavBar() {
                   Iniciar sesión
                 </button>
               </>
-              : <ListaDesplegable />
+              : <ListaDesplegable/>
           }
         </IconContext.Provider>
 

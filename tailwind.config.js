@@ -10,6 +10,8 @@ export default {
     '.src/components',
     '.src/views/*',
     './src/**/*.{vue,js,ts,jsx,tsx}',
+    // './{components,pages,layout}/**/*.{jsx,tsx}',
+    'node_modules/react-toastify/dist/ReactToastify.css',
   ],
   darkMode: 'media', // or 'media' or 'class' Franco: Según nueva documentación, es recomendable dejarlo en media
 
@@ -27,7 +29,7 @@ export default {
       },
       fontFamily: {
         playfair: 'Playfair Display',
-        montserrat:'Montserrat'
+        montserrat: 'Montserrat',
       },
     },
   },

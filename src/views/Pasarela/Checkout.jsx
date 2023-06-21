@@ -29,8 +29,8 @@ const CheckOutForm = ({ cart, setCart }) => {
       <div className={confirmar === true ? " opacity-20" : ""}>
         <Formik
           initialValues={{
-            nombre: user?.displayName,
-            correo: user?.email
+            nombre: user?.displayName ?? "",
+            correo: user?.email ?? ""
           }}
 
           validate={(valores) => {
