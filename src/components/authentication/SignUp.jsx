@@ -202,7 +202,7 @@ export default function SignUp(props) {
               className="w-full mt-2 px-3 py-2 text-gray-200 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
             />
 
-            {errorInput.nombre.length && (
+            {Boolean(errorInput.nombre.length) && (
               <p className="text-[12px] text-red-600 fixed">
                 {errorInput.nombre}
               </p>
@@ -217,7 +217,7 @@ export default function SignUp(props) {
               required
               className="w-full mt-2 px-3 py-2 text-gray-200 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
             />
-            {errorInput.apellido.length && (
+            {Boolean(errorInput.apellido.length) && (
               <p className="text-[12px] text-red-600 fixed">
                 {errorInput.apellido}
               </p>
@@ -232,7 +232,7 @@ export default function SignUp(props) {
               required
               className="w-full mt-2 px-3 py-2 text-gray-200 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
             />
-            {errorInput.correo.length && (
+            {Boolean(errorInput.correo.length) && (
               <p className="text-[12px] text-red-600 fixed">
                 {errorInput.correo}
               </p>
@@ -247,7 +247,7 @@ export default function SignUp(props) {
               required
               className="w-full mt-2 px-3 py-2 text-gray-200 bg-transparent outline-none border focus:border-amber-600 shadow-sm rounded-lg"
             />
-            {errorInput.contraseña.length && (
+            {Boolean(errorInput.contraseña.length) && (
               <p className="text-[12px] text-red-600 fixed">
                 {errorInput.contraseña}
               </p>
