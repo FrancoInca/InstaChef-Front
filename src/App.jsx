@@ -23,7 +23,7 @@ import Cuenta from './views/Cuenta/Cuenta';
 import Favorites from './views/Favorites/Favorites';
 
 // axios.defaults.baseURL = "https://instachef-back-production.up.railway.app/"
-axios.defaults.baseURL = 'http://localhost:3096';
+axios.defaults.baseURL = 'http://localhost:3001';
 
 function App() {
   let location = useLocation();
