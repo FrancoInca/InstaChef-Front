@@ -1,9 +1,10 @@
 import {
     GET_ALL_PRODUCTS,
     GET_DETAIL,
-    SEARCH_BY_NAME,LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA, REVIEW, COMENTARIO, EDIT_NAME, EDIT_FOTO,
+    SEARCH_BY_NAME, LOGIN, SIGNUP, AGREGAR_PAGO, TRAER_PRODUCT_PAGOS, CUENTA, REVIEW, COMENTARIO, EDIT_NAME, EDIT_FOTO,
     GET_USER_BY_ID,
-    UPDATE_PROFILE
+    UPDATE_PROFILE,
+    FAVORITES_UPDATE,
 
 
 } from './variables';
@@ -13,6 +14,7 @@ const initialState = {
     filtered: [],
     detail: [],
     filters: [],
+    favorites: [],
     userData: null,
     pagoData: null,
     productPagos: null,
@@ -44,6 +46,12 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 detail: action.payload,
             };
+        }
+        case FAVORITES_UPDATE: {
+            return {
+                ...state,
+                favorites: action.payload,
+            }
         }
         case SIGNUP: {
             return {
@@ -88,23 +96,23 @@ const rootReducer = (state = initialState, action) => {
             }
         }
 
-         case REVIEW: {
+        case REVIEW: {
             return console.log(action.payload);
-            
-         }
 
-         case COMENTARIO: {
+        }
+
+        case COMENTARIO: {
             return console.log(action.payload);
-            
-         }
-         case EDIT_NAME: {
+
+        }
+        case EDIT_NAME: {
             return console.log(action.payload);
-            
-         }
-         case EDIT_FOTO: {
+
+        }
+        case EDIT_FOTO: {
             return console.log(action.payload);
-            
-         }
+
+        }
 
         default:
             return state;
