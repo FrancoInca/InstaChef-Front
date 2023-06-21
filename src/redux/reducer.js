@@ -13,7 +13,8 @@ import {
   EDIT_FOTO,
   GET_USER_BY_ID,
   UPDATE_PROFILE,
-  BAN_USER
+  BAN_USER,
+  FAVORITES_UPDATE,
 } from './variables';
 
 const initialState = {
@@ -21,6 +22,7 @@ const initialState = {
     filtered: [],
     detail: [],
     filters: [],
+    favorites: [],
     userData: null,
     pagoData: null,
     reviews: [],
@@ -52,6 +54,12 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 detail: action.payload,
             };
+        }
+        case FAVORITES_UPDATE: {
+            return {
+                ...state,
+                favorites: action.payload,
+            }
         }
         case SIGNUP: {
             return {
@@ -101,18 +109,16 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 reviews: action.payload
             }
-            
          }
+        case COMENTARIO: {
+            return console.log(action.payload);
 
-         case COMENTARIO: {
+        }
+        case EDIT_NAME: {
             return console.log(action.payload);
-            
-         }
-         case EDIT_NAME: {
-            return console.log(action.payload);
-            
-         }
-         case EDIT_FOTO: {
+
+        }
+        case EDIT_FOTO: {
             return console.log(action.payload);
             
          }

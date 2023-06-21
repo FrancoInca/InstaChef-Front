@@ -3,6 +3,24 @@ import {useParams} from 'react-router-dom';
 import {AiOutlineStar, AiFillStar} from 'react-icons/ai';
 import AddFav from '../../assets/AddFav.svg';
 import DelFav from '../../assets/DelFav.svg';
+<<<<<<< HEAD
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { favoritesHandler, getDetail } from "../../redux/actions";
+import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
+import { UserAuth } from "../../components/Auth-context/AuthContext";
+import axios from "axios";
+
+function Detail({ cart, setCart, favorites, setFavorites }) {
+  const navigate = useNavigate()
+  const { id } = useParams();
+  let token = localStorage.getItem("token");
+  const detailProduct = useSelector((state) => state.detail);
+  const dispatch = useDispatch();
+  const [userData, setUserData] = useState({})
+  const { user } = UserAuth();
+=======
 import {useDispatch, useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
 import {getDetail, getReview} from '../../redux/actions';
@@ -16,6 +34,14 @@ function Detail({cart, setCart, favorites, setFavorites}) {
   const detailProduct = useSelector((state) => state.detail);
   const dispatch = useDispatch();
   const {user} = UserAuth();
+>>>>>>> 4f6e181d1ed2ae67ae2327295f184f0da93c594b
+
+  const getUserDetails = async () => {
+
+    const response = await axios.get(`/users/token/${token}`)
+    setUserData(response.data)
+    setIsFavorite(response.data.favorite.some((favorite) => favorite === id));
+  }
 
   useEffect(() => {
     dispatch(getDetail(id));
@@ -27,32 +53,62 @@ function Detail({cart, setCart, favorites, setFavorites}) {
   console.log(reviews);
   //FAVORITES
 
+<<<<<<< HEAD
+  const [mounted, setMounted] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
+  // const [isFavorite, setIsFavorite] = useState(userData?.user?.favorite?.some((fav) => fav === id))
+
+  useEffect(() => {
+    if (token) getUserDetails();
+    console.log(userData)
+    //eslint-disable-next-line
+  }, [user])
+
+  const isProductInFavorites =favorites?.some((favorite) => favorite === id);
+
+  const handleAddToFav = async () => {
+
+=======
   const isProductInFavorites = favorites.some(
     (favorite) => favorite.id === detailProduct.id
   );
 
   const handleAddToFav = () => {
+>>>>>>> 4f6e181d1ed2ae67ae2327295f184f0da93c594b
     if (!user) {
       let product = {
         ...detailProduct,
       };
-
       let newArray = [];
       let faved = false;
       favorites.forEach((e) => {
-        if (e.id === product.id) {
-          newArray.push(product);
+        if (e === product.id) {
+          newArray.push(product.id);
           faved = true;
         } else {
           newArray.push(e);
         }
       });
       if (faved === true) {
-        newArray = favorites.filter((e) => e.id !== id);
+        newArray = favorites.filter((e) => e !== id);
         setFavorites(newArray);
+<<<<<<< HEAD
+      }
+      else setFavorites([...favorites, product.id])
+    }
+    else {
+      const userId = userData.id;
+      const productId = detailProduct.id;
+      const response = await axios.put(`/users/${userId}/favorites`,{productId:[productId]});
+      console.log(response.data)
+      setIsFavorite(response?.data?.favorite.some((favorite) => favorite === id))
+    }
+  }
+=======
       } else setFavorites([...favorites, product]);
     }
   };
+>>>>>>> 4f6e181d1ed2ae67ae2327295f184f0da93c594b
 
   // CART
 
@@ -102,6 +158,9 @@ function Detail({cart, setCart, favorites, setFavorites}) {
           </div>
 
           <div>
+<<<<<<< HEAD
+            <button onClick={handleAddToFav}>{isProductInFavorites || isFavorite ? <img src={DelFav} /> : <img src={AddFav} />}</button>
+=======
             <button onClick={handleAddToFav}>
               {isProductInFavorites ? (
                 <img src={DelFav} />
@@ -109,6 +168,7 @@ function Detail({cart, setCart, favorites, setFavorites}) {
                 <img src={AddFav} />
               )}
             </button>
+>>>>>>> 4f6e181d1ed2ae67ae2327295f184f0da93c594b
           </div>
           <div className="mt-5 ml-5">
             <label className="font-bold text-[21px]">Tipo de comida</label>
