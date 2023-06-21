@@ -4,17 +4,27 @@ import AddFav from '../../assets/AddFav.svg';
 import DelFav from '../../assets/DelFav.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
-import { getDetail, updateProfile } from "../../redux/actions";
+import { favoritesHandler, getDetail } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { UserAuth } from "../../components/Auth-context/AuthContext";
+import axios from "axios";
 
 function Detail({ cart, setCart, favorites, setFavorites }) {
   const navigate = useNavigate()
   const { id } = useParams();
+  let token = localStorage.getItem("token");
   const detailProduct = useSelector((state) => state.detail);
   const dispatch = useDispatch();
+  const [userData, setUserData] = useState({})
   const { user } = UserAuth();
+
+  const getUserDetails = async () => {
+
+    const response = await axios.get(`/users/token/${token}`)
+    setUserData(response.data)
+    setIsFavorite(response.data.favorite.some((favorite) => favorite === id));
+  }
 
   useEffect(() => {
     dispatch(getDetail(id))
@@ -22,35 +32,48 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
 
   //FAVORITES
 
-  const isProductInFavorites = favorites.some((favorite) => favorite.id === detailProduct.id);
+  const [mounted, setMounted] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
+  // const [isFavorite, setIsFavorite] = useState(userData?.user?.favorite?.some((fav) => fav === id))
 
-  const handleAddToFav = () => {
+  useEffect(() => {
+    if (token) getUserDetails();
+    console.log(userData)
+    //eslint-disable-next-line
+  }, [user])
+
+  const isProductInFavorites =favorites?.some((favorite) => favorite === id);
+
+  const handleAddToFav = async () => {
 
     if (!user) {
-
       let product = {
         ...detailProduct
       };
-
       let newArray = [];
       let faved = false;
       favorites.forEach((e) => {
-        if (e.id === product.id) {
-          newArray.push(product);
+        if (e === product.id) {
+          newArray.push(product.id);
           faved = true;
         } else {
           newArray.push(e);
         }
       });
       if (faved === true) {
-        newArray = favorites.filter((e) => e.id !== id);
+        newArray = favorites.filter((e) => e !== id);
         setFavorites(newArray);
       }
-      else setFavorites([...favorites, product])
+      else setFavorites([...favorites, product.id])
     }
-
-  };
-
+    else {
+      const userId = userData.id;
+      const productId = detailProduct.id;
+      const response = await axios.put(`/users/${userId}/favorites`,{productId:[productId]});
+      console.log(response.data)
+      setIsFavorite(response?.data?.favorite.some((favorite) => favorite === id))
+    }
+  }
 
   // CART
 
@@ -98,7 +121,7 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
           </div>
 
           <div>
-            <button onClick={handleAddToFav}>{isProductInFavorites ? <img src={DelFav} /> : <img src={AddFav} />}</button>
+            <button onClick={handleAddToFav}>{isProductInFavorites || isFavorite ? <img src={DelFav} /> : <img src={AddFav} />}</button>
           </div>
           <div className="mt-5 ml-5">
             <label className="font-bold text-[21px]">Tipo de comida</label>
