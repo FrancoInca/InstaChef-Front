@@ -134,13 +134,27 @@ console.log(reviews);
   <h1 className=" text-[16px] font-bold my-5">reviews</h1>
   {
     reviews && reviews.length ? reviews.map(r => (
-      <div key={r.id}>
+      <div key={r.id} className=" w-full flex gap-1">
+         <div>
+         <img
+              alt="Man"
+              src={r.foto ? r.foto: "https://i.pinimg.com/564x/c0/c8/17/c0c8178e509b2c6ec222408e527ba861.jpg"}
+              className="h-5 w-5 rounded-full object-cover"
+            />
+      </div>
+    <div>
+      <aside className="">
+       <p className="text-[13px] ">
+       {r.nameUser}
+       </p>
+      </aside>
+    <div className=" w- full flex  justify-around ">
     <aside className=" text-[12px] leading-normal text-gray-300">
     <p>{r.body}</p>
     </aside>
     <aside>
     <div className="my-5 mt-0 flex justify-between">
-            <div className="flex text-amber-400 mt-1 mr-20">
+            <div className="flex text-[14px] text-amber-400 ml-5 mt-1 mr-20">
               {
                 [... new Array(5)].map((start, index) => {
                   return index < r.rating ? <AiFillStar key={index} /> : <AiOutlineStar key={index} />
@@ -149,6 +163,9 @@ console.log(reviews);
             </div>
           </div>
     </aside>
+    </div>
+    </div>
+   
    </div>
     ))   : <p className=" text-[13px] text-gray-400">Este plato no tiene comentarios aun</p> }
     

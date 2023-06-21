@@ -154,7 +154,7 @@ export const cuenta = (obj) => {
 
 export function editFoto(user) {
     return async function (dispatch) {
-        const response = await axios.post("/undateFoto", user );
+        const response = await axios.put("/users/profile-photo", user );
         const userData = response.data;
         console.log(userData);
         return dispatch({
@@ -166,7 +166,7 @@ export function editFoto(user) {
 
 export function editNombre(user) {
     return async function (dispatch) {
-        const response = await axios.post("/undateNombre", user );
+        const response = await axios.put("/usersName", user );
         const userData = response.data;
         console.log(userData);
         return dispatch({

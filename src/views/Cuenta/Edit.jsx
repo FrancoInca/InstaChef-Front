@@ -14,6 +14,7 @@ export default function Editar() {
   const [imag, setIma] = useState(null)
   const [nombre, setNombre] = useState("")
   const [loading, setLoading] = useState(null)
+  const [aler, setAler] = useState(null)
   const handleSelect = (event) => {
     let valor = event.target.value
     setSelect(valor)
@@ -50,7 +51,7 @@ export default function Editar() {
       } else {
         dispatch(editFoto({
           token,
-          image: imag,
+          profilePhoto: imag,
 
         }))
       }
@@ -61,7 +62,7 @@ export default function Editar() {
       } else {
         dispatch(editNombre({
           token,
-          nombre
+          newName: nombre
         }))
       }
     }
@@ -71,12 +72,68 @@ export default function Editar() {
     setError("")
     setNombre("")
     setIma(null)
+    setAler(null)
   }
 
   return (
     <div>
+      
+   {
+     
+     aler === true ?  <div
+ 
+     className="rounded-xl  border border-gray-100 bg-white p-4 shadow-xl"
+   >
+     <div className="flex items-start gap-4">
+       <span className="text-green-600">
+         <svg
+           xmlns="http://www.w3.org/2000/svg"
+           fill="none"
+           viewBox="0 0 24 24"
+           stroke-width="1.5"
+           stroke="currentColor"
+           className="h-6 w-6"
+         >
+           <path
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+           />
+         </svg>
+       </span>
+   
+       <div className="flex-1">
+         <strong className="block font-medium text-gray-900">Operacion exitosa</strong>
+   
+         <p className="mt-1 text-sm text-gray-700">
+          los cambios se actulizaran en unos minunos 
+         </p>
+       </div>
+   
+       <button onClick={() => setAler(null)} className="text-gray-500 transition hover:text-gray-600">
+         <span className="sr-only">Dismiss popup</span>
+   
+         <svg
+           xmlns="http://www.w3.org/2000/svg"
+           fill="none"
+           viewBox="0 0 24 24"
+           stroke-width="1.5"
+           stroke="currentColor"
+           className="h-6 w-6"
+         >
+           <path
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             d="M6 18L18 6M6 6l12 12"
+           />
+         </svg>
+       </button>
+     </div>
+   </div> : null
 
+   }
 
+     
       <button onClick={() => setPopUp(true)} className="block text-white border border-amber-500 bg-transparent hover:bg-amber-400 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center " type="button">
         Editar perfil
       </button>
@@ -143,7 +200,7 @@ export default function Editar() {
                 select !== "" ? <>
                   <button onClick={() => handleSubmit()} type="button" className="text-white bg-amber-500 hover:bg-amber-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Guardar</button>
                   <button onClick={() => aplicar()
-
+                    
                   } type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 ">Aplicar</button>
                 </> : null
               }
