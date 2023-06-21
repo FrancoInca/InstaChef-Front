@@ -109,17 +109,11 @@ const rootReducer = (state = initialState, action) => {
             
          }
          case EDIT_NAME: {
-            return {
-                ...state,
-                userData: action.payload
-            }
+            return console.log(action.payload);
             
          }
          case EDIT_FOTO: {
-            return {
-                ...state,
-                userData: action.payload
-            }
+            return console.log(action.payload);
             
          }
          case BAN_USER: {
