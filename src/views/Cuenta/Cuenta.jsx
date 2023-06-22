@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { cuenta, getProductosPagos } from '../../redux/actions'
+import { useDispatch } from 'react-redux'
+import { getProductosPagos } from '../../redux/actions'
 import General from './General'
 import MisDatos from './MisDatos'
 import MisPedidos from './MisPedidos'
@@ -10,21 +10,22 @@ import axios from 'axios'
 export default function Cuenta() {
   let token = localStorage.getItem("token")
   let obj = { token }
-  let desplegar = useSelector(state => state.cuenta)
+  // let desplegar = useSelector(state => state.cuenta)
   const { user } = UserAuth()
   const [userData, setUserData] = useState({})
+  const [desplegar, setDesplegar] = useState("General")
 
   const getUserDetails = async () => {
     const response = await axios.get(`/users/token/${token}`)
     setUserData(response.data)
   }
-let useData = useSelector(state => state.userData)
   let dispatch = useDispatch()
   useEffect(() => {
     dispatch(getProductosPagos(obj))
+    // console.log(desplegar)
     getUserDetails()
     //eslint-disable-next-line
-  }, [user, useData ])
+  }, [ user ])
 
   return (
 
@@ -35,39 +36,27 @@ let useData = useSelector(state => state.userData)
 
 
           <ul className="mt-6 space-y-1 cursor-pointer">
-            <li onClick={() => dispatch(cuenta(({
-              General: true,
-              MisDatos: false,
-              MisPedidos: false
-            })))}>
+            <li onClick={() => setDesplegar("General")}>
               <a
 
-                className={desplegar.General === true ? "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500 bg-amber-500" :
+                className={desplegar=== "General" ? "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500 bg-amber-500" :
                   "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500"}
               >
                 General
               </a>
             </li>
-            <li onClick={() => dispatch(cuenta(({
-              General: false,
-              MisDatos: true,
-              MisPedidos: false
-            })))} >
+            <li onClick={() => setDesplegar("MisDatos")} >
               <a
-                className={desplegar.MisDatos === true ? "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500 bg-amber-500" :
+                className={desplegar === "MisDatos" ? "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500 bg-amber-500" :
                   "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500"}
               >
                 Mis datos
               </a>
             </li>
 
-            <li onClick={() => dispatch(cuenta(({
-              General: false,
-              MisDatos: false,
-              MisPedidos: true
-            })))}>
+            <li onClick={() => setDesplegar("MisPedidos")}>
               <a
-                className={desplegar.MisPedidos === true ? "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500 bg-amber-500" :
+                className={desplegar === "MisPedidos" ? "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500 bg-amber-500" :
                   "block rounded-lg  px-4 py-2 text-sm font-medium  text-gray-200 hover:bg-amber-500"}
               >
                 Mis pedidos
@@ -94,9 +83,9 @@ let useData = useSelector(state => state.userData)
         </div>
       </div>
       <div>
-        {desplegar?.General === true ? <General /> : null}
-        {desplegar?.MisDatos === true ? <MisDatos /> : null}
-        {desplegar?.MisPedidos === true ? <MisPedidos /> : null}
+        {desplegar === "General" ? <General /> : null}
+        {desplegar === "MisDatos" ? <MisDatos /> : null}
+        {desplegar === "MisPedidos" ? <MisPedidos /> : null}
       </div>
     </div>
 

@@ -14,6 +14,7 @@ function FavCard({ id, setMounted, mounted }) {
 
     const getDetail = async (id) => {
         const response = await axios.get(`/products/${id}`);
+        console.log(id)
         const productId = response.data;
         setFood({
             name: productId.name,
@@ -45,8 +46,7 @@ function FavCard({ id, setMounted, mounted }) {
     const productId = id;
 
     const deleteButton = async () => {
-        const response = await axios.put(`/users/${userId}/favorites`, { productId: [productId] });
-        console.log(response.data)
+        await axios.put(`/users/${userId}/favorites`, { productId: [productId] });
         setMounted(!mounted)
     }
 

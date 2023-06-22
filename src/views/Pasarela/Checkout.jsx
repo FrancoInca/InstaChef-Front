@@ -6,8 +6,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik"
 import ConfirPago from "./ConfirPago"
 import { useState } from "react"
 import axios from "axios"
-// import { useDispatch } from "react-redux"
-// import { agregarPago } from "../../redux/actions"
 import { UserAuth } from "../../components/Auth-context/AuthContext"
 
 const CheckOutForm = ({ cart, setCart }) => {
@@ -21,6 +19,8 @@ const CheckOutForm = ({ cart, setCart }) => {
 
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
   let ides = cart.map(e => { return { id: e.id, quantity: e.quantity, name: e.name } })
+
+
   return (
     <div onClick={() => setConfirmar()} className="flex m-5 flex-col sm:flex-row">
       {
@@ -72,7 +72,6 @@ const CheckOutForm = ({ cart, setCart }) => {
                 }
                 const response = await axios.post("/checkout", obj)
                 const pagoData = response.data;
-                console.log(pagoData)
                 if (response.status === 200) {
                   setConfirmar(true)
                   setMessage(pagoData.message)
@@ -90,7 +89,7 @@ const CheckOutForm = ({ cart, setCart }) => {
           }
           }>
           {({ errors }) => (
-            <Form className=" columns-4 gap-5 flex flex-col w-full row-start-1 sm:col-start-1 sm:max-w-[360px]" >
+            <Form className=" columns-4 gap-5 flex flex-col w-full row-start-1 sm:col-start-1 min-w-[360px] sm:max-w-[360px]" >
               <div className="flex flex-col">
                 <label htmlFor="">Correo</label>
                 <Field type="text" name="correo" className="h-7 mt-1 rounded-lg placeholder-slate-400 text-sm px-3 py-2 focus:outline-none focus:border-verde bg-transparent

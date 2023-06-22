@@ -15,23 +15,23 @@ import {
   UPDATE_PROFILE,
   BAN_USER,
   FAVORITES_UPDATE,
-} from './variables';
+} from "./variables";
 
 const initialState = {
-    products: [],
-    filtered: [],
-    detail: [],
-    filters: [],
-    favorites: [],
-    userData: null,
-    pagoData: null,
-    reviews: [],
-    productPagos: null,
-    cuenta: {
-        General: true,
-        MisDatos: false,
-        MisPedidos: false
-    }
+  products: [],
+  filtered: [],
+  detail: [],
+  filters: [],
+  favorites: [],
+  userData: null,
+  pagoData: null,
+  reviews: [],
+  productPagos: null,
+  cuenta: {
+    General: true,
+    MisDatos: false,
+    MisPedidos: false,
+  },
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -49,88 +49,87 @@ const rootReducer = (state = initialState, action) => {
         filtered: action.payload,
       };
 
-        case GET_DETAIL: {
-            return {
-                ...state,
-                detail: action.payload,
-            };
-        }
-        case FAVORITES_UPDATE: {
-            return {
-                ...state,
-                favorites: action.payload,
-            }
-        }
-        case SIGNUP: {
-            return {
-                ...state,
-                userData: action.payload
-            }
-        }
-        case LOGIN: {
-            return {
-                ...state,
-                userData: action.payload
-            }
-        }
-        case GET_USER_BY_ID:
-            return {
-                ...state,
-                userData: action.payload,
-            };
-        case UPDATE_PROFILE:
-            return {
-                ...state,
-                userData: action.payload,
-            }
-        case AGREGAR_PAGO: {
-            return {
-                ...state,
-                pagoData: action.payload
-            }
-        }
-
-        case TRAER_PRODUCT_PAGOS: {
-            return {
-                ...state,
-                productPagos: action.payload
-            }
-        }
-
-        case CUENTA: {
-            return {
-                ...state,
-                cuenta: action.payload
-            }
-        }
-
-         case REVIEW: {
-            return {
-                ...state,
-                reviews: action.payload
-            }
-         }
-        case COMENTARIO: {
-            return console.log(action.payload);
-
-        }
-        case EDIT_NAME: {
-            return console.log(action.payload);
-
-        }
-        case EDIT_FOTO: {
-            return console.log(action.payload);
-            
-         }
-         case BAN_USER: {
-          return console.log(action.payload);
-        }
-
-        default:
-            return state;
+    case GET_DETAIL: {
+      return {
+        ...state,
+        detail: action.payload,
+      };
+    }
+    case FAVORITES_UPDATE: {
+      return {
+        ...state,
+        favorites: action.payload,
+      };
+    }
+    case SIGNUP: {
+      return {
+        ...state,
+        userData: action.payload,
+      };
+    }
+    case LOGIN: {
+      return {
+        ...state,
+        userData: action.payload,
+      };
+    }
+    case GET_USER_BY_ID:
+      return {
+        ...state,
+        userData: action.payload,
+      };
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        userData: action.payload,
+      };
+    case AGREGAR_PAGO: {
+      return {
+        ...state,
+        pagoData: action.payload,
+      };
     }
 
+    case TRAER_PRODUCT_PAGOS: {
+      return {
+        ...state,
+        productPagos: action.payload,
+      };
+    }
 
+    case CUENTA: {
+      return {
+        ...state,
+        cuenta: action.payload,
+      };
+    }
+
+    case REVIEW: {
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+    }
+    case COMENTARIO: {
+      console.log(action.payload);
+      return { ...state };
+    }
+    case EDIT_NAME: {
+      console.log(action.payload);
+      return { ...state };
+    }
+    case EDIT_FOTO: {
+      console.log(action.payload);
+      return { ...state };
+    }
+    case BAN_USER: {
+      console.log(action.payload);
+      return { ...state };
+    }
+
+    default:
+      return state;
   }
+};
 
 export default rootReducer;
