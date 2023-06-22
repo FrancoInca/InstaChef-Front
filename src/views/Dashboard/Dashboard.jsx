@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import PaymentsPage from "./PaymentsPage";
 import UserPage from "./UserPage";
 import FoodPage from "./FoodPage";
 import axios from "axios";
@@ -24,7 +25,8 @@ export default function Dashboard() {
 
   const pages = {
     users: <UserPage />,
-    foods: <FoodPage />
+    foods: <FoodPage />,
+    payments: <PaymentsPage />
   }
 
   return (
@@ -34,6 +36,7 @@ export default function Dashboard() {
           <div className="flex justify-around bg-backColor-500 p-3 rounded-md w-full max-w-[720px]">
             <a onClick={() => { setActualPage("users") }} className="hover:font-bold hover:cursor-pointer">{actualPage === "users" ? "> Usuarios" : "Usuarios"}</a>
             <a onClick={() => { setActualPage("foods") }} className="hover:font-bold hover:cursor-pointer">{actualPage === "foods" ? "> Comidas" : "Comidas"}</a>
+            <a onClick={() => { setActualPage("payments") }} className="hover:font-bold hover:cursor-pointer">{actualPage === "payments" ? "> Pagos" : "Pagos"}</a>
           </div>
         </div>
         <div>

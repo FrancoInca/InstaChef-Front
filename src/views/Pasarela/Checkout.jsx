@@ -17,16 +17,16 @@ const CheckOutForm = ({ cart, setCart }) => {
   const [confirmar, setConfirmar] = useState(null)
   const [error, setError] = useState("")
   const [message, setMessage] = useState("")
-  const {user} = UserAuth()
+  const { user } = UserAuth()
 
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
   let ides = cart.map(e => { return { id: e.id, quantity: e.quantity, name: e.name } })
   return (
-    <div onClick={() => setConfirmar()} className="text-white flex justify-center items-center gap-20 ml-5 ">
+    <div onClick={() => setConfirmar()} className="flex m-5 flex-col sm:flex-row">
       {
         confirmar === true ? <ConfirPago message={message} /> : null
       }
-      <div className={confirmar === true ? " opacity-20" : ""}>
+      <div className={confirmar === true ? "flex w-full opacity-20 " : "flex justify-center w-full"}>
         <Formik
           initialValues={{
             nombre: user?.displayName ?? "",
@@ -88,14 +88,14 @@ const CheckOutForm = ({ cart, setCart }) => {
               setCart([])
             }
           }
-        }>
+          }>
           {({ errors }) => (
-            <Form className=" columns-4 gap-5 flex flex-col w-96" >
+            <Form className=" columns-4 gap-5 flex flex-col w-full row-start-1 sm:col-start-1 sm:max-w-[360px]" >
               <div className="flex flex-col">
                 <label htmlFor="">Correo</label>
                 <Field type="text" name="correo" className="h-7 mt-1 rounded-lg placeholder-slate-400 text-sm px-3 py-2 focus:outline-none focus:border-verde bg-transparent
                      shadow-lg  focus:ring-1 focus:ring-sky-500 disabled:bg-slate-50  "
-                  placeholder="correo@ejemplo.com"/>
+                  placeholder="correo@ejemplo.com" />
                 {<ErrorMessage name="correo" component={() => (
                   <span className=" text-red-700 text-base ml-3">{errors.correo}</span>
                 )} />}
@@ -134,20 +134,20 @@ const CheckOutForm = ({ cart, setCart }) => {
         </Formik>
 
       </div>
-      <div className="w-1/2 ">
+      <div className="w-full ">
 
         {
           cart?.map((product) => {
             return (
-              <div key={product.id} className="grid grid-cols-4 m-2" >
+              <div key={product.id} className="grid grid-cols-[2fr_3fr_1fr] m-4 items-center justify-center max-w-[360px]" >
 
-                <img src={product.image} alt="image" className="w-14 rounded-sm" />
-
-                <div className="col-span-2 -ml-3">
+                <div className="w-full flex justify-center items-center ">
+                  <img src={product.image} alt="image" className="w-14 rounded-sm bg" />
+                </div>
+                <div className="w-full flex justify-center items-center">
                   <p className=" text-[15px] text-[#FEFEFE]"><span className="text-gray-400 ">x{product.quantity}</span>  {product.name} </p>
                 </div>
-
-                <div className="ml-3">
+                <div className="w-full flex justify-center items-center">
                   <p className=" text-[15px] text-[#FEFEFE] ">${product.price}</p>
                 </div>
               </div>
@@ -172,7 +172,7 @@ export default function Checkout({ cart, setCart }) {
   return (
     <main className=" w-full   ">
 
-      
+
       <div className="w-full mx-auto px-4 md:px-0  flex justify-center mt-14 ">
 
         <Elements stripe={stripePromise}>
