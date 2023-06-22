@@ -39,7 +39,7 @@ function SearchBar({ setResults, results, setSelect, input, setInput }) {
       // const response = await axios.get(`http://localhost:3001/products/?name=${value}`);
       const response = await axios.get(`/products/?name=${value}`);
       if (value) results = response.data;
-      setResults(results);
+      setResults(results.filter((e)=>!e.banned && e.stock !== 0));
     } catch (error) {
       console.log(error.message);
       setResults([]);

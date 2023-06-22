@@ -46,9 +46,11 @@ function Home() {
     //Creates a duplicate to avoid modifying the original array.
     let filteredFood = [...array];
 
+    filteredFood = filteredFood.filter((e)=>!e.banned && e.stock !== 0)
+
     //Filters food by serving size and category
     filters.length &&
-      (filteredFood = array.filter(
+      (filteredFood = filteredFood.filter(
         (e) =>
           filters.some((filter) => e.serving_size.includes(filter)) ||
           filters.includes(e.category)
