@@ -59,7 +59,7 @@ function Cart({ cart, setCart }) {
             </button>
         </div>
     ) : (
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 max-md:block">
             <div className="col-span-2">
                 {cart?.map((product) => {
                     return (
@@ -67,21 +67,21 @@ function Cart({ cart, setCart }) {
                             <div className="m-0.5 bg-red-800 rounded-sm grid grid-cols-5 items-center p-4 h-120px border-white border">
                                 <img src={product.image} alt={product.name}></img>
 
-                                <div className="text-xl ml-6 font-normal text-#202020 font-playfair ">{product.name}</div>
+                                <div className="text-xl max-md:text-sm ml-6 font-normal text-#202020 font-playfair ">{product.name}</div>
 
-                                <div className="text-lg ml-12 font-normal text-#202020">$ {product.price}</div>
+                                <div className="text-lg max-md:text-sm ml-12 max-md:ml-8 font-normal text-#202020">$ {product.price}</div>
 
 
-                                <div className="w-10 flex justify-between font-heading items-center">
+                                <div className="w-10 flex justify-between items-center">
                                     <button
-                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-[#fefefe] text-[#fefefe] text-2xl text-center hover:text-stone-950 py-1 px-4 border border-white hover:border-transparent rounded-sm"
+                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-[#fefefe] text-[#fefefe] text-2xl text-center hover:text-stone-950 py-1 px-4 max-md: border border-white hover:border-transparent rounded-sm"
                                         onClick={() => handleDecrement(product.id)}
                                     >
                                         <span className="flex items-center justify-center h-full pb-1">-</span>
                                     </button>
-                                    <div className="mx-4 text-center">{product.quantity}</div>
+                                    <div className="mx-4 max-md:mx-2 text-center">{product.quantity}</div>
                                     <button
-                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-[#fefefe] text-[#fefefe] text-2xl text-center hover:text-stone-950 py-1 px-4 border border-white hover:border-transparent rounded-sm"
+                                        className="flex justify-center items-center bg-transparent font-bold hover:bg-[#fefefe] text-[#fefefe] text-2xl text-center hover:text-stone-950 py-1 px-4 max-md: border border-white hover:border-transparent rounded-sm"
                                         onClick={() => handleIncrement(product.id)}
                                     >
                                         <span className="flex items-center justify-center h-full pb-1">+</span>
@@ -90,7 +90,7 @@ function Cart({ cart, setCart }) {
 
                                 <div>
                                     <button
-                                        className="ml-10 h-12 bg-transparent hover:bg-[#fefefe] text-[#fefefe] font-playfair font-black hover:text-red-800 py-2 px-3.5 border border-white hover:border-transparent rounded-sm"
+                                        className="ml-10 h-12 max-md:h-10 max-md:text-sm bg-transparent hover:bg-[#fefefe] text-[#fefefe] font-playfair font-black hover:text-red-800 py-2 px-3.5 border border-white hover:border-transparent rounded-sm"
                                         onClick={() => handleRemove(product.id)}
                                     >
                                         Quitar
@@ -102,7 +102,7 @@ function Cart({ cart, setCart }) {
                 })}
             </div>
 
-            <div className="w-96 h-72 bg-red-800 rounded-md flex justify-center items-center m-3 shadow-md">
+            <div className="w-96 h-72 bg-red-800 rounded-md flex justify-center items-center m-3 shadow-md max-md:ml-12">
                 <div className=" bg-red-800 rounded-sm flex flex-col justify-center items-center border-white border p-6 px-8">
 
                     <h2 className="text-4xl mt-2 font-playfair italic">{user ? user.displayName ? "Tu carrito" : "Tu carrito" : "Tu carrito"}</h2>
