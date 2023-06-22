@@ -10,6 +10,8 @@ function Favorites({ favorites, setFavorites }) {
     const { user } = UserAuth();
     let token = localStorage.getItem("token");
 
+    const [mounted, setMounted] = useState(false)
+
     const [userData, setUserData] = useState({});
     const navigate = useNavigate();
 
@@ -26,7 +28,7 @@ function Favorites({ favorites, setFavorites }) {
         getUserDetails();
         console.log(userData)
         //eslint-disable-next-line
-    }, [user]);
+    }, [user, mounted]);
 
     let userFavorites = userData?.favorite || [];
 
@@ -42,9 +44,16 @@ function Favorites({ favorites, setFavorites }) {
 
     useEffect(() => {
         fusionFavorites()
-        return   setFavorites([])
+        return () => { setFavorites([]) }
+        //eslint-disable-next-line
+    }, [user, mounted])
 
-    }, [])
+
+    // const deleteButton = async (productId) => {
+    //     const response = await axios.put(`/users/${userId}/favorites`, { productId: [productId] });
+    //     console.log(response.data)
+    // }
+
 
     return userFavorites.length < 1 ? (
         <div className="flex flex-col items-center mt-4">
@@ -57,21 +66,9 @@ function Favorites({ favorites, setFavorites }) {
             </button>
         </div>
     ) : (
-        <div className="col-span-2">
+        <div className="grid grid-cols-2 max-md:block">
             {userFavorites.map((product) => {
-                return (<FavCard key={product} id={product} />)
-                // return (
-                //     <div className="m-2 mt-3 bg-red-800 rounded-md items-center p-1 h-120px" key={product.id}>
-                //         <div className="m-0.5 bg-red-800 rounded-sm grid grid-cols-5 items-center p-4 h-120px border-white border">
-                //             <img src={product.image} alt={product.name}></img>
-
-                //             <div className="text-xl ml-6 font-normal text-#202020 font-playfair ">{product.name}</div>
-
-                //             <div className="text-lg ml-12 font-normal text-#202020">$ {product.price}</div>
-
-                //         </div>
-                //     </div>
-                // );
+                return (<FavCard key={product} id={product} mounted={mounted} setMounted={setMounted} />)
             })}
         </div>
     )

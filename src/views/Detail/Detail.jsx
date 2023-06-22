@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unknown-property */
-import {useParams} from 'react-router-dom';
-import {AiOutlineStar, AiFillStar} from 'react-icons/ai';
+import { useParams } from 'react-router-dom';
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
 import AddFav from '../../assets/AddFav.svg';
 import DelFav from '../../assets/DelFav.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from "react";
-import { favoritesHandler, getDetail } from "../../redux/actions";
+import { favoritesHandler, getDetail, getReview } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { UserAuth } from "../../components/Auth-context/AuthContext";
@@ -47,7 +47,7 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
     //eslint-disable-next-line
   }, [user])
 
-  const isProductInFavorites =favorites?.some((favorite) => favorite === id);
+  const isProductInFavorites = favorites?.some((favorite) => favorite === id);
 
   const handleAddToFav = async () => {
 
@@ -74,7 +74,7 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
     else {
       const userId = userData.id;
       const productId = detailProduct.id;
-      const response = await axios.put(`/users/${userId}/favorites`,{productId:[productId]});
+      const response = await axios.put(`/users/${userId}/favorites`, { productId: [productId] });
       console.log(response.data)
       setIsFavorite(response?.data?.favorite.some((favorite) => favorite === id))
     }
@@ -121,15 +121,15 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
     <div className="flex justify-center w-full">
       <div className=" justify-center w-full max-w-[1280px] bg-backColor-500 m-5 p-5 rounded-[20px] grid lg:grid-cols-2">
         <div className="mr-28 flex flex-col justify-center row-start-2 lg:row-start-1">
-          <div className="m-5">
-            <label className="font-bold text-[27px]">
+          <div className="m-5 grid grid-cols-3">
+            <label className="font-bold text-[27px] col-span-2">
               {detailProduct.name}
             </label>
+            <div className='-mt-1'>
+              <button onClick={handleAddToFav}>{isProductInFavorites || isFavorite ? <img src={DelFav} className='h-9' /> : <img src={AddFav} className='h-9' />}</button>
+            </div>
           </div>
 
-          <div>
-            <button onClick={handleAddToFav}>{isProductInFavorites || isFavorite ? <img src={DelFav} /> : <img src={AddFav} />}</button>
-          </div>
           <div className="mt-5 ml-5">
             <label className="font-bold text-[21px]">Tipo de comida</label>
             <p className="mt-5 text-gray-400">{detailProduct.category}</p>
