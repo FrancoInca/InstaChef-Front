@@ -8,6 +8,7 @@ import { getDetail, getReview } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { UserAuth } from "../../components/Auth-context/AuthContext";
+import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 
 function Detail({ cart, setCart, favorites, setFavorites }) {
@@ -49,6 +50,16 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
   const handleAddToFav = async () => {
 
     if (!user) {
+      if (!user) toast.info(`Inicia sesión para ver tus favoritos!`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
 
       let product = {
         ...detailProduct,
@@ -76,6 +87,7 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
       const response = await axios.put(`/users/${userId}/favorites`, { productId: [productId] });
       setIsFavorite(response?.data?.favorite.some((favorite) => favorite === id))
     }
+    <ToastContainer />
   }
 
   // CART
