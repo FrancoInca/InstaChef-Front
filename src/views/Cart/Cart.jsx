@@ -48,7 +48,7 @@ function Cart({ cart, setCart }) {
   }
 
   return cart.length < 1 ? (
-    <div className="flex flex-col items-start mt-4">
+    <div className="flex flex-col items-center mt-4">
       <h2 className="text-center">Tu carrito está vacío</h2>
       <p>¿No sabes qué comprar? ¡Miles de productos te esperan!</p>
       <button

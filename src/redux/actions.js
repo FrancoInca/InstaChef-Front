@@ -98,7 +98,6 @@ export function favoritesHandler(userId, productId) {
     return async function (dispatch) {
         try {
             const response = await axios.put(`/users/${userId}/favorites/${productId}`);
-            console.log(response.data)
             return dispatch({
                 type: FAVORITES_UPDATE,
                 payload: response.data,
@@ -127,7 +126,6 @@ export function postLogin(obj) {
       const response = await axios.post('/login/login', obj);
       if (response.status === 401) throw new Error(response.message);
       const userData = response.data;
-      console.log('Login');
       localStorage.setItem('token', userData.token);
       return dispatch({
         type: LOGIN,
@@ -146,8 +144,8 @@ export function agregarPago(data) {
   };
 }
 
-export function getProductosPagos() {
-    let token = localStorage.getItem('token');
+export function getProductosPagos(obj) {
+    let token = obj.token
     return async function (dispatch) {
         try {
             const response = await axios.get(`/productHistory/${token}`);
@@ -157,6 +155,7 @@ export function getProductosPagos() {
                 payload: pagoData,
             });
         } catch (error) {
+            console.log("ha ocurrido un error")
             console.log(error.message);
             return dispatch({
                 type: TRAER_PRODUCT_PAGOS,
@@ -177,7 +176,6 @@ export function editFoto(user) {
   return async function (dispatch) {
     const response = await axios.post('/undateFoto', user);
     const userData = response.data;
-    console.log(userData);
     return dispatch({
       type: EDIT_FOTO,
       payload: userData,
@@ -185,11 +183,10 @@ export function editFoto(user) {
   };
 }
 
-export function editNombre(user) {
+export function editNombre(obj) {
   return async function (dispatch) {
-    const response = await axios.post('/undateNombre', user);
+    const response = await axios.put('/usersName', obj);
     const userData = response.data;
-    console.log(userData);
     return dispatch({
       type: EDIT_NAME,
       payload: userData,
@@ -201,7 +198,6 @@ export function getReview(productId) {
   return async function (dispatch) {
     const response = await axios.get(`/reviews/${productId}`);
     const data = response.data;
-    console.log(data);
     return dispatch({
       type: REVIEW,
       payload: data,
@@ -213,7 +209,6 @@ export function setComentario(obj) {
   return async function (dispatch) {
     const response = await axios.post('/reviews', obj);
     const data = response.data;
-    console.log(data);
     return dispatch({
       type: COMENTARIO,
       payload: data,

@@ -26,7 +26,6 @@ function Favorites({ favorites, setFavorites }) {
 
     useEffect(() => {
         getUserDetails();
-        console.log(userData)
         //eslint-disable-next-line
     }, [user, mounted]);
 
@@ -36,10 +35,9 @@ function Favorites({ favorites, setFavorites }) {
     // let hasFavStorage = localStorageFav ? JSON.parse(localStorageFav) : [];
 
     const fusionFavorites = async () => {
-
         const userId = userData.id;
         const response = await axios.put(`/users/${userId}/favorites`, { productId: favorites });
-        console.log(response.data)
+        console.log(response.status)
     }
 
     useEffect(() => {

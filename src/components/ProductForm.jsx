@@ -78,7 +78,6 @@ export default function ProductForm({ closeWindow, defaultValues }) {
   const handleDeleteIngredient = (id) => {
     const ingredientsCopy = [...foodInfo.ingredients];
     const newArray = ingredientsCopy.filter((e) => e.id !== id);
-    console.log(newArray);
     setFoodInfo({ ...foodInfo, ingredients: [...newArray] });
   };
 

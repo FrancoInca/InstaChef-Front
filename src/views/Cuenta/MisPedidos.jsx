@@ -5,9 +5,10 @@ import { BiCommentDetail } from "react-icons/bi";
 // import { MdOutlineReviews } from "react-icons/md";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { setComentario } from "../../redux/actions";
+
 export default function MisPedidos() {
   let dispatch = useDispatch();
-  let productPagos = useSelector((state) => state.productPagos);
+  let productPagos = useSelector((state) => state?.productPagos);
   const [comentarios, setComentarios] = useState("");
   const [reviewState, setReviewState] = useState(2);
   const [message, setMessage] = useState(null);
@@ -19,7 +20,6 @@ export default function MisPedidos() {
   let token = localStorage.getItem("token");
   const reset = () => {
     if (comentarios.length > 1 && reviewState > 0) {
-      console.log(idComment, comentarios, reviewState);
       setError(null);
       dispatch(
         setComentario({
@@ -159,7 +159,6 @@ export default function MisPedidos() {
                           <button
                             onClick={() => {
                               setPopUp(true);
-                              console.log(p.id);
                               setIdComment(p.id);
                             }}
                             className="text-[11px] text-gray-400"

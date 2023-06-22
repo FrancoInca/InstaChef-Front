@@ -32,8 +32,7 @@ function Detail({ cart, setCart, favorites, setFavorites }) {
   }, [dispatch, id])
 
   // trayendo reviews 
-  const reviews = useSelector((state) =>  state.reviews  );
-console.log(reviews);
+  const reviews = useSelector((state) => state.reviews );
   //FAVORITES
 
   // const [mounted, setMounted] = useState(false)
@@ -42,7 +41,6 @@ console.log(reviews);
 
   useEffect(() => {
     if (token) getUserDetails();
-    console.log(userData)
     //eslint-disable-next-line
   }, [user])
 
@@ -76,7 +74,6 @@ console.log(reviews);
       const userId = userData.id;
       const productId = detailProduct.id;
       const response = await axios.put(`/users/${userId}/favorites`, { productId: [productId] });
-      console.log(response.data)
       setIsFavorite(response?.data?.favorite.some((favorite) => favorite === id))
     }
   }

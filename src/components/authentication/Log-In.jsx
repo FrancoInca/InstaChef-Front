@@ -7,7 +7,7 @@ import axios from 'axios';
 
 export default function LogIn(props) {
   let [error, setError] = useState('');
-  const { logIn, user, signUpGoogle } = UserAuth();
+  const { logIn, signUpGoogle } = UserAuth();
   let navigate = useNavigate();
   let [users, setUser] = useState({
     correo: '',
@@ -72,7 +72,6 @@ export default function LogIn(props) {
       const userData = response.data;
       localStorage.setItem('token', userData.token);
       await logIn(users.correo, users.contraseña);
-      console.log('enviado');
       trigger();
       setUser({
         correo: '',
@@ -97,7 +96,6 @@ export default function LogIn(props) {
     try {
       await signUpGoogle();
       navigate('/');
-      console.log(user);
     } catch (error) {
       if (error.message === 'auth/missing-password') {
         setError('falta la contraseña');

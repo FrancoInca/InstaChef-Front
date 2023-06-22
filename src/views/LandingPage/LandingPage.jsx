@@ -41,8 +41,8 @@ function LandingPage() {
   useEffect(() => {
     const getProducts = async () => {
       const response = await dispatch(getAllProducts())
-      setNewFood([...response.payload.slice(page * 3, (page + 1) * 3)])
-      setAllProducts([...response.payload])
+      setNewFood([...response.payload.slice(page * 3, (page + 1) * 3).filter((e)=>!e.banned && e.stock !== 0)])
+      setAllProducts([...response.payload.filter((e)=>!e.banned && e.stock !== 0)])
     }
     !allProducts.length ? getProducts() : setNewFood([...allProducts.slice(page * 3, (page + 1) * 3)])
     //eslint-disable-next-line
@@ -82,7 +82,7 @@ function LandingPage() {
             </div>
             <button
               className="bg-primary-500 hidden sm:block h-[80px] p-1 rounded-md"
-              onClick={()=>{page < products.length / 3 - 1 && setPage(page + 1)}}>{">"}</button>
+              onClick={()=>{page < allProducts.length / 3 - 1 && setPage(page + 1)}}>{">"}</button>
           </div>
         </div>
       </div>
