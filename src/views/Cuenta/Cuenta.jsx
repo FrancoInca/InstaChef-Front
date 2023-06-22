@@ -18,13 +18,13 @@ export default function Cuenta() {
     const response = await axios.get(`/users/token/${token}`)
     setUserData(response.data)
   }
-
+let useData = useSelector(state => state.userData)
   let dispatch = useDispatch()
   useEffect(() => {
     dispatch(getProductosPagos(obj))
     getUserDetails()
     //eslint-disable-next-line
-  }, [user])
+  }, [user, useData ])
 
   return (
 

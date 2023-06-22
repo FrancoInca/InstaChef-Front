@@ -2,6 +2,7 @@
 import Editar from "./Edit"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useSelector } from "react-redux"
 
 let avatar = "https://i.pinimg.com/564x/c0/c8/17/c0c8178e509b2c6ec222408e527ba861.jpg"
 
@@ -13,10 +14,12 @@ export default function MisDatos() {
     const response = await axios.get(`/users/token/${token}`)
     setUserData(response.data)
   }
+
+  let useData = useSelector(state => state.userData)
   useEffect(() => {
     getUserDetails()
     //eslint-disable-next-line
-  }, [])
+  }, [useData])
   return userData && (
     <div className="ml-20 gap-5 py-5 px-5">
       <div className="">

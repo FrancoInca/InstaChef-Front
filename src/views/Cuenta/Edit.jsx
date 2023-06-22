@@ -72,7 +72,7 @@ export default function Editar() {
     setError("")
     setNombre("")
     setIma(null)
-    setAler(null)
+    setAler(true)
   }
 
   return (
@@ -106,7 +106,7 @@ export default function Editar() {
          <strong className="block font-medium text-gray-900">Operacion exitosa</strong>
    
          <p className="mt-1 text-sm text-gray-700">
-          los cambios se actulizaran en unos minunos 
+          los cambios se hicieron de manera correcta
          </p>
        </div>
    
