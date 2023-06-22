@@ -9,6 +9,7 @@ import { useState } from "react"
 import SearchResults from "./searchBarResults"
 import LogIn from "./authentication/Log-In"
 import SignUp from "./authentication/SignUp"
+import Favorites from "../assets/Favorites.svg"
 
 
 function NavBar() {
@@ -18,12 +19,12 @@ function NavBar() {
   const [input, setInput] = useState('');
   const [select, setSelect] = useState(-1);
   const [results, setResults] = useState([]);
-  
+
   //POP UP LOGIN/ REGISTER
-  
+
   const [triggerPopUp, setTriggerPopUp] = useState(false);
   const [triggerPopUpSignUp, setTriggerPopUpSignUp] = useState(false);
-  
+
   return (
     <div className="grid bg-[#1E1F22] grid-cols-[1fr_1fr] sm:grid-cols-[1fr_3fr_1fr] h-[80px]">
       <div className="flex items-center justify-center h-[80px]">
@@ -32,7 +33,7 @@ function NavBar() {
             className="max-h-[130px] max-w-[130px] bg-am" />
         </Link>
         <Link to="/home">
-          <p className="text-white">Menús</p>
+          <p className="text-white font-playfair">Menús</p>
         </Link>
       </div>
       <div className="hidden sm:flex items-center justify-center">
@@ -51,10 +52,13 @@ function NavBar() {
         />
 
       </div>
-      <div className="flex items-center justify-center">
-        <IconContext.Provider value={{ color: "white", size: "42px" }}>
+      <div className="flex items-center justify-center mr-10">
+        <IconContext.Provider value={{ color: "white" }}>
 
-          <Link to={"/cart"}><AiOutlineShoppingCart /></Link>
+          <Link to={"/cart"} className="mr-5 md:min-h-[20px]">
+            <IconContext.Provider value={{ color: "white", size:"42px"}}><AiOutlineShoppingCart size="42px" />
+            </IconContext.Provider >
+            </Link>
           {
             !user ?
               <>
@@ -74,7 +78,16 @@ function NavBar() {
                   Iniciar sesión
                 </button>
               </>
-              : <ListaDesplegable/>
+              :
+              <>
+                <div className="mr-5">
+                  <Link to={"/favorites"}>
+                    <img src={Favorites}></img>
+                  </Link>
+                </div>
+                <ListaDesplegable />
+              </>
+
           }
         </IconContext.Provider>
 
