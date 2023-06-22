@@ -9,6 +9,8 @@ import { useState } from "react"
 import SearchResults from "./searchBarResults"
 import LogIn from "./authentication/Log-In"
 import SignUp from "./authentication/SignUp"
+import Favorites from "../assets/Favorites.svg"
+
 
 function NavBar() {
   const { user } = UserAuth()
@@ -31,7 +33,7 @@ function NavBar() {
             className="max-h-[130px] max-w-[130px] bg-am" />
         </Link>
         <Link to="/home">
-          <p className="text-white">Menús</p>
+          <p className="text-white font-playfair">Menús</p>
         </Link>
       </div>
       <div className="hidden sm:flex items-center justify-center">
@@ -50,10 +52,13 @@ function NavBar() {
         />
 
       </div>
-      <div className="flex items-center justify-center">
-        <IconContext.Provider value={{ color: "white", size: "42px" }}>
+      <div className="flex items-center justify-center mr-10">
+        <IconContext.Provider value={{ color: "white" }}>
 
-          <Link to={"/cart"}><AiOutlineShoppingCart /></Link>
+          <Link to={"/cart"} className="mr-5 md:min-h-[20px]">
+            <IconContext.Provider value={{ color: "white", size:"42px"}}><AiOutlineShoppingCart size="42px" />
+            </IconContext.Provider >
+            </Link>
           {
             !user ?
               <>
@@ -73,7 +78,16 @@ function NavBar() {
                   Iniciar sesión
                 </button>
               </>
-              : <ListaDesplegable />
+              :
+              <>
+                <div className="mr-5">
+                  <Link to={"/favorites"}>
+                    <img src={Favorites}></img>
+                  </Link>
+                </div>
+                <ListaDesplegable />
+              </>
+
           }
         </IconContext.Provider>
 

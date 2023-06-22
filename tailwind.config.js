@@ -1,6 +1,7 @@
 /* eslint-disable no-dupe-keys */
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
+
 export default {
   //Franco: Según nueva documentación, el nombre apropiado es content
   content: [
@@ -9,6 +10,8 @@ export default {
     '.src/components',
     '.src/views/*',
     './src/**/*.{vue,js,ts,jsx,tsx}',
+    // './{components,pages,layout}/**/*.{jsx,tsx}',
+    'node_modules/react-toastify/dist/ReactToastify.css',
   ],
   darkMode: 'media', // or 'media' or 'class' Franco: Según nueva documentación, es recomendable dejarlo en media
 
@@ -23,6 +26,10 @@ export default {
           400: '#24252B',
           500: '#1E1F22',
         },
+      },
+      fontFamily: {
+        playfair: 'Playfair Display',
+        montserrat: 'Montserrat',
       },
     },
   },

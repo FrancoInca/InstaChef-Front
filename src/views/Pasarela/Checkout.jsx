@@ -1,33 +1,36 @@
-/* eslint-disable react/prop-types */
-
+import { array, func } from "prop-types"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Formik, Form, Field, ErrorMessage } from "formik"
-import Nav from "./Nav"
+
 import ConfirPago from "./ConfirPago"
 import { useState } from "react"
 import axios from "axios"
+import { UserAuth } from "../../components/Auth-context/AuthContext"
 
-let CheckOutForm = ({ cart, setCart }) => {
+const CheckOutForm = ({ cart, setCart }) => {
   let stripe = useStripe()
   let element = useElements()
-  const [confirmar, setConfirmar] = useState(false)
+  // let dispatch = useDispatch()
+  const [confirmar, setConfirmar] = useState(null)
   const [error, setError] = useState("")
-  const [message, setMessage] =  useState("")
+  const [message, setMessage] = useState("")
+  const { user } = UserAuth()
+
   const totalPrice = cart.reduce((acc, el) => acc + el.quantity * el.price, 0);
   let ides = cart.map(e => { return { id: e.id, quantity: e.quantity, name: e.name } })
-  console.log(ides);
-  console.log(totalPrice);
+
+
   return (
-    <div onClick={() => setConfirmar()} className="text-white flex justify-center items-center gap-20 ml-5 ">
+    <div onClick={() => setConfirmar()} className="flex m-5 flex-col sm:flex-row">
       {
         confirmar === true ? <ConfirPago message={message} /> : null
       }
-      <div className={confirmar === true ? " opacity-20" : ""}>
+      <div className={confirmar === true ? "flex w-full opacity-20 " : "flex justify-center w-full"}>
         <Formik
           initialValues={{
-            nombre: "",
-            correo: ""
+            nombre: user?.displayName ?? "",
+            correo: user?.email ?? ""
           }}
 
           validate={(valores) => {
@@ -52,45 +55,41 @@ let CheckOutForm = ({ cart, setCart }) => {
           }}
 
           onSubmit={async (valores, { resetForm }) => {
-
-            console.log(ides)
-            let { error, paymentMethod } = await stripe.createPaymentMethod({
-              type: "card",
-              card: element.getElement(CardElement)
-            })
-            if (!error) {
-              console.log(paymentMethod);
-              console.log(valores);
-              let token = localStorage.getItem("token");
-              let obj = {
-                amount: totalPrice * 100,
-                email: valores.correo,
-                nombre: valores.nombre,
-                id: paymentMethod.id,
-                idFood: ides,
-                token
+            try {
+              let { error, paymentMethod } = await stripe.createPaymentMethod({
+                type: "card",
+                card: element.getElement(CardElement)
+              })
+              if (!error) {
+                let token = localStorage.getItem("token");
+                let obj = {
+                  amount: totalPrice * 100,
+                  email: valores.correo,
+                  nombre: valores.nombre,
+                  id: paymentMethod.id,
+                  idFood: ides,
+                  token
+                }
+                const response = await axios.post("/checkout", obj)
+                const pagoData = response.data;
+                if (response.status === 200) {
+                  setConfirmar(true)
+                  setMessage(pagoData.message)
+                  resetForm()
+                  setError("")
+                  setCart([])
+                  element.getElement(CardElement).clear()
+                }
               }
-              const response = await axios.post("/checkout", obj)
-              const pagoData = response.data;
-              console.log(pagoData)
-              if (response.status === 200) {
-                setConfirmar(true)
-                setMessage(pagoData.message)
-                resetForm()
-                setError("")
-                setCart([])
-              }
-              element.getElement(CardElement).clear()
-
-            } else {
-              console.log(error);
-              setError(error.message)
+            } catch (err) {
+              setConfirmar(true)
+              setMessage(err.response.data)
+              setCart([])
             }
-
-          }}
-        >
+          }
+          }>
           {({ errors }) => (
-            <Form className=" columns-4 gap-5 flex flex-col w-96" >
+            <Form className=" columns-4 gap-5 flex flex-col w-full row-start-1 sm:col-start-1 min-w-[360px] sm:max-w-[360px]" >
               <div className="flex flex-col">
                 <label htmlFor="">Correo</label>
                 <Field type="text" name="correo" className="h-7 mt-1 rounded-lg placeholder-slate-400 text-sm px-3 py-2 focus:outline-none focus:border-verde bg-transparent
@@ -119,9 +118,9 @@ let CheckOutForm = ({ cart, setCart }) => {
                 </p> : null
               }
               <div className="flex flex-col">
-                <button type="submit" disabled={!stripe} className="block w-full rounded border border-amber-600 bg-amber-400 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto">
+                <button type="submit" disabled={!stripe} className="block w-full rounded border border-amber-600 bg-amber-400 px-12 py-3 text-sm font-medium text-backColor-500 hover:bg-transparent hover:text-white focus:outline-none focus:ring active:text-opacity-75 sm:w-auto">
                   {
-                    confirmar ? <p className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                    confirmar === false ? <p className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                       role="status">
                       <span
                         className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
@@ -134,47 +133,35 @@ let CheckOutForm = ({ cart, setCart }) => {
         </Formik>
 
       </div>
-      <div className="w-1/2 ">
+      <div className="w-full ">
 
         {
           cart?.map((product) => {
             return (
-              <div key={product.id} className="flex gap-2" >
-                 <div>
-                   <img src={product.image} alt="image" className="w-10 rounded-sm" />
-                 </div>
-                 <div>
-                 <div className="">
-                 <div>
-                  <label className="text-[13px]">Nombre</label>
-                 <p className=" text-[10px] -mt-1 text-gray-400 "> {product.name}</p>
-                 </div>
-                  <div>
-                  <label className="text-[13px]">Cantidad</label>
-                  <p className="text-[10px] -mt-1  text-gray-400 ">x{product.quantity}</p>
-                  </div>
-                   <div>
-                   <label className="text-[13px]">Precio</label>
-                   <p className="text-[10px] -mt-1  text-gray-400 ">${product.price}</p>
-                   </div>
-                   </div>
-                
-                 </div>
+              <div key={product.id} className="grid grid-cols-[2fr_3fr_1fr] m-4 items-center justify-center max-w-[360px]" >
+
+                <div className="w-full flex justify-center items-center ">
+                  <img src={product.image} alt="image" className="w-14 rounded-sm bg" />
+                </div>
+                <div className="w-full flex justify-center items-center">
+                  <p className=" text-[15px] text-[#FEFEFE]"><span className="text-gray-400 ">x{product.quantity}</span>  {product.name} </p>
+                </div>
+                <div className="w-full flex justify-center items-center">
+                  <p className=" text-[15px] text-[#FEFEFE] ">${product.price}</p>
+                </div>
               </div>
             )
           })
         }
         {totalPrice > 1 ? <div className="flex justify-center">
           <h1 className="text-amber-400 ">
-          Precio total: ${totalPrice}
+            Precio total: ${totalPrice}
           </h1>
         </div> : ""}
       </div>
     </div>
   )
 }
-
-
 
 // cke
 export default function Checkout({ cart, setCart }) {
@@ -184,9 +171,7 @@ export default function Checkout({ cart, setCart }) {
   return (
     <main className=" w-full   ">
 
-      <div className="w-full">
-        <Nav />
-      </div>
+
       <div className="w-full mx-auto px-4 md:px-0  flex justify-center mt-14 ">
 
         <Elements stripe={stripePromise}>
@@ -195,4 +180,13 @@ export default function Checkout({ cart, setCart }) {
       </div>
     </main>
   )
+}
+
+CheckOutForm.propTypes = {
+  cart: array,
+  setCart: func
+}
+Checkout.propTypes = {
+  cart: array,
+  setCart: func
 }
