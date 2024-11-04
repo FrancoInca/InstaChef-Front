@@ -43,13 +43,6 @@ export default function LogIn(props) {
     }
 
     if (name === 'contraseña') {
-      if (!validarContraseña.test(value)) {
-        return setErrorInput({
-          ...errorInput,
-          contraseña:
-            'Una mayúscula o mas, una minúscula o más, un número, 8 caracteres o más.',
-        });
-      } else {
         setUser({
           ...users,
           contraseña: value,
@@ -58,7 +51,6 @@ export default function LogIn(props) {
           ...errorInput,
           contraseña: '',
         });
-      }
     }
   };
 
