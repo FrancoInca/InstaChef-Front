@@ -50,22 +50,14 @@ export default function SignUp(props) {
     }
 
     if (name === 'contraseña') {
-      if (!validarContraseña.test(value)) {
-        return setErrorInput({
-          ...errorInput,
-          contraseña:
-            'Se requiere como mínimo de 8 caracteres, una mayúscula, una minúscula y un número.',
-        });
-      } else {
-        setUser({
-          ...users,
-          contraseña: value,
-        });
-        setErrorInput({
-          ...errorInput,
-          contraseña: '',
-        });
-      }
+          setUser({
+            ...users,
+            contraseña: value,
+          });
+          setErrorInput({
+            ...errorInput,
+            contraseña: '',
+          });
     }
 
     if (name === 'nombre') {
